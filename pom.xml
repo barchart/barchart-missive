@@ -2,9 +2,22 @@
   
   	<modelVersion>4.0.0</modelVersion>
   
+  	<parent>
+		<groupId>com.barchart.base</groupId>
+		<artifactId>barchart-archon</artifactId>
+		<version>2.3.2</version>
+	</parent> 
+  
   	<groupId>com.barchart.missive</groupId>
   	<artifactId>barchart-missive</artifactId>
   	<version>1.0.1-SNAPSHOT</version>
+  	<packaging>bundle</packaging>
+  	
+  	<scm>
+		<url>https://github.com/barchart/barchart-missive</url>
+		<connection>scm:git:git://github.com/barchart/barchart-missive.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/barchart/barchart-missive.git</developerConnection>
+	</scm>
   	
   	<dependencies>
   	
