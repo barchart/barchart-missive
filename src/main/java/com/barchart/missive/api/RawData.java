@@ -36,4 +36,8 @@ public class RawData {
 		return Collections.unmodifiableMap(data);
 	}
 	
+	public int size() {
+		return data.size();
+	}
+	
 }

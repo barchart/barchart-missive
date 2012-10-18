@@ -33,6 +33,10 @@ public class Missive {
 		}
 	}
 	
+	public boolean has(final Tag<?> tag) {
+		return values.containsKey(tag);
+	}
+	
 	public Manafest getManafest() {
 		return manafest;
 	}

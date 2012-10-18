@@ -85,7 +85,7 @@ public class Test {
 		
 		final RawData rawData = new RawData("UZR", rawMap);
 		
-		final Missive fromRaw = LEXI.make(rawData);
+		final Missive fromRaw = LEXI.toMissive(rawData);
 		
 		System.out.println(fromRaw.toString());
 		

@@ -14,7 +14,7 @@ public class Lexicon {
 		this.manafesto = manafesto;
 	}
 	
-	public Missive make(final RawData raw) throws MissiveException {
+	public Missive toMissive(final RawData raw) throws MissiveException {
 
 		final Manafest manafest = manafesto.get(raw.name());
 		
@@ -51,6 +51,13 @@ public class Lexicon {
 		}
 		
 		return m;
+		
+	}
+	
+	public RawData fromMissive(final Missive missive) {
+		
+		
+		return null;
 		
 	}
 	
