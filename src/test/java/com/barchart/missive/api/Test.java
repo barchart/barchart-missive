@@ -8,8 +8,8 @@ public class Test {
 	public static final Map<Integer, Tag<?>> tags = 
 			new HashMap<Integer, Tag<?>>();
 	
-	public static final Map<String, Manafest> manafesto = 
-			new HashMap<String, Manafest>();
+	public static final Map<String, Manifest> manafesto = 
+			new HashMap<String, Manifest>();
 	
 	static {
 		
@@ -33,8 +33,6 @@ public class Test {
 	
 	public static void main(final String[] args) throws MissiveException {
 	
-		
-		
 		final Missive m = new Missive(TestSpec.AuthorizedAccountsReport);
 		
 		m.set("TestAccountReport", TestSpec.RequestID);

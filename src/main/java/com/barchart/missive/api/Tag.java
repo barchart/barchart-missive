@@ -3,14 +3,14 @@ package com.barchart.missive.api;
 public class Tag<V> {
 
 	protected final String name;
-	private final Manafest manafest; 
+	private final Manifest manafest; 
 	
 	public Tag(final String name) {
 		this.name = name;
-		manafest = new Manafest(name, new Tag<?>[]{this});
+		manafest = new Manifest(name, new Tag<?>[]{this});
 	}
 	
-	public Tag(final String name, final Manafest manafest) {
+	public Tag(final String name, final Manifest manafest) {
 		this.name = name;
 		this.manafest = manafest;
 	}
@@ -19,7 +19,7 @@ public class Tag<V> {
 		return name;
 	}
 	
-	public Manafest manafest() {
+	public Manifest manafest() {
 		return manafest;
 	}
 	

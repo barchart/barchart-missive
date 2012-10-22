@@ -1,6 +1,6 @@
 package com.barchart.missive.api;
 
-import com.barchart.missive.api.Manafest;
+import com.barchart.missive.api.Manifest;
 import com.barchart.missive.api.Tag;
 
 public final class TestSpec {
@@ -15,8 +15,8 @@ public final class TestSpec {
 	public static final Tag<Boolean> ViewOnly = new Tag<Boolean>("ViewOnly");
 	public static final Tag<Boolean> LastFragment = new Tag<Boolean>("LastFragment");
 	
-	public static final Manafest NoAccountsGroup = 
-			new Manafest("NoAccoutnsGroup", new Tag<?>[] {
+	public static final Manifest NoAccountsGroup = 
+			new Manifest("NoAccoutnsGroup", new Tag<?>[] {
 		Account,
 		AccountName,
 		FCMAccountNumber,
@@ -27,8 +27,8 @@ public final class TestSpec {
 	
 	public static final Tag<Missive[]> NoAccounts = new Tag<Missive[]>("NoAccounts", NoAccountsGroup);
 	
-	public static final Manafest AuthorizedAccountsReport = 
-			new Manafest("AuthorizedAccountsReport", new Tag<?>[] {
+	public static final Manifest AuthorizedAccountsReport = 
+			new Manifest("AuthorizedAccountsReport", new Tag<?>[] {
 		RequestID,
 		LastFragment,
 		NoAccounts

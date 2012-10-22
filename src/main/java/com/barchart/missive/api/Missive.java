@@ -6,13 +6,13 @@ import java.util.Map.Entry;
 
 public class Missive {
 
-	private final Manafest manafest;
+	private final Manifest manafest;
 	
 	// Will replace with hash func and array
 	private final Map<Tag<?>, Object> values =
 			new HashMap<Tag<?>, Object>();
 	
-	public Missive(final Manafest manafest) {
+	public Missive(final Manifest manafest) {
 		this.manafest = manafest;
 		
 		for(final Tag<?> tag : manafest.getTags()) {
@@ -37,7 +37,7 @@ public class Missive {
 		return values.containsKey(tag);
 	}
 	
-	public Manafest getManafest() {
+	public Manifest getManafest() {
 		return manafest;
 	}
 	

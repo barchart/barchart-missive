@@ -1,11 +1,11 @@
 package com.barchart.missive.api;
 
-public class Manafest  {
+public class Manifest  {
 
 	private final String name;
 	private final Tag<?>[] tags;
 	
-	public Manafest(final String name, final Tag<?>[] value) {
+	public Manifest(final String name, final Tag<?>[] value) {
 		this.name = name;
 		this.tags = value;
 	}

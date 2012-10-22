@@ -10,12 +10,12 @@ public class Lexicon {
 	private final Map<Tag<?>, Integer> fromTags = 
 			new HashMap<Tag<?>, Integer>();
 	
-	private final Map<String, Manafest> toManafest;
-	private final Map<Manafest, String> fromManafest =
-			new HashMap<Manafest, String>();
+	private final Map<String, Manifest> toManafest;
+	private final Map<Manifest, String> fromManafest =
+			new HashMap<Manifest, String>();
 	
 	public Lexicon(final Map<Integer, Tag<?>> tags,
-			final Map<String, Manafest> manafesto) {
+			final Map<String, Manifest> manafesto) {
 		this.toTags = tags;
 		this.toManafest = manafesto;
 		
@@ -23,7 +23,7 @@ public class Lexicon {
 			fromTags.put(e.getValue(), e.getKey());
 		}
 		
-		for(final Entry<String, Manafest> e : toManafest.entrySet()) {
+		for(final Entry<String, Manifest> e : toManafest.entrySet()) {
 			fromManafest.put(e.getValue(), e.getKey());
 		}
 		
@@ -33,13 +33,13 @@ public class Lexicon {
 		
 	}
 	
-	public String fromManafest(final Manafest manafest) {
+	public String fromManafest(final Manifest manafest) {
 		return fromManafest.get(manafest);
 	}
 	
 	public Missive toMissive(final RawData raw) throws MissiveException {
 
-		final Manafest manafest = toManafest.get(raw.name());
+		final Manifest manafest = toManafest.get(raw.name());
 		
 		if(manafest == null) {
 			throw new MissiveException("Unknown manafest: " + raw.name());
@@ -50,7 +50,7 @@ public class Lexicon {
 	}
 
 	@SuppressWarnings({"unchecked","rawtypes"})
-	private Missive makeInternal(final RawData raw, final Manafest manafest) 
+	private Missive makeInternal(final RawData raw, final Manifest manafest) 
 			throws MissiveException {
 		
 		final Missive m = new Missive(manafest);
