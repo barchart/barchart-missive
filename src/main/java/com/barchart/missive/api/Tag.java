@@ -3,20 +3,20 @@ package com.barchart.missive.api;
 public class Tag<V> {
 
 	protected final String name;
-	private final Manifest manafest; 
+	private final Manifest manifest; 
 	private final Class<V> clazz;
 	
 	public Tag(final String name, final Class<V> clazz) {
 		this.name = name;
-		manafest = new Manifest(name, new Tag<?>[]{this});
+		manifest = new Manifest(name, new Tag<?>[]{this});
 		this.clazz = clazz;
 		
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Tag(final String name, final Manifest manafest) {
+	public Tag(final String name, final Manifest manifest) {
 		this.name = name;
-		this.manafest = manafest;
+		this.manifest = manifest;
 		clazz = (Class<V>) Missive[].class;
 	}
 
@@ -28,8 +28,8 @@ public class Tag<V> {
 		return clazz;
 	}
 	
-	public Manifest manafest() {
-		return manafest;
+	public Manifest manifest() {
+		return manifest;
 	}
 	
 	public V cast(final Object o) throws MissiveException {

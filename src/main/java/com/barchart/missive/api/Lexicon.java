@@ -10,50 +10,50 @@ public class Lexicon {
 	private final Map<Tag<?>, Integer> fromTags = 
 			new HashMap<Tag<?>, Integer>();
 	
-	private final Map<String, Manifest> toManafest;
-	private final Map<Manifest, String> fromManafest =
+	private final Map<String, Manifest> toManifest;
+	private final Map<Manifest, String> fromManifest =
 			new HashMap<Manifest, String>();
 	
 	public Lexicon(final Map<Integer, Tag<?>> tags,
-			final Map<String, Manifest> manafesto) {
+			final Map<String, Manifest> manifesto) {
 		this.toTags = tags;
-		this.toManafest = manafesto;
+		this.toManifest = manifesto;
 		
 		for(final Entry<Integer, Tag<?>> e : toTags.entrySet()) {
 			fromTags.put(e.getValue(), e.getKey());
 		}
 		
-		for(final Entry<String, Manifest> e : toManafest.entrySet()) {
-			fromManafest.put(e.getValue(), e.getKey());
+		for(final Entry<String, Manifest> e : toManifest.entrySet()) {
+			fromManifest.put(e.getValue(), e.getKey());
 		}
 		
-		if(toTags.size() != fromTags.size() || toManafest.size() != fromManafest.size()) {
+		if(toTags.size() != fromTags.size() || toManifest.size() != fromManifest.size()) {
 			throw new RuntimeException("Maps not 1 to 1 in Lexicon");
 		}
 		
 	}
 	
-	public String fromManafest(final Manifest manafest) {
-		return fromManafest.get(manafest);
+	public String fromManifest(final Manifest manifest) {
+		return fromManifest.get(manifest);
 	}
 	
 	public Missive toMissive(final RawData raw) throws MissiveException {
 
-		final Manifest manafest = toManafest.get(raw.name());
+		final Manifest manifest = toManifest.get(raw.name());
 		
-		if(manafest == null) {
+		if(manifest == null) {
 			throw new MissiveException("Unknown manafest: " + raw.name());
 		}
 		
-		return makeInternal(raw, manafest);
+		return makeInternal(raw, manifest);
 		
 	}
 
 	@SuppressWarnings({"unchecked","rawtypes"})
-	private Missive makeInternal(final RawData raw, final Manifest manafest) 
+	private Missive makeInternal(final RawData raw, final Manifest manifest) 
 			throws MissiveException {
 		
-		final Missive m = new Missive(manafest);
+		final Missive m = new Missive(manifest);
 		
 		for(final Entry<Integer, Object> e : raw.data().entrySet()) {
 			final Tag tag = toTags.get(e.getKey());
@@ -65,7 +65,7 @@ public class Lexicon {
 				final Missive[] missives = new Missive[rawArray.length];
 				
 				for(int i = 0; i < rawArray.length; i++) {
-					missives[i] = makeInternal(rawArray[i], tag.manafest());
+					missives[i] = makeInternal(rawArray[i], tag.manifest());
 				}
 				
 				m.set(missives, tag);
@@ -94,9 +94,9 @@ public class Lexicon {
 	@SuppressWarnings({"unchecked","rawtypes"})
 	public RawData fromMissive(final Missive missive) {
 		
-		final RawData raw = new RawData(fromManafest.get(missive.getManafest()));
+		final RawData raw = new RawData(fromManifest.get(missive.getManifest()));
 		
-		for(final Tag tag : missive.getManafest().getTags()) {
+		for(final Tag tag : missive.getManifest().getTags()) {
 			
 			if(missive.get(tag) instanceof Missive[]) {
 				

@@ -6,16 +6,16 @@ import java.util.Map.Entry;
 
 public class Missive {
 
-	private final Manifest manafest;
+	private final Manifest manifest;
 	
 	// Will replace with hash func and array
 	private final Map<Tag<?>, Object> values =
 			new HashMap<Tag<?>, Object>();
 	
-	public Missive(final Manifest manafest) {
-		this.manafest = manafest;
+	public Missive(final Manifest manifest) {
+		this.manifest = manifest;
 		
-		for(final Tag<?> tag : manafest.getTags()) {
+		for(final Tag<?> tag : manifest.getTags()) {
 			values.put(tag, null);
 		}
 	}
@@ -26,7 +26,7 @@ public class Missive {
 	}
 	
 	public <V> void set(final V v, final Tag<V> tag) throws MissiveException {
-		if(manafest.has(tag)) {
+		if(manifest.has(tag)) {
 			values.put(tag, v);
 		} else {
 			throw new MissiveException("No such tag " + tag.toString());
@@ -36,7 +36,7 @@ public class Missive {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void copyAll(final Missive m) {
 		
-		for(final Tag t : m.getManafest().getTags()) {
+		for(final Tag t : m.getManifest().getTags()) {
 			if(values.containsKey(t) && m.get(t) != null) {
 				values.put(t, m.get(t));
 			}
@@ -48,8 +48,8 @@ public class Missive {
 		return values.containsKey(tag);
 	}
 	
-	public Manifest getManafest() {
-		return manafest;
+	public Manifest getManifest() {
+		return manifest;
 	}
 	
 	@Override
