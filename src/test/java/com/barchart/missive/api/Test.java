@@ -59,7 +59,7 @@ public class Test {
 		rawGMap1.put(1, "Account1");
 		rawGMap1.put(20010, "AccountName1");
 		rawGMap1.put(20014, 10001);
-		rawGMap1.put(20053, 50001);
+		rawGMap1.put(20053, "50001");
 		rawGMap1.put(20059, "FCMName1");
 		rawGMap1.put(20060, false);
 		
@@ -84,6 +84,11 @@ public class Test {
 		final RawData rawData = new RawData("UZR", rawMap);
 		
 		final Missive fromRaw = LEXI.toMissive(rawData);
+		
+		for(final Missive testG : fromRaw.get(TestSpec.NoAccounts)) {
+			final int testInt = testG.get(TestSpec.FCMID);
+			System.out.println(testInt);
+		}
 		
 		System.out.println(fromRaw.toString());
 		

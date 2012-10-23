@@ -69,8 +69,21 @@ public class Lexicon {
 				}
 				
 				m.set(missives, tag);
+				
 			} else {
-				m.set(tag.cast(e.getValue()), tag);
+				
+				//Temp hack for qfix...
+				if(tag.getClazz() == Character.class) {
+					m.set(((String) e.getValue()).charAt(0), tag);
+				} else if(tag.getClazz() == Boolean.class){
+					if(((String)e.getValue()).equals("Y")) {
+						m.set(true, tag);
+					} else {
+						m.set(false, tag);
+					}
+				} else {
+					m.set(tag.cast(e.getValue()), tag);
+				}
 			}
 		}
 		
@@ -99,7 +112,9 @@ public class Lexicon {
 				raw.put(fromTags.get(tag), rawG);
 				
 			} else {
+				
 				raw.put(fromTags.get(tag), missive.get(tag));
+				
 			}
 			
 		}

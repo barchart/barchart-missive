@@ -5,15 +5,15 @@ import com.barchart.missive.api.Tag;
 
 public final class TestSpec {
 
-	public static final Tag<String> Account = new Tag<String>("Account");
+	public static final Tag<String> Account = new Tag<String>("Account", String.class);
 	
-	public static final Tag<String> AccountName = new Tag<String>("AccountName");
-	public static final Tag<Integer> FCMAccountNumber = new Tag<Integer>("FCMAccountNumber");
-	public static final Tag<String> RequestID = new Tag<String>("RequestID"); 
-	public static final Tag<Integer> FCMID = new Tag<Integer>("FCMID");
-	public static final Tag<String> FCMName = new Tag<String>("FCMName");
-	public static final Tag<Boolean> ViewOnly = new Tag<Boolean>("ViewOnly");
-	public static final Tag<Boolean> LastFragment = new Tag<Boolean>("LastFragment");
+	public static final Tag<String> AccountName = new Tag<String>("AccountName", String.class);
+	public static final Tag<Integer> FCMAccountNumber = new Tag<Integer>("FCMAccountNumber", Integer.class);
+	public static final Tag<String> RequestID = new Tag<String>("RequestID", String.class); 
+	public static final Tag<Integer> FCMID = new Tag<Integer>("FCMID", Integer.class);
+	public static final Tag<String> FCMName = new Tag<String>("FCMName", String.class);
+	public static final Tag<Boolean> ViewOnly = new Tag<Boolean>("ViewOnly", Boolean.class);
+	public static final Tag<Boolean> LastFragment = new Tag<Boolean>("LastFragment", Boolean.class);
 	
 	public static final Manifest NoAccountsGroup = 
 			new Manifest("NoAccoutnsGroup", new Tag<?>[] {

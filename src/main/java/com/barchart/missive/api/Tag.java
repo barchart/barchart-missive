@@ -4,31 +4,44 @@ public class Tag<V> {
 
 	protected final String name;
 	private final Manifest manafest; 
+	private final Class<V> clazz;
 	
-	public Tag(final String name) {
+	public Tag(final String name, final Class<V> clazz) {
 		this.name = name;
 		manafest = new Manifest(name, new Tag<?>[]{this});
+		this.clazz = clazz;
+		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Tag(final String name, final Manifest manafest) {
 		this.name = name;
 		this.manafest = manafest;
+		clazz = (Class<V>) Missive[].class;
 	}
 
 	public final String getName() {
 		return name;
 	}
 	
+	public Class<V> getClazz() {
+		return clazz;
+	}
+	
 	public Manifest manafest() {
 		return manafest;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public V cast(final Object o) throws MissiveException {
 		try {
-			return (V) o;
+			return clazz.cast(o);
 		} catch(final ClassCastException e) {
-			throw new MissiveException("Failed to cast object in tag " + name);
+			try {
+				return clazz.getConstructor(o.getClass()).newInstance(o);
+			} catch (final Exception e1) {
+				e1.printStackTrace();
+				throw new MissiveException("Failed to cast object in tag " + name);
+			} 
 		}
 	}
 

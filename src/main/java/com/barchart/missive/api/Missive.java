@@ -33,6 +33,17 @@ public class Missive {
 		}
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void copyAll(final Missive m) {
+		
+		for(final Tag t : m.getManafest().getTags()) {
+			if(values.containsKey(t) && m.get(t) != null) {
+				values.put(t, m.get(t));
+			}
+		}
+		
+	}
+	
 	public boolean has(final Tag<?> tag) {
 		return values.containsKey(tag);
 	}
