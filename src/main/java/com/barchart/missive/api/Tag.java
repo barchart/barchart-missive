@@ -1,5 +1,11 @@
 package com.barchart.missive.api;
 
+/**
+ * 
+ * @author Gavin M Litchfield
+ *
+ * @param <V>
+ */
 public class Tag<V> {
 
 	protected final String name;

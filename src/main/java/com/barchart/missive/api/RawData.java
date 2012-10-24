@@ -4,6 +4,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 
+ * @author Gavin M Litchfield
+ *
+ */
 public class RawData {
 
 	private final String name;

@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * 
+ * @author Gavin M Litchfield
+ *
+ */
 public class Missive {
 
 	private final Manifest manifest;
@@ -14,6 +19,14 @@ public class Missive {
 	
 	public Missive(final Manifest manifest) {
 		this.manifest = manifest;
+		
+		for(final Tag<?> tag : manifest.getTags()) {
+			values.put(tag, null);
+		}
+	}
+	
+	public Missive(final Manifest...manifests) {
+		manifest = new Manifest(manifests);
 		
 		for(final Tag<?> tag : manifest.getTags()) {
 			values.put(tag, null);

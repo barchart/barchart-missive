@@ -3,6 +3,11 @@ package com.barchart.missive.api;
 import com.barchart.missive.api.Manifest;
 import com.barchart.missive.api.Tag;
 
+/**
+ * 
+ * @author Gavin M Litchfield
+ *
+ */
 public final class TestSpec {
 
 	public static final Tag<String> Account = new Tag<String>("Account", String.class);

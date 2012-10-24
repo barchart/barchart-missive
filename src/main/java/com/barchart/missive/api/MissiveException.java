@@ -1,5 +1,10 @@
 package com.barchart.missive.api;
 
+/**
+ * 
+ * @author Gavin M Litchfield
+ *
+ */
 @SuppressWarnings("serial")
 public class MissiveException extends RuntimeException {
 

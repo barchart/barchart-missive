@@ -3,6 +3,11 @@ package com.barchart.missive.api;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 
+ * @author Gavin M Litchfield
+ *
+ */
 public class Test {
 	
 	public static final Map<Integer, Tag<?>> tags = 

@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * 
+ * @author Gavin M Litchfield
+ *
+ */
 public class Lexicon {
 	
 	private final Map<Integer, Tag<?>> toTags;
@@ -72,17 +77,26 @@ public class Lexicon {
 				
 			} else {
 				
-				//Temp hack for qfix...
-				if(tag.getClazz() == Character.class) {
-					m.set(((String) e.getValue()).charAt(0), tag);
-				} else if(tag.getClazz() == Boolean.class){
-					if(((String)e.getValue()).equals("Y")) {
-						m.set(true, tag);
+				try {
+				
+					//Temp hack for qfix...
+					if(tag.getClazz() == Character.class) {
+						m.set(((String) e.getValue()).charAt(0), tag);
+					} else if(tag.getClazz() == Boolean.class){
+						if(((String)e.getValue()).equals("Y")) {
+							m.set(true, tag);
+						} else {
+							m.set(false, tag);
+						}
 					} else {
-						m.set(false, tag);
+						m.set(tag.cast(e.getValue()), tag);
 					}
-				} else {
-					m.set(tag.cast(e.getValue()), tag);
+				
+				} catch (final RuntimeException ex) {
+					System.err.println("Threw exception on casting raw object " + tag + 
+							":" + e.getValue().toString());
+					throw new MissiveException("Threw exception on casting raw object " + tag + 
+							":" + e.getValue().toString());
 				}
 			}
 		}

@@ -1,5 +1,14 @@
 package com.barchart.missive.api;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
+/**
+ * 
+ * @author Gavin M Litchfield
+ *
+ */
 public class Manifest  {
 
 	private final String name;
@@ -8,6 +17,36 @@ public class Manifest  {
 	public Manifest(final String name, final Tag<?>[] value) {
 		this.name = name;
 		this.tags = value;
+	}
+	
+	public Manifest(final String name, final Tag<?>[]...values) {
+		this.name = name;
+		final Set<Tag<?>> tagSet = new HashSet<Tag<?>>();
+		for(final Tag<?>[] tagArray : values) {
+			for(final Tag<?> tag : tagArray) {
+				tagSet.add(tag);
+			}
+		}
+		tags = (Tag<?>[]) tagSet.toArray();
+	}
+	
+	public Manifest(final Manifest...manifests) {
+		final Set<Tag<?>> tagSet = new HashSet<Tag<?>>();
+		final Set<String> nameSet = new TreeSet<String>();
+		
+		for(final Manifest m : manifests) {
+			nameSet.add(m.name());
+			for(final Tag<?> tag : m.getTags()) {
+				tagSet.add(tag);
+			}
+		}
+		
+		final StringBuffer sb = new StringBuffer();
+		for(final String name : nameSet) {
+			sb.append(name + "&");
+		}
+		name = sb.substring(0, sb.length()-1);
+		tags = (Tag<?>[]) tagSet.toArray();
 	}
 	
 	public Tag<?>[] getTags() {
@@ -32,6 +71,7 @@ public class Manifest  {
 		return name;
 	}
 	
+	@Override
 	public int hashCode() {
 		int code = name.hashCode();
 		
