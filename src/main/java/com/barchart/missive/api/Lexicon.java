@@ -1,8 +1,10 @@
 package com.barchart.missive.api;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * 
@@ -10,6 +12,19 @@ import java.util.Map.Entry;
  *
  */
 public class Lexicon {
+	
+	private static final Set<Class<?>> primitives = new HashSet<Class<?>>();
+	
+	static {
+		primitives.add(Byte.class);
+		primitives.add(Short.class);
+		primitives.add(Integer.class);
+		primitives.add(Long.class);
+		primitives.add(Double.class);
+		primitives.add(Float.class);
+		primitives.add(Boolean.class);
+		primitives.add(Character.class);
+	}
 	
 	private final Map<Integer, Tag<?>> toTags;
 	private final Map<Tag<?>, Integer> fromTags = 
@@ -79,15 +94,10 @@ public class Lexicon {
 				
 				try {
 				
-					//Temp hack for qfix...
-					if(tag.getClazz() == Character.class) {
-						m.set(tag, ((String) e.getValue()).charAt(0));
-					} else if(tag.getClazz() == Boolean.class){
-						if(((String)e.getValue()).equals("Y")) {
-							m.set(tag, true);
-						} else {
-							m.set(tag, false);
-						}
+					if(primitives.contains(tag.getClazz()) &&
+							e.getValue().getClass() == String.class) {
+						m.set(tag, parsePrimitiveFromString(tag.getClazz(), 
+								(String) e.getValue()));
 					} else {
 						m.set(tag, tag.cast(e.getValue()));
 					}
@@ -102,6 +112,37 @@ public class Lexicon {
 		}
 		
 		return m;
+		
+	}
+	
+	private Object parsePrimitiveFromString(final Class<?> clazz, final String value) {
+		
+		if(clazz == Byte.class) {
+			return Byte.parseByte(value);
+		} else if(clazz == Short.class) {
+			return Short.parseShort(value);
+		} else if(clazz == Integer.class) {
+			return Integer.parseInt(value);
+		} else if(clazz == Long.class) {
+			return Long.parseLong(value);
+		} else if(clazz == Float.class) {
+			return Float.parseFloat(value);
+		} else if(clazz == Double.class) {
+			return Double.parseDouble(value);
+		} else if(clazz == Boolean.class) {
+			if(value.equals("true") ||
+					value.equals("Y")) {
+				return new Boolean(true);
+			} else {
+				return new Boolean(false);
+			}
+		//May want to enforce string length = 1
+		} else if(clazz == Character.class) {
+			return new Character(value.charAt(0));
+		} else {
+			throw new MissiveException("Attempted to parse bad class type " + 
+					clazz.getCanonicalName());
+		}
 		
 	}
 	
