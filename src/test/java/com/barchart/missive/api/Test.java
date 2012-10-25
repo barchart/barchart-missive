@@ -40,21 +40,21 @@ public class Test {
 	
 		final Missive m = new Missive(TestSpec.AuthorizedAccountsReport);
 		
-		m.set("TestAccountReport", TestSpec.RequestID);
-		m.set(true, TestSpec.LastFragment);
+		m.set(TestSpec.RequestID, "TestAccountReport");
+		m.set(TestSpec.LastFragment, true);
 		
 		final Missive group = new Missive(TestSpec.NoAccountsGroup);
 		
-		group.set("Account1", TestSpec.Account);
-		group.set("AccountName1", TestSpec.AccountName);
-		group.set(1000, TestSpec.FCMAccountNumber);
-		group.set(1001, TestSpec.FCMID);
-		group.set("FCMName1", TestSpec.FCMName);
-		group.set(false, TestSpec.ViewOnly);
+		group.set(TestSpec.Account, "Account1");
+		group.set(TestSpec.AccountName, "AccountName1");
+		group.set(TestSpec.FCMAccountNumber, 1000);
+		group.set(TestSpec.FCMID, 1001);
+		group.set(TestSpec.FCMName, "FCMName1");
+		group.set(TestSpec.ViewOnly, false);
 		
 		final Missive[] groups = new Missive[]{group};
 		
-		m.set(groups, TestSpec.NoAccounts);
+		m.set(TestSpec.NoAccounts, groups);
 		
 		System.out.println(m.toString());
 		

@@ -38,7 +38,7 @@ public class Missive {
 		return (V) values.get(tag);
 	}
 	
-	public <V> void set(final V v, final Tag<V> tag) throws MissiveException {
+	public <V> void set(final Tag<V> tag, final V v) throws MissiveException {
 		if(manifest.has(tag)) {
 			values.put(tag, v);
 		} else {

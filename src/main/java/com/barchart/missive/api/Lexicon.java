@@ -73,7 +73,7 @@ public class Lexicon {
 					missives[i] = makeInternal(rawArray[i], tag.manifest());
 				}
 				
-				m.set(missives, tag);
+				m.set(tag, missives);
 				
 			} else {
 				
@@ -81,15 +81,15 @@ public class Lexicon {
 				
 					//Temp hack for qfix...
 					if(tag.getClazz() == Character.class) {
-						m.set(((String) e.getValue()).charAt(0), tag);
+						m.set(tag, ((String) e.getValue()).charAt(0));
 					} else if(tag.getClazz() == Boolean.class){
 						if(((String)e.getValue()).equals("Y")) {
-							m.set(true, tag);
+							m.set(tag, true);
 						} else {
-							m.set(false, tag);
+							m.set(tag, false);
 						}
 					} else {
-						m.set(tag.cast(e.getValue()), tag);
+						m.set(tag, tag.cast(e.getValue()));
 					}
 				
 				} catch (final RuntimeException ex) {
