@@ -9,7 +9,7 @@ import java.util.TreeSet;
  * @author Gavin M Litchfield
  *
  */
-public class Manifest  {
+public class Manifest {
 
 	private final String name;
 	private final Tag<?>[] tags;
