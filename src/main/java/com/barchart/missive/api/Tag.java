@@ -1,5 +1,8 @@
 package com.barchart.missive.api;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * 
  * @author Gavin M Litchfield
@@ -8,19 +11,32 @@ package com.barchart.missive.api;
  */
 public class Tag<V> {
 	
+	private static final Set<Class<?>> primitives = new HashSet<Class<?>>();
+	static {
+		primitives.add(Byte.class);
+		primitives.add(Short.class);
+		primitives.add(Integer.class);
+		primitives.add(Long.class);
+		primitives.add(Float.class);
+		primitives.add(Double.class);
+		primitives.add(Boolean.class);
+		primitives.add(Character.class);
+	}
+	
 	protected final String name;
 	private final Manifest manifest; 
 	private final Class<V> clazz;
 	private final boolean isPrim;
 	private final boolean isComplex;
+	private final boolean isEnum;
 	
 	public Tag(final String name, final Class<V> clazz) {
 		this.name = name;
 		manifest = new Manifest(name, new Tag<?>[]{this});
 		this.clazz = clazz;
-		isPrim = clazz.isPrimitive();
-		
-		if(clazz.isAssignableFrom(Missive[].class)) {
+		isPrim = primitives.contains(clazz);
+		isEnum = clazz.isEnum();
+		if(clazz.isAssignableFrom(RawSet.class)) {
 			isComplex = true;
 		} else {
 			isComplex = false;
@@ -31,9 +47,10 @@ public class Tag<V> {
 	public Tag(final String name, final Manifest manifest) {
 		this.name = name;
 		this.manifest = manifest;
-		clazz = (Class<V>) Missive[].class;
+		clazz = (Class<V>) RawSet.class;
 		isPrim = false;
 		isComplex = true;
+		isEnum = false;
 	}
 
 	public final String getName() {
@@ -44,6 +61,7 @@ public class Tag<V> {
 		return clazz;
 	}
 	
+	@Deprecated
 	public Manifest manifest() {
 		return manifest;
 	}
@@ -56,21 +74,38 @@ public class Tag<V> {
 		return isComplex;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public V cast(final Object o) throws MissiveException {
 		try {
-			return clazz.cast(o);
-		} catch(final ClassCastException e) {
-			try {
-				if(isPrim && o instanceof String) {
-					return (V) parsePrimitiveFromString(clazz, (String) o);
-				} else {
+			
+			/* If the class is enum and object is string, attempt a valueOf */
+			if(isEnum && o instanceof String) {
+				
+				final Class<? extends Enum> crazz = (Class<? extends Enum>) clazz;
+				return (V) Enum.valueOf(crazz, (String) o);
+			
+			/* If class is primitive and object is string, attempt to parse */
+			} else if(isPrim && o instanceof String) {
+				
+				return (V) parsePrimitiveFromString(clazz, (String) o);
+				
+			} else {
+			
+				try {
+					/* Attempt a normal cast */
+					return clazz.cast(o);
+				} catch(final ClassCastException e) {
+					/* Last ditch, attempt to find constructor which accepts object o */
 					return clazz.getConstructor(o.getClass()).newInstance(o);
 				}
-			} catch (final Exception e1) {
-				e1.printStackTrace();
-				throw new MissiveException("Failed to cast object in tag " + name);
-			} 
+			}
+			
+		} catch(final Exception e) {
+			
+			System.out.println("Failed to cast object in tag " + name + " " + o.toString());
+			e.printStackTrace();
+			throw new MissiveException("Failed to cast object in tag " + name);
+			
 		}
 	}
 
@@ -99,12 +134,8 @@ public class Tag<V> {
 		} else if(clazz == Double.class) {
 			return Double.parseDouble(value);
 		} else if(clazz == Boolean.class) {
-			if(value.equals("true") ||
-					value.equals("Y")) {
-				return new Boolean(true);
-			} else {
-				return new Boolean(false);
-			}
+			return new Boolean(value.equalsIgnoreCase("true") ||
+					value.equalsIgnoreCase("Y"));
 		//May want to enforce string length = 1
 		} else if(clazz == Character.class) {
 			return new Character(value.charAt(0));
