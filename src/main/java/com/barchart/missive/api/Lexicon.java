@@ -4,154 +4,32 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-/**
- * 
- * @author Gavin M Litchfield
- *
- */
 public class Lexicon {
 	
-	private final Map<Integer, Tag<?>> toTags;
-	private final Map<Tag<?>, Integer> fromTags = 
-			new HashMap<Tag<?>, Integer>();
+	private final Map<String, Tag<?>> toTags = new HashMap<String, Tag<?>>();
+	private final Map<Tag<?>, String> fromTags = new HashMap<Tag<?>, String>();
 	
-	private final Map<String, Manifest> toManifest;
-	private final Map<Manifest, String> fromManifest =
-			new HashMap<Manifest, String>();
-	
-	public Lexicon(final Map<Integer, Tag<?>> tags,
-			final Map<String, Manifest> manifesto) {
-		this.toTags = tags;
-		this.toManifest = manifesto;
+	public Lexicon(final Map<String, Tag<?>> tags) {
 		
-		for(final Entry<Integer, Tag<?>> e : toTags.entrySet()) {
+		for(final Entry<String, Tag<?>> e : tags.entrySet()) {
+			toTags.put(e.getKey(), e.getValue());
 			fromTags.put(e.getValue(), e.getKey());
 		}
-		
-		for(final Entry<String, Manifest> e : toManifest.entrySet()) {
-			fromManifest.put(e.getValue(), e.getKey());
+		if(toTags.size() != fromTags.size()) {
+			throw new RuntimeException("Tags map not 1 to 1");
 		}
-		
-		if(toTags.size() != fromTags.size() || toManifest.size() != fromManifest.size()) {
-			throw new RuntimeException("Maps not 1 to 1 in Lexicon");
-		}
-		
-	}
-	
-	public String fromManifest(final Manifest manifest) {
-		return fromManifest.get(manifest);
-	}
-	
-	public Tag<?> getTag(final int code) {
-		return toTags.get(code);
 	}
 	
 	public Tag<?> getTag(final String name) {
-		return toTags.get(name.hashCode());
+		return toTags.get(name);
 	}
 	
 	public boolean hasTag(final Tag<?> tag) {
-		return fromTags.containsKey(tag);
+		return toTags.containsValue(tag);
 	}
 	
-	public boolean hasTag(final String name) {
-		return toTags.containsKey(name.hashCode());
-	}
-	
-	public boolean hasTag(final int code) {
-		return toTags.containsKey(code);
-	}
-	
-	public Manifest getManifest(final String name) {
-		return toManifest.get(name);
-	}
-	
-	public boolean hasManifest(final String name) {
-		return toManifest.containsKey(name);
-	}
-	
-	public Missive toMissive(final RawData raw) throws MissiveException {
-
-		final Manifest manifest = toManifest.get(raw.name());
-		
-		if(manifest == null) {
-			throw new MissiveException("Unknown manafest: " + raw.name());
-		}
-		
-		return makeInternal(raw, manifest);
-		
+	public String getName(final Tag<?> tag) {
+		return fromTags.get(tag);
 	}
 
-	@SuppressWarnings({"unchecked","rawtypes"})
-	private Missive makeInternal(final RawData raw, final Manifest manifest) 
-			throws MissiveException {
-		
-		final Missive m = new Missive(manifest);
-		
-		for(final Entry<Integer, Object> e : raw.data().entrySet()) {
-			final Tag tag = toTags.get(e.getKey());
-			
-			/* Won't work for primitive arrays */
-			if(e.getValue() instanceof RawData[]) {
-			
-				final RawData[] rawArray = (RawData[]) e.getValue();
-				final Missive[] missives = new Missive[rawArray.length];
-				
-				for(int i = 0; i < rawArray.length; i++) {
-					missives[i] = makeInternal(rawArray[i], tag.manifest());
-				}
-				
-				m.set(tag, missives);
-				
-			} else {
-				
-				try {
-				
-					m.set(tag, tag.cast(e.getValue()));
-				
-				} catch (final RuntimeException ex) {
-					System.err.println("Threw exception on casting raw object " + tag + 
-							":" + e.getValue().toString());
-					throw new MissiveException("Threw exception on casting raw object " + tag + 
-							":" + e.getValue().toString());
-				}
-			}
-		}
-		
-		return m;
-		
-	}
-	
-	@SuppressWarnings({"unchecked","rawtypes"})
-	public RawData fromMissive(final Missive missive) {
-		
-		final RawData raw = new RawData(fromManifest.get(missive.getManifest()));
-		
-		for(final Tag tag : missive.getManifest().getTags()) {
-			
-			if(missive.get(tag) instanceof Missive[]) {
-				
-				final Missive[] groups = (Missive[]) missive.get(tag);
-				final RawData[] rawG = new RawData[groups.length];
-				
-				int counter = 0;
-				for(final Missive m : groups) {
-					rawG[counter] = fromMissive(m);
-					counter++;
-				}
-				
-				raw.put(fromTags.get(tag), rawG);
-				
-			} else {
-				
-				raw.put(fromTags.get(tag), missive.get(tag));
-				
-			}
-			
-		}
-		
-		return raw;
-		
-	}
-	
 }

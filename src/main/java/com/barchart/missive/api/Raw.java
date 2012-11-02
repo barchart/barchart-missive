@@ -15,6 +15,18 @@ public class Raw {
 	private final Map<Tag<?>, Object> values =
 			new HashMap<Tag<?>, Object>();
 	
+	public Raw() {
+		
+	}
+	
+	public Raw(final Missive m) {
+		for(final Entry<Tag<?>, Object> e : m.getAll().entrySet()) {
+			if(e.getValue() != null) {
+				values.put(e.getKey(), e.getValue());
+			}
+		}
+	}
+	
 	public <V> void put(final Tag<V> tag, final V value) {
 		values.put(tag, tag.cast(value));
 	}
@@ -26,6 +38,10 @@ public class Raw {
 	
 	public Set<Entry<Tag<?>, Object>> data() {
 		return values.entrySet();
+	}
+	
+	public Map<Tag<?>, Object> map() {
+		return values;
 	}
 	
 	public int size() {

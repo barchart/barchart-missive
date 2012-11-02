@@ -30,7 +30,7 @@ public final class TestSpec {
 		ViewOnly
 	});
 	
-	public static final Tag<Missive[]> NoAccounts = new Tag<Missive[]>("NoAccounts", NoAccountsGroup);
+	public static final Tag<RawSet> NoAccounts = new Tag<RawSet>("NoAccounts", NoAccountsGroup);
 	
 	public static final Manifest AuthorizedAccountsReport = 
 			new Manifest("AuthorizedAccountsReport", new Tag<?>[] {

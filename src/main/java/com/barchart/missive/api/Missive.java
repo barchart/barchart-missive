@@ -33,6 +33,10 @@ public class Missive {
 		}
 	}
 	
+	public Map<Tag<?>, Object> getAll() {
+		return values;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public <V> V get(final Tag<V> tag) {
 		return (V) values.get(tag);
