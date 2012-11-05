@@ -61,7 +61,7 @@ public class Raw {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public <M extends Missive> M as(final M missive) {
 		
-		for(final Tag tag : missive.getManifest().getTags()) {
+		for(final Tag tag : missive.getTags()) {
 			missive.set(tag, values.get(tag));
 		}
 		return missive;

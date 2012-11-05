@@ -62,6 +62,7 @@ public class Manifest {
 		return false;
 	}
 	
+	@Deprecated
 	public String name() {
 		return name;
 	}

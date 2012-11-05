@@ -1,8 +1,11 @@
 package com.barchart.missive.api;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * 
@@ -11,12 +14,23 @@ import java.util.Map.Entry;
  */
 public class Missive {
 
-	private final Manifest manifest;
+	private Manifest manifest;
 	
 	// Will replace with hash func and array
 	private final Map<Tag<?>, Object> values =
 			new HashMap<Tag<?>, Object>();
 	
+	public Missive() {
+		
+	}
+	
+	public void include(final Tag<?>[] tags) {
+		for(final Tag<?> tag : tags) {
+			values.put(tag, null);
+		}
+	}
+	
+	@Deprecated
 	public Missive(final Manifest manifest) {
 		this.manifest = manifest;
 		
@@ -25,16 +39,18 @@ public class Missive {
 		}
 	}
 	
-	public Missive(final Manifest...manifests) {
-		manifest = new Manifest(manifests);
-		
-		for(final Tag<?> tag : manifest.getTags()) {
+	public Missive(final Tag<?>[] tags) {
+		for(final Tag<?> tag : tags) {
 			values.put(tag, null);
 		}
 	}
 	
 	public Map<Tag<?>, Object> getAll() {
-		return values;
+		return Collections.unmodifiableMap(values);
+	}
+	
+	public Set<Tag<?>> getTags() {
+		return Collections.unmodifiableSet(values.keySet());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -43,7 +59,7 @@ public class Missive {
 	}
 	
 	public <V> void set(final Tag<V> tag, final V v) throws MissiveException {
-		if(manifest.has(tag)) {
+		if(values.containsKey(tag)) {
 			values.put(tag, v);
 		} else {
 			throw new MissiveException("No such tag " + tag.toString());
@@ -53,7 +69,7 @@ public class Missive {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void copyAll(final Missive m) {
 		
-		for(final Tag t : m.getManifest().getTags()) {
+		for(final Tag t : values.keySet()) {
 			if(values.containsKey(t) && m.get(t) != null) {
 				values.put(t, m.get(t));
 			}
@@ -65,6 +81,7 @@ public class Missive {
 		return values.containsKey(tag);
 	}
 	
+	@Deprecated
 	public Manifest getManifest() {
 		return manifest;
 	}
@@ -91,6 +108,12 @@ public class Missive {
 		
 		return sb.toString();
 		
+	}
+	
+	public static <T> T[] concat(T[] first, T[] second) {
+		  T[] result = Arrays.copyOf(first, first.length + second.length);
+		  System.arraycopy(second, 0, result, first.length, second.length);
+		  return result;
 	}
 	
 }

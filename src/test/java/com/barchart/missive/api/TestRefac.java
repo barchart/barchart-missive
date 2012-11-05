@@ -1,6 +1,6 @@
-package com.barchart.missive.api.refactor;
+package com.barchart.missive.api;
 
-import static com.barchart.missive.api.refactor.TestRSpec.*;
+import static com.barchart.missive.api.TestRSpec.*;
 
 import com.barchart.missive.api.Raw;
 

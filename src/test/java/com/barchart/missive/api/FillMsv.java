@@ -1,4 +1,4 @@
-package com.barchart.missive.api.refactor;
+package com.barchart.missive.api;
 
 import com.barchart.missive.api.Missive;
 
