@@ -1,5 +1,6 @@
 package com.barchart.missive.api;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -32,4 +33,21 @@ public class Lexicon {
 		return fromTags.get(tag);
 	}
 
+	public static Map<String, Tag<?>> build(final Class<?> clazz) 
+			throws IllegalArgumentException, IllegalAccessException {
+		
+		final Map<String, Tag<?>> tags = new HashMap<String, Tag<?>>();
+		final Field[] fieldArray = clazz.getDeclaredFields();
+		
+		for(final Field field : fieldArray) {
+			if(field.getType() == Tag.class) {
+				Tag<?> tag = (Tag<?>) field.get(null);
+				tags.put(tag.getName(), tag);
+			}
+		}
+		
+		return tags;
+		
+	}
+	
 }

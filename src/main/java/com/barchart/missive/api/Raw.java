@@ -58,6 +58,16 @@ public class Raw {
 		return true;
 	}
 	
+	public boolean satisfies(final Missive m) {
+		
+		for(final Tag<?> tag : m.getTags()) {
+			if(!values.containsKey(tag)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public <M extends Missive> M as(final M missive) {
 		

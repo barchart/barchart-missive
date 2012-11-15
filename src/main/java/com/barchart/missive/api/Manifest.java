@@ -9,6 +9,7 @@ import java.util.TreeSet;
  * @author Gavin M Litchfield
  *
  */
+@Deprecated
 public class Manifest {
 
 	private final String name;
