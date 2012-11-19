@@ -7,7 +7,7 @@ import static com.barchart.missive.api.examples.FixSpec.MsgType;
 import static com.barchart.missive.api.examples.FixSpec.OrdType;
 import static com.barchart.missive.api.examples.FixSpec.Side;
 
-import com.barchart.missive.api.Missive;
+import com.barchart.missive.api.OldMissive;
 import com.barchart.missive.api.Raw;
 import com.barchart.missive.api.Tag;
 import com.barchart.missive.api.examples.FixSpec.OrderType;
@@ -22,7 +22,7 @@ public class ExampleMissiveUsage {
 	public static void main(final String[] args) {
 		
 		/* Typesafety examples */
-		Missive example = new Missive(new Tag<?>[]{
+		OldMissive example = new OldMissive(new Tag<?>[]{
 				MsgSeqNum,
 				MsgType,
 				AccountEnabled,

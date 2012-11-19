@@ -24,7 +24,6 @@ public class Tag<V> {
 	}
 	
 	protected final String name;
-	private final Manifest manifest; 
 	private final Class<V> clazz;
 	private final boolean isPrim;
 	private final boolean isComplex;
@@ -32,10 +31,11 @@ public class Tag<V> {
 	
 	public Tag(final String name, final Class<V> clazz) {
 		this.name = name;
-		manifest = new Manifest(name, new Tag<?>[]{this});
 		this.clazz = clazz;
+		
 		isPrim = primitives.contains(clazz);
 		isEnum = clazz.isEnum();
+		
 		if(clazz.isAssignableFrom(RawSet.class)) {
 			isComplex = true;
 		} else {
@@ -43,27 +43,12 @@ public class Tag<V> {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
-	public Tag(final String name, final Manifest manifest) {
-		this.name = name;
-		this.manifest = manifest;
-		clazz = (Class<V>) RawSet.class;
-		isPrim = false;
-		isComplex = true;
-		isEnum = false;
-	}
-
 	public final String getName() {
 		return name;
 	}
 	
 	public Class<V> getClazz() {
 		return clazz;
-	}
-	
-	@Deprecated
-	public Manifest manifest() {
-		return manifest;
 	}
 	
 	public final boolean isPrimitive() {
@@ -102,6 +87,7 @@ public class Tag<V> {
 			
 		} catch(final Exception e) {
 			
+			//TODO Remove sysout and stacktrace
 			System.out.println("Failed to cast object in tag " + name + " " + o.toString());
 			e.printStackTrace();
 			throw new MissiveException("Failed to cast object in tag " + name);

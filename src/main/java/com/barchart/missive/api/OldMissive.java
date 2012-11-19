@@ -12,15 +12,13 @@ import java.util.Set;
  * @author Gavin M Litchfield
  *
  */
-public class Missive {
+public class OldMissive {
 
-	private Manifest manifest;
-	
 	// Will replace with hash func and array
 	private final Map<Tag<?>, Object> values =
 			new HashMap<Tag<?>, Object>();
 	
-	public Missive() {
+	public OldMissive() {
 		
 	}
 	
@@ -30,16 +28,7 @@ public class Missive {
 		}
 	}
 	
-	@Deprecated
-	public Missive(final Manifest manifest) {
-		this.manifest = manifest;
-		
-		for(final Tag<?> tag : manifest.getTags()) {
-			values.put(tag, null);
-		}
-	}
-	
-	public Missive(final Tag<?>[] tags) {
+	public OldMissive(final Tag<?>[] tags) {
 		for(final Tag<?> tag : tags) {
 			values.put(tag, null);
 		}
@@ -67,7 +56,7 @@ public class Missive {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void copyAll(final Missive m) {
+	public void copyAll(final OldMissive m) {
 		
 		for(final Tag t : values.keySet()) {
 			if(values.containsKey(t) && m.get(t) != null) {
@@ -79,11 +68,6 @@ public class Missive {
 	
 	public boolean has(final Tag<?> tag) {
 		return values.containsKey(tag);
-	}
-	
-	@Deprecated
-	public Manifest getManifest() {
-		return manifest;
 	}
 	
 	@Override

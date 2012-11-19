@@ -19,7 +19,7 @@ public class Raw {
 		
 	}
 	
-	public Raw(final Missive m) {
+	public Raw(final OldMissive m) {
 		for(final Entry<Tag<?>, Object> e : m.getAll().entrySet()) {
 			if(e.getValue() != null) {
 				values.put(e.getKey(), e.getValue());
@@ -48,17 +48,7 @@ public class Raw {
 		return values.size();
 	}
 	
-	public boolean satisfies(final Manifest manifest) {
-		
-		for(final Tag<?> tag : manifest.getTags()) {
-			if(!values.containsKey(tag)) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	public boolean satisfies(final Missive m) {
+	public boolean satisfies(final OldMissive m) {
 		
 		for(final Tag<?> tag : m.getTags()) {
 			if(!values.containsKey(tag)) {
@@ -69,7 +59,7 @@ public class Raw {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public <M extends Missive> M as(final M missive) {
+	public <M extends OldMissive> M as(final M missive) {
 		
 		for(final Tag tag : missive.getTags()) {
 			missive.set(tag, values.get(tag));
