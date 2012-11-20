@@ -21,7 +21,11 @@
   </scm>
   	
   	<dependencies>
-  	
+  		<dependency>
+  			<groupId>com.barchart.algorithms</groupId>
+  			<artifactId>barchart-algorithms-hashes</artifactId>
+  			<version>1.0.1-SNAPSHOT</version>
+  		</dependency>
   	
   	</dependencies>
   	

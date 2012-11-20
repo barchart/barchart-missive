@@ -3,6 +3,8 @@ package com.barchart.missive.api;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.barchart.algorithms.hashes.Random;
+
 /**
  * 
  * @author Gavin M Litchfield
@@ -23,8 +25,12 @@ public class Tag<V> {
 		primitives.add(Character.class);
 	}
 	
+	private static Random random = new Random();
+	
 	protected final String name;
 	private final Class<V> clazz;
+	private final int hashCode;
+	
 	private final boolean isPrim;
 	private final boolean isComplex;
 	private final boolean isEnum;
@@ -32,6 +38,8 @@ public class Tag<V> {
 	public Tag(final String name, final Class<V> clazz) {
 		this.name = name;
 		this.clazz = clazz;
+		
+		hashCode = (int) random.nextLong();
 		
 		isPrim = primitives.contains(clazz);
 		isEnum = clazz.isEnum();
@@ -41,6 +49,10 @@ public class Tag<V> {
 		} else {
 			isComplex = false;
 		}
+	}
+	
+	public static <V> Tag<V> create(final String name, final Class<V> clazz) {
+		return new Tag<V>(name, clazz);
 	}
 	
 	public final String getName() {
@@ -102,7 +114,7 @@ public class Tag<V> {
 	
 	@Override
 	public int hashCode() {
-		return name.hashCode();
+		return hashCode;
 	}
 
 	private static Object parsePrimitiveFromString(final Class<?> clazz, final String value) {
