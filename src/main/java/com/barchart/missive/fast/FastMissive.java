@@ -36,6 +36,11 @@ public class FastMissive extends FastSafeTagMap implements Missive {
 		values = new Object[maxTagCode + 1];
 	}
 	
+	/**
+	 * Utility method for building classes which extend this class
+	 * 
+	 * @param tagz
+	 */
 	protected void includeTags(final Tag<?>[] tagz) {
 		
 		int newMaxTagCode = 0;
@@ -61,6 +66,12 @@ public class FastMissive extends FastSafeTagMap implements Missive {
 		
 	}
 	
+	/**
+	 * Utility method for building classes which extend this class
+	 * 
+	 * @param newTag
+	 * @param newValue
+	 */
 	protected <V> void put(final Tag<V> newTag, final V newValue) {
 		
 		if(containsTag(newTag)) {

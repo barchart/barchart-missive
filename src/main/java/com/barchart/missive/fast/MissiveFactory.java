@@ -13,7 +13,7 @@ public class MissiveFactory {
 
 	private static final Map<String, FastMissive> missives = FastMissive.missives;
 	
-	public void put(final FastMissive m) {
+	protected void put(final FastMissive m) {
 		
 		missives.put(m.getClass().getName(), m);
 		
