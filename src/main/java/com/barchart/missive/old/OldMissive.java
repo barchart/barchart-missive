@@ -1,4 +1,4 @@
-package com.barchart.missive.api;
+package com.barchart.missive.old;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import com.barchart.missive.MissiveException;
+import com.barchart.missive.Tag;
 
 /**
  * 

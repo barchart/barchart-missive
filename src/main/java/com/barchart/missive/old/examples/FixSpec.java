@@ -1,7 +1,7 @@
-package com.barchart.missive.api.examples;
+package com.barchart.missive.old.examples;
 
-import com.barchart.missive.api.NewLexicon;
-import com.barchart.missive.api.Tag;
+import com.barchart.missive.NewLexicon;
+import com.barchart.missive.Tag;
 
 public class FixSpec extends NewLexicon {
 

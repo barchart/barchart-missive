@@ -1,21 +1,16 @@
-package com.barchart.missive.api.examples;
+package com.barchart.missive.old.examples;
 
-import static com.barchart.missive.api.examples.FixSpec.*;
-import static com.barchart.missive.api.examples.FixSpec.FillPrice;
-import static com.barchart.missive.api.examples.FixSpec.MsgSeqNum;
-import static com.barchart.missive.api.examples.FixSpec.MsgType;
-import static com.barchart.missive.api.examples.FixSpec.OrdType;
-import static com.barchart.missive.api.examples.FixSpec.Side;
+import static com.barchart.missive.old.examples.FixSpec.*;
 
-import com.barchart.missive.api.OldMissive;
-import com.barchart.missive.api.Raw;
-import com.barchart.missive.api.Tag;
-import com.barchart.missive.api.examples.FixSpec.OrderType;
-import com.barchart.missive.api.examples.missives.AccountInfoMessage;
-import com.barchart.missive.api.examples.missives.FIXMessage;
-import com.barchart.missive.api.examples.missives.Fill;
-import com.barchart.missive.api.examples.missives.Instrument;
-import com.barchart.missive.api.examples.missives.OrderRequest;
+import com.barchart.missive.Tag;
+import com.barchart.missive.old.OldMissive;
+import com.barchart.missive.old.Raw;
+import com.barchart.missive.old.examples.FixSpec.OrderType;
+import com.barchart.missive.old.examples.missives.AccountInfoMessage;
+import com.barchart.missive.old.examples.missives.FIXMessage;
+import com.barchart.missive.old.examples.missives.Fill;
+import com.barchart.missive.old.examples.missives.Instrument;
+import com.barchart.missive.old.examples.missives.OrderRequest;
 
 public class ExampleMissiveUsage {
 

@@ -8,7 +8,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.barchart.missive.refactoring.TagHashMap;
+import com.barchart.missive.Tag;
+import com.barchart.missive.core.TagMap;
+import com.barchart.missive.fast.FastTagMap;
 
 public class TestTagHashMap {
 
@@ -24,8 +26,8 @@ public class TestTagHashMap {
 	@Test
 	public void test() {
 
-		final int mapSize = 20;
-		final int testGetSize = 1000 * 1000;
+		final int mapSize = 100;
+		final int testGetSize = 10 * 1000 * 1000;
 
 		final Tag<?>[] tags = new Tag<?>[mapSize];
 
@@ -33,7 +35,7 @@ public class TestTagHashMap {
 			tags[i] = Tag.create(String.valueOf(i), String.class);
 		}
 
-		final TagHashMap testMap = new TagHashMap(tags);
+		final TagMap testMap = new FastTagMap(tags);
 
 		for (final Tag tag : tags) {
 			testMap.set(tag, "Test" + tag.getName());
@@ -41,15 +43,15 @@ public class TestTagHashMap {
 
 		/* Warm up */
 		for (int i = 0; i < testGetSize; i++) {
-			testMap.get(tags[(int) Math.floor(Math.random() * mapSize)]);
+			testMap.get(tags[i % mapSize]);
 		}
 
 		/* Test our map */
-		long start = System.currentTimeMillis();
+		long start = System.nanoTime();
 		for (int i = 0; i < testGetSize; i++) {
-			testMap.get(tags[(int) Math.floor(Math.random() * mapSize)]);
+			testMap.get(tags[i % mapSize]);
 		}
-		log.info("test our-impl = {}", System.currentTimeMillis() - start);
+		log.info("test our-impl = {}", System.nanoTime() - start);
 
 		/* Build java hashmap version */
 		final Map<Tag<?>, Object> testJavaMap = new HashMap<Tag<?>, Object>();
@@ -59,15 +61,15 @@ public class TestTagHashMap {
 
 		/* Warm up */
 		for (int i = 0; i < testGetSize; i++) {
-			testJavaMap.get(tags[(int) Math.floor(Math.random() * mapSize)]);
+			testJavaMap.get(tags[i % mapSize]);
 		}
 
 		/* Test java map */
-		start = System.currentTimeMillis();
+		start = System.nanoTime();
 		for (int i = 0; i < testGetSize; i++) {
-			testJavaMap.get(tags[(int) Math.floor(Math.random() * mapSize)]);
+			testJavaMap.get(tags[i % mapSize]);
 		}
-		log.info("test java-hash = {}", (System.currentTimeMillis() - start));
+		log.info("test java-hash = {}", (System.nanoTime() - start));
 
 	}
 }

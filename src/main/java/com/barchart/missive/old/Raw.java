@@ -1,9 +1,11 @@
-package com.barchart.missive.api;
+package com.barchart.missive.old;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import com.barchart.missive.Tag;
 
 /**
  * 

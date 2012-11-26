@@ -11,10 +11,10 @@ import static com.barchart.missive.api.spec.TestSpec.INTEGER;
 import static com.barchart.missive.api.spec.TestSpec.LONG;
 import static com.barchart.missive.api.spec.TestSpec.SHORT;
 
-import com.barchart.missive.api.Tag;
-import com.barchart.missive.refactoring.Missive;
+import com.barchart.missive.Tag;
+import com.barchart.missive.fast.FastMissive;
 
-public class PrimitiveMissive extends Missive {
+public class PrimitiveMissive extends FastMissive {
 	
 	public PrimitiveMissive() {
 		includeTags(new Tag<?>[]{

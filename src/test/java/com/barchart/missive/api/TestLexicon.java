@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.barchart.missive.Tag;
+
 public class TestLexicon {
 	
 	public static final Tag<Byte> BYTE = new Tag<Byte>("BYTE", Byte.class);

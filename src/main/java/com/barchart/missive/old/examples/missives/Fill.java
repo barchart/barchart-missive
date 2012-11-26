@@ -1,8 +1,8 @@
-package com.barchart.missive.api.examples.missives;
+package com.barchart.missive.old.examples.missives;
 
-import static com.barchart.missive.api.examples.FixSpec.*;
+import static com.barchart.missive.old.examples.FixSpec.*;
 
-import com.barchart.missive.api.Tag;
+import com.barchart.missive.Tag;
 
 public class Fill extends FIXMessage {
 

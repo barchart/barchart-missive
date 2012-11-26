@@ -1,6 +1,6 @@
 package com.barchart.missive.api.lexicon;
 
-import com.barchart.missive.api.Tag;
+import com.barchart.missive.Tag;
 
 public class TestTestNewLexicon extends TestNewLexicon {
 	

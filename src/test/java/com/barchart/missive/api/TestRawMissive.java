@@ -15,14 +15,15 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.barchart.missive.api.spec.PrimitiveMissive;
-import com.barchart.missive.refactoring.RawMissive;
+import com.barchart.missive.fast.FastMissive;
+import com.barchart.missive.fast.FastRawMissive;
 
 public class TestRawMissive {
 	
 	@Test
 	public void testRaw() {
 		
-		final RawMissive testRaw = new RawMissive();
+		final FastRawMissive testRaw = new FastRawMissive();
 		
 		testRaw.putRaw(BYTE, "0");
 		testRaw.putRaw(SHORT, "0");
@@ -35,7 +36,7 @@ public class TestRawMissive {
 		testRaw.putRaw(BOOLEAN3, "true");
 		testRaw.putRaw(CHARACTER, 'c');
 		
-		PrimitiveMissive primMissive = new PrimitiveMissive();
+		FastMissive primMissive = new PrimitiveMissive();
 		assertTrue(testRaw.isSubsetOf(primMissive));
 		
 		primMissive = testRaw.cast(primMissive);

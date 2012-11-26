@@ -1,6 +1,6 @@
 package com.barchart.missive.api;
 
-import com.barchart.missive.api.Tag;
+import com.barchart.missive.Tag;
 
 /**
  * 
@@ -42,6 +42,10 @@ public class TestTag {
 		System.out.println(TestBoolean.cast("Y").toString());
 		System.out.println(TestBoolean.cast("y").toString());
 		System.out.println(TestBoolean.cast("True").toString());
+		
+		System.out.println(TestInteger.cast(1).toString());
+		System.out.println(TestDouble.cast(0.0).toString());
+		System.out.println(TestBoolean.cast(true).toString());
 		
 	}
 	

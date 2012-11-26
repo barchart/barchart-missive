@@ -1,15 +1,17 @@
-package com.barchart.missive.refactoring;
+package com.barchart.missive.core;
 
-import com.barchart.missive.api.Tag;
+import com.barchart.missive.Tag;
 
 /**
  * 
  * @author Gavin M Litchfield
  *
  */
-public interface TagMap {
+public interface SafeTagMap {
 
 	public <V> V get(Tag<V> tag);
+	
+	public <V> void set(Tag<V> tag, V value);
 	
 	public boolean containsTag(Tag<?> tag);
 	

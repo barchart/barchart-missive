@@ -1,15 +1,16 @@
-package com.barchart.missive.api;
+package com.barchart.missive;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.barchart.algorithms.hashes.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 
  * @author Gavin M Litchfield
  *
  * @param <V>
+ * 
  */
 public class Tag<V> {
 	
@@ -25,7 +26,7 @@ public class Tag<V> {
 		primitives.add(Character.class);
 	}
 	
-	private static Random random = new Random();
+	private static AtomicInteger counter = new AtomicInteger(0);
 	
 	protected final String name;
 	private final Class<V> clazz;
@@ -39,14 +40,16 @@ public class Tag<V> {
 		this.name = name;
 		this.clazz = clazz;
 		
-		hashCode = (int) random.nextLong();
+		hashCode = counter.getAndIncrement();
 		
 		isPrim = primitives.contains(clazz);
 		isEnum = clazz.isEnum();
 		
-		if(clazz.isAssignableFrom(RawSet.class)) {
+		if(clazz.isArray()) {
 			isComplex = true;
-		} else {
+		} else if(clazz.isAssignableFrom(Collection.class)) {
+			isComplex = true;
+		}	else {
 			isComplex = false;
 		}
 	}

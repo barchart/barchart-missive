@@ -1,8 +1,9 @@
-package com.barchart.missive.api;
+package com.barchart.missive;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class NewLexicon {
 

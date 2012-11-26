@@ -1,4 +1,4 @@
-package com.barchart.missive.api;
+package com.barchart.missive;
 
 /**
  * 
