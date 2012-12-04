@@ -39,12 +39,6 @@ public class FastTagMap extends FastSafeTagMap implements TagMap {
 		return new FastTagMap(concat(tags, tagList));
 	}
 	
-	@SuppressWarnings("unchecked")
-	@Override
-	public <V> V get(final Tag<V> tag) {
-		return (V) values[tag.hashCode()];
-	}
-	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void putRaw(final Tag newTag, final Object newValue) {

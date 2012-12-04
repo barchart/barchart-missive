@@ -8,8 +8,8 @@ package com.barchart.missive.core;
  */
 public interface Missive extends SafeTagMap {
 
-	boolean isSubsetOf(final Missive m);
+	public boolean isSubsetOf(final Missive m);
 	
-	<M extends Missive> M cast(M m);
+	public <M extends Missive> M cast(M m);
 	
 }

@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 
  * @author Gavin M Litchfield
  *
- * @param <V>
+ * @param <V> The class type of the value this tag represents.
  * 
  */
 public class Tag<V> {
