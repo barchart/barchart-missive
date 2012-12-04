@@ -1,22 +1,22 @@
-package com.barchart.missive.api;
+package com.barchart.missive.old;
 
-import static com.barchart.missive.api.spec.TestSpec.BOOLEAN1;
-import static com.barchart.missive.api.spec.TestSpec.BOOLEAN2;
-import static com.barchart.missive.api.spec.TestSpec.BOOLEAN3;
-import static com.barchart.missive.api.spec.TestSpec.BYTE;
-import static com.barchart.missive.api.spec.TestSpec.CHARACTER;
-import static com.barchart.missive.api.spec.TestSpec.DOUBLE;
-import static com.barchart.missive.api.spec.TestSpec.FLOAT;
-import static com.barchart.missive.api.spec.TestSpec.INTEGER;
-import static com.barchart.missive.api.spec.TestSpec.LONG;
-import static com.barchart.missive.api.spec.TestSpec.SHORT;
+import static com.barchart.missive.spec.TestSpec.BOOLEAN1;
+import static com.barchart.missive.spec.TestSpec.BOOLEAN2;
+import static com.barchart.missive.spec.TestSpec.BOOLEAN3;
+import static com.barchart.missive.spec.TestSpec.BYTE;
+import static com.barchart.missive.spec.TestSpec.CHARACTER;
+import static com.barchart.missive.spec.TestSpec.DOUBLE;
+import static com.barchart.missive.spec.TestSpec.FLOAT;
+import static com.barchart.missive.spec.TestSpec.INTEGER;
+import static com.barchart.missive.spec.TestSpec.LONG;
+import static com.barchart.missive.spec.TestSpec.SHORT;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.barchart.missive.api.spec.PrimitiveMissive;
 import com.barchart.missive.fast.FastMissive;
 import com.barchart.missive.fast.FastRawMissive;
+import com.barchart.missive.spec.PrimitiveMissive;
 
 public class TestRawMissive {
 	

@@ -1,4 +1,4 @@
-package com.barchart.missive.api.spec;
+package com.barchart.missive.spec;
 
 import com.barchart.missive.Tag;
 

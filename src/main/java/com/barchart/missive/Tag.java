@@ -28,9 +28,14 @@ public class Tag<V> {
 	
 	private static AtomicInteger counter = new AtomicInteger(0);
 	
-	protected final String name;
+	private final String name;
 	private final Class<V> clazz;
+	
+	private final int index;
+	
+	private final String className;
 	private final int hashCode;
+	
 	
 	private final boolean isPrim;
 	private final boolean isComplex;
@@ -40,7 +45,10 @@ public class Tag<V> {
 		this.name = name;
 		this.clazz = clazz;
 		
-		hashCode = counter.getAndIncrement();
+		index = counter.getAndIncrement();
+		
+		className = this.getClass().getName();
+		hashCode = className.hashCode();
 		
 		isPrim = primitives.contains(clazz);
 		isEnum = clazz.isEnum();
@@ -110,6 +118,10 @@ public class Tag<V> {
 		}
 	}
 
+	public int index() {
+		return index;
+	}
+	
 	@Override
 	public String toString() {
 		return name;

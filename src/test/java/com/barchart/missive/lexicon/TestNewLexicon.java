@@ -1,4 +1,4 @@
-package com.barchart.missive.api.lexicon;
+package com.barchart.missive.lexicon;
 
 import com.barchart.missive.NewLexicon;
 import com.barchart.missive.Tag;

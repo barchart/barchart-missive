@@ -47,8 +47,8 @@ public class FastTagMap extends FastSafeTagMap implements TagMap {
 		} else {
 			
 			/* Increase array size */
-			if(newTag.hashCode() >= maxTagCode) {
-				maxTagCode = newTag.hashCode();
+			if(newTag.index() >= maxTagCode) {
+				maxTagCode = newTag.index();
 				
 				Tag<?>[] tempTags = new Tag<?>[maxTagCode+1];
 				System.arraycopy(tags, 0, tempTags, 0, tags.length);
@@ -59,8 +59,8 @@ public class FastTagMap extends FastSafeTagMap implements TagMap {
 				values = tempVals;
 			}
 			
-			tags[newTag.hashCode()] = newTag;
-			values[newTag.hashCode()] = newTag.cast(newValue);
+			tags[newTag.index()] = newTag;
+			values[newTag.index()] = newTag.cast(newValue);
 			
 			Tag<?>[] temp = new Tag<?>[tagList.length + 1];
 			System.arraycopy(tagList, 0, temp, 0, tagList.length);
@@ -78,8 +78,8 @@ public class FastTagMap extends FastSafeTagMap implements TagMap {
 		} else {
 			
 			/* Increase array size */
-			if(newTag.hashCode() >= maxTagCode) {
-				maxTagCode = newTag.hashCode();
+			if(newTag.index() >= maxTagCode) {
+				maxTagCode = newTag.index();
 				
 				Tag<?>[] tempTags = new Tag<?>[maxTagCode+1];
 				System.arraycopy(tags, 0, tempTags, 0, tags.length);
@@ -90,8 +90,8 @@ public class FastTagMap extends FastSafeTagMap implements TagMap {
 				values = tempVals;
 			}
 			
-			tags[newTag.hashCode()] = newTag;
-			values[newTag.hashCode()] = newValue;
+			tags[newTag.index()] = newTag;
+			values[newTag.index()] = newValue;
 			
 			Tag<?>[] temp = new Tag<?>[tagList.length + 1];
 			System.arraycopy(tagList, 0, temp, 0, tagList.length);
@@ -110,10 +110,10 @@ public class FastTagMap extends FastSafeTagMap implements TagMap {
 			return null;
 		}
 		
-		final Object oldValue = values[oldTag.hashCode()];
+		final Object oldValue = values[oldTag.index()];
 		
-		tags[oldTag.hashCode()] = null;
-		values[oldTag.hashCode()] = null;
+		tags[oldTag.index()] = null;
+		values[oldTag.index()] = null;
 		//TODO Remove tag from tagList
 		
 		return oldValue;

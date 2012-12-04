@@ -45,8 +45,8 @@ public class FastMissive extends FastSafeTagMap implements Missive {
 		
 		int newMaxTagCode = 0;
 		for(final Tag<?> tag : tagz) {
-			if(newMaxTagCode < tag.hashCode()) {
-				newMaxTagCode = tag.hashCode();
+			if(newMaxTagCode < tag.index()) {
+				newMaxTagCode = tag.index();
 			}
 		}
 		
@@ -60,8 +60,8 @@ public class FastMissive extends FastSafeTagMap implements Missive {
 		tagList = tagSet.toArray(new Tag<?>[0]);
 		
 		for(final Tag<?> tag : tagz) {
-			tags[tag.hashCode()] = tag;
-			values[tag.hashCode()] = null;
+			tags[tag.index()] = tag;
+			values[tag.index()] = null;
 		}
 		
 	}
@@ -79,8 +79,8 @@ public class FastMissive extends FastSafeTagMap implements Missive {
 		} else {
 			
 			/* Increase array size */
-			if(newTag.hashCode() > maxTagCode) {
-				maxTagCode = newTag.hashCode();
+			if(newTag.index() > maxTagCode) {
+				maxTagCode = newTag.index();
 				
 				Tag<?>[] tempTags = new Tag<?>[maxTagCode+1];
 				System.arraycopy(tags, 0, tempTags, 0, tags.length);
@@ -91,8 +91,8 @@ public class FastMissive extends FastSafeTagMap implements Missive {
 				values = tempVals;
 			}
 			
-			tags[newTag.hashCode()] = newTag;
-			values[newTag.hashCode()] = newTag.cast(newValue);
+			tags[newTag.index()] = newTag;
+			values[newTag.index()] = newTag.cast(newValue);
 			
 			Tag<?>[] temp = new Tag<?>[tagList.length + 1];
 			System.arraycopy(tagList, 0, temp, 0, tagList.length);
@@ -128,8 +128,8 @@ public class FastMissive extends FastSafeTagMap implements Missive {
 		final StringBuilder sb = new StringBuilder();
 		
 		for(final Tag<?> tag : tagList) {
-			if(values[tag.hashCode()] != null) {
-				sb.append(tag.getName() + " : " + values[tag.hashCode()].toString() + "\n");
+			if(values[tag.index()] != null) {
+				sb.append(tag.getName() + " : " + values[tag.index()].toString() + "\n");
 			} else {
 				sb.append(tag.getName() + " : NULL\n");
 			}

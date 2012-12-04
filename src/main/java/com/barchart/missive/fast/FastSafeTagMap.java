@@ -28,8 +28,8 @@ public class FastSafeTagMap implements SafeTagMap {
 		tagList = tagz;
 		
 		for(final Tag<?> tag : tagz) {
-			if(maxTagCode < tag.hashCode()) {
-				maxTagCode = tag.hashCode();
+			if(maxTagCode < tag.index()) {
+				maxTagCode = tag.index();
 			}
 		}
 		tags = new Tag<?>[maxTagCode+1];
@@ -41,7 +41,7 @@ public class FastSafeTagMap implements SafeTagMap {
 		}
 		
 		for(final Tag<?> tag : tagz) {
-			tags[tag.hashCode()] = tag;
+			tags[tag.index()] = tag;
 		}
 		
 	}
@@ -49,13 +49,13 @@ public class FastSafeTagMap implements SafeTagMap {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <V> V get(final Tag<V> tag) {
-		return (V) values[tag.hashCode()];
+		return (V) values[tag.index()];
 	}
 	
 	@Override
 	public <V> void set(final Tag<V> tag, final V value) {
 		if(containsTag(tag)) {
-			values[tag.hashCode()] = value;
+			values[tag.index()] = value;
 		} else {
 			throw new MissiveException("Tag not in map : " + tag.getName());
 		}
@@ -69,10 +69,10 @@ public class FastSafeTagMap implements SafeTagMap {
 			return false;
 		}
 		
-		if(tag.hashCode() > maxTagCode) {
+		if(tag.index() > maxTagCode) {
 			return false;
 		}
-		return tags[tag.hashCode()] != null;
+		return tags[tag.index()] != null;
 	}
 
 	@Override
