@@ -37,9 +37,7 @@ public class TestRawMissive {
 		testRaw.putRaw(CHARACTER, 'c');
 		
 		FastMissive primMissive = new PrimitiveMissive();
-		assertTrue(testRaw.isSupersetOf(primMissive));
-		
-		primMissive = testRaw.cast(primMissive);
+		primMissive = testRaw.castAsSubclass(primMissive);
 		
 		System.out.println(primMissive.toString());
 		

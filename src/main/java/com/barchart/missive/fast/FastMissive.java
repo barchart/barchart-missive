@@ -52,70 +52,29 @@ public class FastMissive extends FastSafeTagMap implements Missive {
 		
 		if(newMaxTagCode > maxTagCode) {
 			tagsByIndex = concat(tagsByIndex, new Tag<?>[newMaxTagCode - maxTagCode + 1]);
-			values = concat(values, new Object[newMaxTagCode - maxTagCode + 1]);
+			indexLookup = concat(indexLookup, new int[newMaxTagCode - maxTagCode + 1]);
 			maxTagCode = newMaxTagCode;
 		}
 		
 		final Set<Tag<?>> tagSet = new HashSet<Tag<?>>(Arrays.asList(concat(tags, tagz)));
 		tags = tagSet.toArray(new Tag<?>[0]);
 		
+		int oldLastValueIndex = values.length-1;
+		final Object[] tempVals = new Object[values.length+1];
+		System.arraycopy(values, 0, tempVals, 0, values.length);
+		values = tempVals;
+		
 		for(final Tag<?> tag : tagz) {
 			tagsByIndex[tag.index()] = tag;
-			values[tag.index()] = null;
+			oldLastValueIndex++;
+			indexLookup[tag.index()] = oldLastValueIndex; 
 		}
 		
-	}
-	
-	/**
-	 * Utility method for building classes which extend this class
-	 * 
-	 * @param newTag
-	 * @param newValue
-	 */
-	protected <V> void put(final Tag<V> newTag, final V newValue) {
-		
-		if(containsTag(newTag)) {
-			set(newTag, newTag.cast(newValue));
-		} else {
-			
-			/* Increase array size */
-			if(newTag.index() > maxTagCode) {
-				maxTagCode = newTag.index();
-				
-				Tag<?>[] tempTags = new Tag<?>[maxTagCode+1];
-				System.arraycopy(tagsByIndex, 0, tempTags, 0, tagsByIndex.length);
-				tagsByIndex = tempTags;
-				
-				Object[] tempVals = new Object[maxTagCode+1];
-				System.arraycopy(values, 0, tempVals, 0, values.length);
-				values = tempVals;
-			}
-			
-			tagsByIndex[newTag.index()] = newTag;
-			values[newTag.index()] = newTag.cast(newValue);
-			
-			Tag<?>[] temp = new Tag<?>[tags.length + 1];
-			System.arraycopy(tags, 0, temp, 0, tags.length);
-			tags = temp;
-			
-			tags[tags.length - 1] = newTag;
-		}
-		
-	}
-	
-	@Override
-	public boolean isSupersetOf(final Missive m) {
-		for(final Tag<?> tag : m.getTags()) {
-			if(!containsTag(tag)) {
-				return false;
-			}
-		}
-		return true;
 	}
 	
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public <M extends Missive> M cast(final M m) {
+	public <M extends Missive> M castAsSubclass(final M m) {
 		for(final Tag tag : m.getTags()) {
 			m.set(tag, get(tag));
 		}

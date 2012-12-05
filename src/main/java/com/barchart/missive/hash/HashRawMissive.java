@@ -17,18 +17,8 @@ public class HashRawMissive extends HashTagMap implements RawMissive {
 	}
 
 	@Override
-	public boolean isSupersetOf(final Missive m) {
-		for(final Tag<?> tag : m.getTags()) {
-			if(!containsTag(tag)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public <M extends Missive> M cast(final M m) {
+	public <M extends Missive> M castAsSubclass(final M m) {
 		for(final Tag tag : m.getTags()) {
 			m.set(tag, get(tag));
 		}

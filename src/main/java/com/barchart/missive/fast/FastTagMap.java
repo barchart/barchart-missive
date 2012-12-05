@@ -18,91 +18,15 @@ public class FastTagMap extends FastSafeTagMap implements TagMap {
 		super(tagz);
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void putRaw(final Tag newTag, final Object newValue) {
-		if(containsTag(newTag)) {
-			set(newTag, newTag.cast(newValue));
-		} else {
-			
-			/* Increase array size */
-			if(newTag.index() >= maxTagCode) {
-				
-				maxTagCode = newTag.index();
-				
-				Tag<?>[] tempTags = new Tag<?>[maxTagCode+1];
-				System.arraycopy(tagsByIndex, 0, tempTags, 0, tagsByIndex.length);
-				tagsByIndex = tempTags;
-				
-				int[] tempIndexes = new int[maxTagCode+1];
-				System.arraycopy(indexLookup, 0, tempIndexes, 0, indexLookup.length);
-				int tempIndex = indexLookup.length;
-				indexLookup = tempIndexes;
-				indexLookup[newTag.index()] = tempIndex;
-				
-				Object[] tempVals = new Object[values.length+1];
-				System.arraycopy(values, 0, tempVals, 0, values.length);
-				values = tempVals;
-				
-			}
-			
-			Tag<?>[] temp = new Tag<?>[tags.length + 1];
-			System.arraycopy(tags, 0, temp, 0, tags.length);
-			tags = temp;
-			
-			Object[] tempValues = new Object[tags.length];
-			System.arraycopy(values, 0, tempValues, 0, values.length);
-			values = tempValues;
-			
-			tagsByIndex[newTag.index()] = newTag;
-			indexLookup[newTag.index()] = values.length-1;
-			values[indexLookup[newTag.index()]] = newTag.cast(newValue);
-			
-			tags[tags.length - 1] = newTag;
-		}
+		super.putRaw(newTag, newValue);
 	}
 	
 	@Override
 	public <V> void put(final Tag<V> newTag, V newValue) {
-		
-		if(containsTag(newTag)) {
-			set(newTag, newValue);
-		} else {
-			
-			/* Increase array size */
-			if(newTag.index() >= maxTagCode) {
-				maxTagCode = newTag.index();
-				
-				Tag<?>[] tempTags = new Tag<?>[maxTagCode+1];
-				System.arraycopy(tagsByIndex, 0, tempTags, 0, tagsByIndex.length);
-				tagsByIndex = tempTags;
-				
-				int[] tempIndexes = new int[maxTagCode+1];
-				System.arraycopy(indexLookup, 0, tempIndexes, 0, indexLookup.length);
-				int tempIndex = indexLookup.length;
-				indexLookup = tempIndexes;
-				indexLookup[newTag.index()] = tempIndex;
-				
-				Object[] tempVals = new Object[values.length+1];
-				System.arraycopy(values, 0, tempVals, 0, values.length);
-				values = tempVals;
-			}
-			
-			Tag<?>[] temp = new Tag<?>[tags.length + 1];
-			System.arraycopy(tags, 0, temp, 0, tags.length);
-			tags = temp;
-			
-			Object[] tempValues = new Object[tags.length];
-			System.arraycopy(values, 0, tempValues, 0, values.length);
-			values = tempValues;
-			
-			tagsByIndex[newTag.index()] = newTag;
-			indexLookup[newTag.index()] = values.length-1;
-			values[indexLookup[newTag.index()]] = newValue;
-			
-			tags[tags.length - 1] = newTag;
-		}
-		
+		super.put(newTag, newValue);
 	}
 	
 	@Override

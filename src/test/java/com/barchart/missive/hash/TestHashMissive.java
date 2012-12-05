@@ -20,9 +20,6 @@ public class TestHashMissive {
 		final Missive m = new HashMissive(TAGS);
 		final Missive mext = new HashMissive(TAGSEXT);
 		
-		/* Test subset */
-		assertTrue(mext.isSupersetOf(m));
-		
 		/* Test cast */
 		
 		
