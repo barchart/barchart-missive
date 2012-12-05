@@ -23,7 +23,7 @@ public class MissiveFactory {
 		
 		final FastMissive toClone = missives.get(m.getClass().getName());
 		
-		return new FastMissive(toClone.tagList, toClone.tags, toClone.maxTagCode);
+		return new FastMissive(toClone.tags, toClone.tagsByIndex, toClone.maxTagCode);
 		
 	}
 	

@@ -13,13 +13,13 @@ import com.barchart.missive.core.SafeTagMap;
  */
 public class FastSafeTagMap implements SafeTagMap {
 	
-	protected Tag<?>[] tagList = new Tag<?>[0];
-	protected Tag<?>[] tags = new Tag<?>[0];
+	protected volatile Tag<?>[] tags = new Tag<?>[0];
+	protected volatile Tag<?>[] tagsByIndex = new Tag<?>[0];
+	protected volatile int[] indexLookup = new int[0];
+	
+	protected volatile int maxTagCode = 0;
+	
 	protected Object[] values = new Object[0];
-	
-	protected int[] indexLookup = new int[0];
-	
-	protected int maxTagCode = 0;
 	
 	protected FastSafeTagMap() {
 		
@@ -27,20 +27,20 @@ public class FastSafeTagMap implements SafeTagMap {
 	
 	public FastSafeTagMap(final Tag<?>[] tagz) {
 		
-		tagList = tagz;
+		tags = tagz;
 		
 		for(final Tag<?> tag : tagz) {
 			if(maxTagCode < tag.index()) {
 				maxTagCode = tag.index();
 			}
 		}
-		tags = new Tag<?>[maxTagCode+1];
+		tagsByIndex = new Tag<?>[maxTagCode+1];
 		values = new Object[tagz.length];
 		indexLookup = new int[maxTagCode+1];
 		
 		int counter = 0;
 		for(final Tag<?> tag : tagz) {
-			tags[tag.index()] = tag;
+			tagsByIndex[tag.index()] = tag;
 			indexLookup[tag.index()] = counter;
 			counter++;
 		}
@@ -72,19 +72,19 @@ public class FastSafeTagMap implements SafeTagMap {
 		if(tag.index() > maxTagCode) {
 			return false;
 		}
-		return tags[tag.index()] != null;
+		return tagsByIndex[tag.index()] != null;
 	}
 
 	@Override
 	public Tag<?>[] getTags() {
-		final Tag<?>[] copy = new Tag<?>[tagList.length];
-		System.arraycopy(tagList, 0, copy, 0, tagList.length);
+		final Tag<?>[] copy = new Tag<?>[tags.length];
+		System.arraycopy(tags, 0, copy, 0, tags.length);
 		return copy;
 	}
 	
 	@Override
 	public int size() {
-		return tagList.length;
+		return tags.length;
 	}
 	
 	protected static <T> T[] concat(T[] first, T[] second) {

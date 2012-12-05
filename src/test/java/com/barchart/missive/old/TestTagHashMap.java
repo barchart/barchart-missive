@@ -4,7 +4,6 @@ import java.lang.instrument.Instrumentation;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +13,7 @@ import com.barchart.missive.fast.FastTagMap;
 
 public class TestTagHashMap {
 
-	protected final Logger log = LoggerFactory.getLogger(getClass());
+	protected static final Logger log = LoggerFactory.getLogger(TestTagHashMap.class);
 
 	static Instrumentation instrumentation;
 
@@ -23,8 +22,7 @@ public class TestTagHashMap {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Test
-	public void test() {
+	public static void main(final String[] args) {
 
 		final int mapSize = 100;
 		final int testGetSize = 10 * 1000 * 1000;
