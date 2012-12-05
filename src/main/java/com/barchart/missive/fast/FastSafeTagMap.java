@@ -17,6 +17,8 @@ public class FastSafeTagMap implements SafeTagMap {
 	protected Tag<?>[] tags = new Tag<?>[0];
 	protected Object[] values = new Object[0];
 	
+	protected int[] indexLookup = new int[0];
+	
 	protected int maxTagCode = 0;
 	
 	protected FastSafeTagMap() {
@@ -33,15 +35,14 @@ public class FastSafeTagMap implements SafeTagMap {
 			}
 		}
 		tags = new Tag<?>[maxTagCode+1];
-		values = new Object[maxTagCode+1];
+		values = new Object[tagz.length];
+		indexLookup = new int[maxTagCode+1];
 		
-		for(int i = 0; i < maxTagCode+1; i++) {
-			values[i] = null;
-			tags[i] = null;
-		}
-		
+		int counter = 0;
 		for(final Tag<?> tag : tagz) {
 			tags[tag.index()] = tag;
+			indexLookup[tag.index()] = counter;
+			counter++;
 		}
 		
 	}
@@ -49,13 +50,13 @@ public class FastSafeTagMap implements SafeTagMap {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <V> V get(final Tag<V> tag) {
-		return (V) values[tag.index()];
+		return (V) values[indexLookup[tag.index()]];
 	}
 	
 	@Override
 	public <V> void set(final Tag<V> tag, final V value) {
 		if(containsTag(tag)) {
-			values[tag.index()] = value;
+			values[indexLookup[tag.index()]] = value;
 		} else {
 			throw new MissiveException("Tag not in map : " + tag.getName());
 		}
@@ -63,7 +64,6 @@ public class FastSafeTagMap implements SafeTagMap {
 	
 	@Override
 	public boolean containsTag(final Tag<?> tag) {
-		//TODO need to add book keeping for first and last tag (???)
 		
 		if(maxTagCode == 0) {
 			return false;

@@ -17,8 +17,4 @@ public interface TagMap extends SafeTagMap {
 	@SuppressWarnings("rawtypes")
 	public Object remove(Tag tag);
 	
-	public TagMap extend(final Tag<?>[] tags);
-	
-	public SafeTagMap createInstance();
-	
 }

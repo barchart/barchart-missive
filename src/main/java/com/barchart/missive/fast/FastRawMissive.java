@@ -13,7 +13,7 @@ import com.barchart.missive.core.RawMissive;
 public class FastRawMissive extends FastTagMap implements RawMissive {
 
 	@Override
-	public boolean isSubsetOf(Missive m) {
+	public boolean isSupersetOf(Missive m) {
 		for(final Tag<?> tag : m.getTags()) {
 			if(!containsTag(tag)) {
 				return false;

@@ -1,6 +1,6 @@
 package com.barchart.missive.spec;
 
-import static com.barchart.missive.spec.TestSpec.EXTEND;
+import static com.barchart.missive.TestSpec.EXTEND;
 
 import com.barchart.missive.Tag;
 

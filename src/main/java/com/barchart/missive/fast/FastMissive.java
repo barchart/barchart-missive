@@ -104,7 +104,7 @@ public class FastMissive extends FastSafeTagMap implements Missive {
 	}
 	
 	@Override
-	public boolean isSubsetOf(final Missive m) {
+	public boolean isSupersetOf(final Missive m) {
 		for(final Tag<?> tag : m.getTags()) {
 			if(!containsTag(tag)) {
 				return false;

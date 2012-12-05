@@ -16,7 +16,7 @@ public class HashMissive extends HashSafeTagMap implements Missive {
 	}
 
 	@Override
-	public boolean isSubsetOf(final Missive m) {
+	public boolean isSupersetOf(final Missive m) {
 		
 		for(final Tag<?> tag : m.getTags()) {
 			if(!containsTag(tag)) {

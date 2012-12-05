@@ -47,11 +47,11 @@ public class TestTagHashMap {
 		}
 
 		/* Test our map */
-		long start = System.nanoTime();
+		long start = System.currentTimeMillis();
 		for (int i = 0; i < testGetSize; i++) {
 			testMap.get(tags[i % mapSize]);
 		}
-		log.info("test our-impl = {}", System.nanoTime() - start);
+		log.info("test fast-impl = {}", System.currentTimeMillis() - start);
 
 		/* Build java hashmap version */
 		final Map<Tag<?>, Object> testJavaMap = new HashMap<Tag<?>, Object>();
@@ -65,11 +65,11 @@ public class TestTagHashMap {
 		}
 
 		/* Test java map */
-		start = System.nanoTime();
+		start = System.currentTimeMillis();
 		for (int i = 0; i < testGetSize; i++) {
 			testJavaMap.get(tags[i % mapSize]);
 		}
-		log.info("test java-hash = {}", (System.nanoTime() - start));
+		log.info("test java-hash = {}", (System.currentTimeMillis() - start));
 
 	}
 }
