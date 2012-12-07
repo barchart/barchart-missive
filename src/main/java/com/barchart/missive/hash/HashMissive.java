@@ -14,6 +14,12 @@ public class HashMissive extends HashSafeTagMap implements Missive {
 	public HashMissive(Tag<?>[] tags) {
 		super(tags);
 	}
+	
+	@Override
+	public <M extends Missive> boolean isCastableTo(M m) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })

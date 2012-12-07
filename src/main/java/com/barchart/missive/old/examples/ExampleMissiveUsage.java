@@ -4,7 +4,6 @@ import static com.barchart.missive.old.examples.FixSpec.*;
 
 import com.barchart.missive.Tag;
 import com.barchart.missive.old.OldMissive;
-import com.barchart.missive.old.Raw;
 import com.barchart.missive.old.examples.FixSpec.OrderType;
 import com.barchart.missive.old.examples.missives.AccountInfoMessage;
 import com.barchart.missive.old.examples.missives.FIXMessage;
@@ -56,49 +55,49 @@ public class ExampleMissiveUsage {
 		System.out.println();
 		
 		/* Raw and Missive type examples */
-		Raw raw = new Raw();
-		
-		raw.put(MsgSeqNum, 111);
-		raw.put(MsgType, "Example");
-		raw.put(SendingTime, "Now");
-		raw.put(AccountName, "SuperTrader");
-		raw.put(AccountID, 1100110011);
-		raw.put(AccountEnabled, true);
-		raw.put(OrderID, "Order1");
-		raw.put(Side, 'B');
-		raw.put(OrderQty, 10.0);
-		raw.put(OrderPrice, 99.95);
-		raw.put(FillQty, 10);
-		raw.put(FillPrice, 99.89);
-		raw.put(Symbol, "GOOG");
-		raw.put(Exchange, "CME");
-		raw.put(MaturityDate, "December");
-		raw.put(OrdType, OrderType.LIMIT);
-		
-		FIXMessage fix = new FIXMessage();
-		if(raw.satisfies(fix)) {
-			updateMsgSeqTracker(raw.as(fix));
-		}
-		
-		AccountInfoMessage account = new AccountInfoMessage();
-		if(raw.satisfies(account)) {
-			storeAccountInfo(raw.as(account));
-		}
-		
-		OrderRequest order = new OrderRequest();
-		if(raw.satisfies(order)) {
-			updateOrderHistory(raw.as(order));
-		}
-		
-		Instrument inst = new Instrument();
-		if(raw.satisfies(inst)) {
-			storeInstrumentInfo(raw.as(inst));
-		}
-		
-		Fill fill = new Fill();
-		if(raw.satisfies(fill)) {
-			processFill(raw.as(fill));
-		}
+//		Raw raw = new Raw();
+//		
+//		raw.put(MsgSeqNum, 111);
+//		raw.put(MsgType, "Example");
+//		raw.put(SendingTime, "Now");
+//		raw.put(AccountName, "SuperTrader");
+//		raw.put(AccountID, 1100110011);
+//		raw.put(AccountEnabled, true);
+//		raw.put(OrderID, "Order1");
+//		raw.put(Side, 'B');
+//		raw.put(OrderQty, 10.0);
+//		raw.put(OrderPrice, 99.95);
+//		raw.put(FillQty, 10);
+//		raw.put(FillPrice, 99.89);
+//		raw.put(Symbol, "GOOG");
+//		raw.put(Exchange, "CME");
+//		raw.put(MaturityDate, "December");
+//		raw.put(OrdType, OrderType.LIMIT);
+//		
+//		FIXMessage fix = new FIXMessage();
+//		if(raw.satisfies(fix)) {
+//			updateMsgSeqTracker(raw.as(fix));
+//		}
+//		
+//		AccountInfoMessage account = new AccountInfoMessage();
+//		if(raw.satisfies(account)) {
+//			storeAccountInfo(raw.as(account));
+//		}
+//		
+//		OrderRequest order = new OrderRequest();
+//		if(raw.satisfies(order)) {
+//			updateOrderHistory(raw.as(order));
+//		}
+//		
+//		Instrument inst = new Instrument();
+//		if(raw.satisfies(inst)) {
+//			storeInstrumentInfo(raw.as(inst));
+//		}
+//		
+//		Fill fill = new Fill();
+//		if(raw.satisfies(fill)) {
+//			processFill(raw.as(fill));
+//		}
 		
 	}
 	

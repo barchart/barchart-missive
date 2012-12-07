@@ -17,4 +17,6 @@ public interface TagMap extends SafeTagMap {
 	@SuppressWarnings("rawtypes")
 	public Object remove(Tag tag);
 	
+	public boolean isSupersetOf(SafeTagMap map);
+	
 }

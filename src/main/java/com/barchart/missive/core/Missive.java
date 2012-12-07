@@ -13,6 +13,8 @@ package com.barchart.missive.core;
  */
 public interface Missive extends SafeTagMap {
 
+	public <M extends Missive> boolean isCastableTo(M m);
+	
 	/**
 	 * If M is a subclass of the current missive, and the missive has the required extra 
 	 * fields, then this method will return m with the appropriate value fields visible.  

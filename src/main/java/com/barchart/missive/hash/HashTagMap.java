@@ -1,6 +1,7 @@
 package com.barchart.missive.hash;
 
 import com.barchart.missive.Tag;
+import com.barchart.missive.core.SafeTagMap;
 import com.barchart.missive.core.TagMap;
 
 /**
@@ -31,6 +32,12 @@ public class HashTagMap extends HashSafeTagMap implements TagMap {
 	@Override
 	public Object remove(final Tag tag) {
 		return map.remove(tag);
+	}
+
+	@Override
+	public boolean isSupersetOf(SafeTagMap map) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

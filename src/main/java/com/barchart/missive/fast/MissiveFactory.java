@@ -1,29 +1,35 @@
 package com.barchart.missive.fast;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import com.barchart.missive.core.Missive;
+import com.barchart.missive.core.TagMap;
 
-/**
- * 
- * @author Gavin M Litchfield
- *
- */
 public class MissiveFactory {
-
-	private static final Map<String, FastMissive> missives = FastMissive.missives;
 	
-	protected void put(final FastMissive m) {
+	private static final Map<String, Missive> missives = new HashMap<String, Missive>();
+	
+	protected static void put(final Missive m) {
 		
 		missives.put(m.getClass().getName(), m);
 		
 	}
 	
-	public static Missive make(final FastMissive m) {
+	/**
+	 * Returns a missive of the type
+	 * 
+	 * @param m
+	 * @param map
+	 * @return
+	 */
+	public static Missive make(final Missive m, final TagMap map) {
 		
-		final FastMissive toClone = missives.get(m.getClass().getName());
+		final Missive toClone = missives.get(m.getClass().getName());
 		
-		return new FastMissive(toClone.tags, toClone.tagsByIndex, toClone.maxTagCode);
+		// Just populate the missive passed in?  
+		
+		return new Missive(toClone.visibleTags, toClone.visTagsByIndex, 
+				toClone.maxTagCode, toClone.map);
 		
 	}
 	

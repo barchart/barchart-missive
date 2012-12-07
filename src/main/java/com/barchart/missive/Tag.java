@@ -122,6 +122,10 @@ public class Tag<V> {
 		return index;
 	}
 	
+	public static int maxIndex() {
+		return counter.get();
+	}
+	
 	@Override
 	public String toString() {
 		return name;
