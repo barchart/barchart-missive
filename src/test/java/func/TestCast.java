@@ -34,6 +34,7 @@ public class TestCast {
 			System.out.println(System.currentTimeMillis() - start);
 			
 		}
+		
 	}
 
 	public static void visit(final ParentMissive m) {
