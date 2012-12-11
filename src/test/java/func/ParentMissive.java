@@ -2,7 +2,7 @@ package func;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.barchart.missive.Tag;
+import com.barchart.missive.core.Tag;
 import com.barchart.missive.fast.Missive;
 
 public class ParentMissive extends Missive {

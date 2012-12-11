@@ -2,7 +2,7 @@ package com.barchart.missive.old.examples;
 
 import static com.barchart.missive.old.examples.FixSpec.*;
 
-import com.barchart.missive.Tag;
+import com.barchart.missive.core.Tag;
 import com.barchart.missive.old.OldMissive;
 import com.barchart.missive.old.examples.FixSpec.OrderType;
 import com.barchart.missive.old.examples.missives.AccountInfoMessage;

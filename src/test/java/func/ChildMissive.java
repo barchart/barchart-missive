@@ -1,12 +1,12 @@
 package func;
 
-import com.barchart.missive.Tag;
-import com.barchart.missive.fast.ObjectPool;
+import com.barchart.missive.core.Tag;
+import com.barchart.missive.fast.MissivePool;
 
 public class ChildMissive extends ParentMissive {
 	
-	public static final ObjectPool<ChildMissive> tpool =
-			new ObjectPool<ChildMissive>(10000){};
+	public static final MissivePool<ChildMissive> tpool =
+			new MissivePool<ChildMissive>(100){};
 	
 	public static ChildMissive next() {
 		return tpool.next();

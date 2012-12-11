@@ -1,6 +1,5 @@
 package com.barchart.missive.core;
 
-import com.barchart.missive.Tag;
 
 /**
  * 

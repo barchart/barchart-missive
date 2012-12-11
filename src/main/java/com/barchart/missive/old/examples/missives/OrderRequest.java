@@ -2,7 +2,7 @@ package com.barchart.missive.old.examples.missives;
 
 import static com.barchart.missive.old.examples.FixSpec.*;
 
-import com.barchart.missive.Tag;
+import com.barchart.missive.core.Tag;
 
 public class OrderRequest extends FIXMessage {
 

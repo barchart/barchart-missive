@@ -1,7 +1,7 @@
 package com.barchart.missive.hash;
 
-import com.barchart.missive.Tag;
 import com.barchart.missive.core.Missive;
+import com.barchart.missive.core.Tag;
 
 /**
  * A Java Collections hash map backed implementation.

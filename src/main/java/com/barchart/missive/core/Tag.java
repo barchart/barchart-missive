@@ -1,4 +1,4 @@
-package com.barchart.missive;
+package com.barchart.missive.core;
 
 import java.util.Collection;
 import java.util.HashSet;

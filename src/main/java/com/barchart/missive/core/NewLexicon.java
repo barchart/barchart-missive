@@ -1,4 +1,4 @@
-package com.barchart.missive;
+package com.barchart.missive.core;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;

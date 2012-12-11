@@ -1,7 +1,7 @@
 package com.barchart.missive.hash;
 
-import com.barchart.missive.Tag;
 import com.barchart.missive.core.SafeTagMap;
+import com.barchart.missive.core.Tag;
 import com.barchart.missive.core.TagMap;
 
 /**

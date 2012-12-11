@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.barchart.missive.Tag;
+import com.barchart.missive.core.Tag;
 
 public class TestLexicon {
 	

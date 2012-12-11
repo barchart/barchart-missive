@@ -2,9 +2,9 @@ package com.barchart.missive.fast;
 
 import java.util.Arrays;
 
-import com.barchart.missive.MissiveException;
-import com.barchart.missive.Tag;
+import com.barchart.missive.core.MissiveException;
 import com.barchart.missive.core.SafeTagMap;
+import com.barchart.missive.core.Tag;
 
 /**
  * 
@@ -83,9 +83,9 @@ public class FastSafeTagMap implements SafeTagMap {
 	}
 	
 	protected static <T> T[] concat(T[] first, T[] second) {
-		  T[] result = Arrays.copyOf(first, first.length + second.length);
-		  System.arraycopy(second, 0, result, first.length, second.length);
-		  return result;
+		T[] result = Arrays.copyOf(first, first.length + second.length);
+		System.arraycopy(second, 0, result, first.length, second.length);
+		return result;
 	}
 	
 }

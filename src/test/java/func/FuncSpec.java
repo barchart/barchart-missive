@@ -1,6 +1,6 @@
 package func;
 
-import com.barchart.missive.Tag;
+import com.barchart.missive.core.Tag;
 
 public class FuncSpec {
 

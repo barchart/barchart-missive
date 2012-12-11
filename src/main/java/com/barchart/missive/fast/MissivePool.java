@@ -3,26 +3,28 @@ package com.barchart.missive.fast;
 import java.lang.reflect.Array;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class ObjectPool<V> {
+public abstract class MissivePool<M extends Missive> {
 
 	private static final int DEFAULT_SIZE = 50;
 	private final int size;
 	
-	private V[] pool;
+	private M[] pool;
+	private AtomicBoolean[] usePool; // Make simple wrapper class
 	private final AtomicInteger counter = new AtomicInteger(0);
 	
-	public ObjectPool() {
+	public MissivePool() {
 		size = DEFAULT_SIZE;
 		build();
 	}
 	
-	public ObjectPool(final int size) {
+	public MissivePool(final int size) {
 		this.size = size;
 		build();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private void build() {
 		
@@ -30,23 +32,34 @@ public abstract class ObjectPool<V> {
 				.getGenericSuperclass();
 		final Type[] typeArgs = type.getActualTypeArguments();
 		
-		final Class<V> valueClass = (Class<V>) typeArgs[0];
+		final Class<M> misClass = (Class<M>) typeArgs[0];
 		
-		pool = (V[])Array.newInstance(valueClass, size);
+		try {
+			misClass.newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Failed to instantiate " + misClass.getName());
+		}
+		
+		pool = (M[])Array.newInstance(misClass, size);
+		usePool = new AtomicBoolean[size];
 		
 		for(int i = 0; i < size; i++) {
-			try { // Needs some work
-				pool[i] = valueClass.newInstance(); // Generic constructor
-			} catch (InstantiationException | IllegalAccessException e) {
-				e.printStackTrace();
-			} 
+			final M m = misClass.cast(Missive.make(misClass));
+			pool[i] = (M) m;
+			usePool[i] = pool[i].inUse; 
 		}
+		
 	}
 	
-	public V next() {
+	public M next() {
+		
 		if(counter.get() == size) {
 			counter.set(0);
 		}
+		
+		// Check if in use
+		
 		return pool[counter.getAndIncrement()];
 	}
 	

@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.barchart.missive.MissiveException;
-import com.barchart.missive.Tag;
+import com.barchart.missive.core.MissiveException;
 import com.barchart.missive.core.SafeTagMap;
+import com.barchart.missive.core.Tag;
 
 /**
  * A Java Collections hash map backed implementation.

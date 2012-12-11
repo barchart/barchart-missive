@@ -1,19 +1,30 @@
 package com.barchart.missive.fast;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.barchart.missive.MissiveException;
-import com.barchart.missive.Tag;
+import com.barchart.missive.core.MissiveException;
+import com.barchart.missive.core.Tag;
 import com.barchart.missive.core.TagMap;
 
-public class Missive {
+/**
+ * 
+ * @author Gavin M Litchfield
+ *
+ */
+public abstract class Missive {
 	
-	protected volatile Tag<?>[] visibleTags = new Tag<?>[0];
+	private static final Map<Class<?>, Missive> missives = new HashMap<Class<?>, Missive>();
+	
+	protected volatile Tag<?>[] visTags = new Tag<?>[0];
 	protected volatile Tag<?>[] visTagsByIndex = new Tag<?>[0];
 	
 	protected volatile int maxTagCode = 0;
 	
 	protected TagMap map = new FastTagMap();
+	protected final AtomicBoolean inUse = new AtomicBoolean(false);
 	
 	protected Missive() {
 		
@@ -26,7 +37,7 @@ public class Missive {
 	 */
 	protected Missive(final Tag<?>[] tags) {
 		
-		visibleTags = tags; // Make copy?
+		visTags = tags; // Make copy?
 		
 		for(final Tag<?> tag : tags) {
 			if(maxTagCode < tag.index()) {
@@ -40,24 +51,34 @@ public class Missive {
 			visTagsByIndex[tag.index()] = tag;
 		}
 		
-		MissiveFactory.put(this);
-		
+		missives.put(this.getClass(), this);
 	}
 	
 	/**
-	 * Constructor used by MissiveFactory
+	 * Create a new instance of missive reusing keys via flyweight pattern.
 	 * 
-	 * @param visibleTags
-	 * @param visTagsByIndex
-	 * @param maxTagCode
-	 * @param map
+	 * @return
 	 */
-	Missive(final Tag<?>[] visibleTags, final Tag<?>[] visTagsByIndex, 
-			final int maxTagCode, final TagMap map) {
-		this.visibleTags = visibleTags;
-		this.visTagsByIndex = visTagsByIndex;
-		this.maxTagCode = maxTagCode;
-		this.map = map;
+	public static <M extends Missive> M make(final Class<M> m) {
+		
+		try {
+			
+			final Missive template = missives.get(m);
+			
+			M newM = m.newInstance();
+			newM.visTags = template.visTags;
+			newM.visTagsByIndex = template.visTagsByIndex;
+			newM.maxTagCode = template.maxTagCode;
+			newM.map = template.map;
+			
+			return newM;
+			
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
+		throw new RuntimeException("Failed to make " + m.getName());
+				
 	}
 	
 	/**
@@ -83,7 +104,8 @@ public class Missive {
 			visTagsByIndex[tag.index()] = tag;
 		}
 		
-		visibleTags = concat(visibleTags, tags);
+		visTags = concat(visTags, tags);
+		
 	}
 	
 	public <V> V get(final Tag<V> tag) {
@@ -104,15 +126,16 @@ public class Missive {
 		// check if good to cast
 		m.map = map;
 		
+		inUse.set(false);
 		return m;
 	}
 	
-	public Tag<?>[] getViaibleTags() {
-		return visibleTags;  // Make Copy
+	public Tag<?>[] getVisibleTags() {
+		return visTags;  // Make Copy
 	}
 	
 	public int size() {
-		return visibleTags.length;
+		return visTags.length;
 	}
 	
 	protected static <T> T[] concat(T[] first, T[] second) {

@@ -1,6 +1,6 @@
 package com.barchart.missive;
 
-import com.barchart.missive.Tag;
+import com.barchart.missive.core.Tag;
 
 public final class TestSpec {
 	

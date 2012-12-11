@@ -7,7 +7,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.barchart.missive.Tag;
+import com.barchart.missive.core.Tag;
 import com.barchart.missive.core.TagMap;
 import com.barchart.missive.fast.FastTagMap;
 

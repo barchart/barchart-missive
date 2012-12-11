@@ -1,4 +1,4 @@
-package com.barchart.missive;
+package com.barchart.missive.core;
 
 /**
  * 

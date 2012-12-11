@@ -1,7 +1,7 @@
 package com.barchart.missive.fast;
 
-import com.barchart.missive.Tag;
 import com.barchart.missive.core.SafeTagMap;
+import com.barchart.missive.core.Tag;
 import com.barchart.missive.core.TagMap;
 
 /**
@@ -27,6 +27,7 @@ public class FastTagMap extends FastSafeTagMap implements TagMap {
 	
 	@Override
 	public <V> void put(final Tag<V> newTag, V newValue) {
+		
 		if(containsTag(newTag)) {
 			set(newTag, newValue);
 		} else {
