@@ -36,7 +36,9 @@ public abstract class MissivePool<M extends Missive> {
 		
 		try {
 			misClass.newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
+		} catch (InstantiationException ie) {
+			ie.printStackTrace();
+		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Failed to instantiate " + misClass.getName());
 		}
