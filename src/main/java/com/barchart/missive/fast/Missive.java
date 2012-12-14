@@ -73,7 +73,9 @@ public abstract class Missive {
 			
 			return newM;
 			
-		} catch (InstantiationException | IllegalAccessException e) {
+		} catch (InstantiationException ie) {
+			ie.printStackTrace();
+		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
 		

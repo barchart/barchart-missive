@@ -1,5 +1,8 @@
 package func;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
+
 public class Test {
 
 	public static void main(final String[] args) {
@@ -17,27 +20,29 @@ public class Test {
 //		}
 //		System.out.println(System.currentTimeMillis() - start);
 		
+		ThreadMXBean mxbean = ManagementFactory.getThreadMXBean();
+		
 		/* Warmup */
 		for(int i = 0; i < testSize; i++) {
 			ParentMissive x = ParentMissive.next();
 		}
 		
-		long start = System.currentTimeMillis();
+		long start = mxbean.getCurrentThreadCpuTime();
 		for(int i = 0; i < testSize; i++) {
 			ParentMissive x = ParentMissive.next();
 		}
-		System.out.println(System.currentTimeMillis() - start);
+		System.out.println(mxbean.getCurrentThreadCpuTime() - start);
 		
 		/* Warmup */
 		for(int i = 0; i < testSize; i++) {
 			ChildMissive x = ChildMissive.next();
 		}
 		
-		start = System.currentTimeMillis();
+		start = mxbean.getCurrentThreadCpuTime();
 		for(int i = 0; i < testSize; i++) {
 			ChildMissive x = ChildMissive.next();
 		}
-		System.out.println(System.currentTimeMillis() - start);
+		System.out.println(mxbean.getCurrentThreadCpuTime() - start);
 	}
 	
 }
