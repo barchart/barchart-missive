@@ -1,15 +1,15 @@
-package com.barchart.missive.old.examples;
+package legacy.example;
 
-import static com.barchart.missive.old.examples.FixSpec.*;
+import static legacy.example.FixSpec.*;
+import legacy.OldMissive;
+import legacy.example.FixSpec.OrderType;
+import legacy.missive.AccountInfoMessage;
+import legacy.missive.FIXMessage;
+import legacy.missive.Fill;
+import legacy.missive.Instrument;
+import legacy.missive.OrderRequest;
 
 import com.barchart.missive.core.Tag;
-import com.barchart.missive.old.OldMissive;
-import com.barchart.missive.old.examples.FixSpec.OrderType;
-import com.barchart.missive.old.examples.missives.AccountInfoMessage;
-import com.barchart.missive.old.examples.missives.FIXMessage;
-import com.barchart.missive.old.examples.missives.Fill;
-import com.barchart.missive.old.examples.missives.Instrument;
-import com.barchart.missive.old.examples.missives.OrderRequest;
 
 public class ExampleMissiveUsage {
 

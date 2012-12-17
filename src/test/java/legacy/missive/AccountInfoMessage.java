@@ -1,6 +1,6 @@
-package com.barchart.missive.old.examples.missives;
+package legacy.missive;
 
-import static com.barchart.missive.old.examples.FixSpec.*;
+import static legacy.example.FixSpec.*;
 
 import com.barchart.missive.core.Tag;
 

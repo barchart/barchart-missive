@@ -1,9 +1,9 @@
-package com.barchart.missive.old.examples.missives;
+package legacy.missive;
 
-import static com.barchart.missive.old.examples.FixSpec.*;
+import static legacy.example.FixSpec.*;
+import legacy.OldMissive;
 
 import com.barchart.missive.core.Tag;
-import com.barchart.missive.old.OldMissive;
 
 public class FIXMessage extends OldMissive {
 	
