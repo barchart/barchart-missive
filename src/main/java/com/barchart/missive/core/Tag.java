@@ -12,15 +12,21 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 
  * @author Gavin M Litchfield
- *
- * @param <V> The class type of the value this tag represents.
+ * 
+ * @param <V>
+ *            The class type of the value this tag represents.
  * 
  */
 public class Tag<V> {
-	
+
+	protected static final Logger log = LoggerFactory.getLogger(Tag.class);
+
 	private static final Set<Class<?>> primitives = new HashSet<Class<?>>();
 	static {
 		primitives.add(Byte.class);
@@ -32,142 +38,146 @@ public class Tag<V> {
 		primitives.add(Boolean.class);
 		primitives.add(Character.class);
 	}
-	
+
 	private static AtomicInteger counter = new AtomicInteger(0);
-	
+
 	private final String name;
 	private final Class<V> clazz;
-	
+
 	private final int index;
-	
+
 	private final String className;
 	private final int hashCode;
-	
-	
+
 	private final boolean isPrim;
 	private final boolean isComplex;
 	private final boolean isEnum;
-	
+
 	public Tag(final String name, final Class<V> clazz) {
 		this.name = name;
 		this.clazz = clazz;
-		
+
 		index = counter.getAndIncrement();
-		
+
 		className = this.getClass().getName();
 		hashCode = className.hashCode();
-		
+
 		isPrim = primitives.contains(clazz);
 		isEnum = clazz.isEnum();
-		
-		if(clazz.isArray()) {
+
+		if (clazz.isArray()) {
 			isComplex = true;
-		} else if(clazz.isAssignableFrom(Collection.class)) {
+		} else if (clazz.isAssignableFrom(Collection.class)) {
 			isComplex = true;
-		}	else {
+		} else {
 			isComplex = false;
 		}
 	}
-	
+
 	public static <V> Tag<V> create(final String name, final Class<V> clazz) {
 		return new Tag<V>(name, clazz);
 	}
-	
+
 	public final String getName() {
 		return name;
 	}
-	
+
 	public Class<V> getClazz() {
 		return clazz;
 	}
-	
+
 	public final boolean isPrimitive() {
 		return isPrim;
 	}
-	
+
 	public final boolean isComplex() {
 		return isComplex;
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public V cast(final Object o) throws MissiveException {
 		try {
-			
+
 			/* If the class is enum and object is string, attempt a valueOf */
-			if(isEnum && o instanceof String) {
-				
+			if (isEnum && o instanceof String) {
+
 				final Class<? extends Enum> crazz = (Class<? extends Enum>) clazz;
 				return (V) Enum.valueOf(crazz, (String) o);
-			
-			/* If class is primitive and object is string, attempt to parse */
-			} else if(isPrim && o instanceof String) {
-				
+
+				/* If class is primitive and object is string, attempt to parse */
+			} else if (isPrim && o instanceof String) {
+
 				return (V) parsePrimitiveFromString(clazz, (String) o);
-				
+
 			} else {
-			
+
 				try {
 					/* Attempt a normal cast */
 					return clazz.cast(o);
-				} catch(final ClassCastException e) {
-					/* Last ditch, attempt to find constructor which accepts object o */
+				} catch (final ClassCastException e) {
+					/*
+					 * Last ditch, attempt to find constructor which accepts
+					 * object o
+					 */
 					return clazz.getConstructor(o.getClass()).newInstance(o);
 				}
 			}
-			
-		} catch(final Exception e) {
-			
-			//TODO Remove sysout and stacktrace
-			System.out.println("Failed to cast object in tag " + name + " " + o.toString());
+
+		} catch (final Exception e) {
+
+			// TODO Remove sysout and stacktrace
+			log.info("Failed to cast object in tag " + name + " "
+					+ o.toString());
 			e.printStackTrace();
 			throw new MissiveException("Failed to cast object in tag " + name);
-			
+
 		}
 	}
 
 	public int index() {
 		return index;
 	}
-	
+
 	public static int maxIndex() {
 		return counter.get();
 	}
-	
+
 	@Override
 	public String toString() {
 		return name;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return hashCode;
 	}
 
-	private static Object parsePrimitiveFromString(final Class<?> clazz, final String value) {
-		
-		if(clazz == Byte.class) {
+	private static Object parsePrimitiveFromString(final Class<?> clazz,
+			final String value) {
+
+		if (clazz == Byte.class) {
 			return Byte.parseByte(value);
-		} else if(clazz == Short.class) {
+		} else if (clazz == Short.class) {
 			return Short.parseShort(value);
-		} else if(clazz == Integer.class) {
+		} else if (clazz == Integer.class) {
 			return Integer.parseInt(value);
-		} else if(clazz == Long.class) {
+		} else if (clazz == Long.class) {
 			return Long.parseLong(value);
-		} else if(clazz == Float.class) {
+		} else if (clazz == Float.class) {
 			return Float.parseFloat(value);
-		} else if(clazz == Double.class) {
+		} else if (clazz == Double.class) {
 			return Double.parseDouble(value);
-		} else if(clazz == Boolean.class) {
-			return new Boolean(value.equalsIgnoreCase("true") ||
-					value.equalsIgnoreCase("Y"));
-		//May want to enforce string length = 1
-		} else if(clazz == Character.class) {
+		} else if (clazz == Boolean.class) {
+			return new Boolean(value.equalsIgnoreCase("true")
+					|| value.equalsIgnoreCase("Y"));
+			// May want to enforce string length = 1
+		} else if (clazz == Character.class) {
 			return new Character(value.charAt(0));
 		} else {
-			throw new MissiveException("Attempted to parse bad class type " + 
-					clazz.getCanonicalName());
+			throw new MissiveException("Attempted to parse bad class type "
+					+ clazz.getCanonicalName());
 		}
-		
+
 	}
-	
+
 }

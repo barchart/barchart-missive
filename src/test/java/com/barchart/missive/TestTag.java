@@ -7,53 +7,63 @@
  */
 package com.barchart.missive;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.barchart.missive.core.Tag;
 
 /**
  * 
  * @author Gavin M Litchfield
- *
+ * 
  */
 public class TestTag {
+
+	protected static final Logger log = LoggerFactory.getLogger(TestTag.class);
 
 	private enum TestEnum {
 		T1, T2
 	};
-	
-	//TODO Make into unit test
+
+	// TODO Make into unit test
 	public static void main(final String[] args) {
-		
-		Tag<TestEnum> TestEnum = new Tag<TestEnum>("TestEag", TestEnum.class);
-		
-		Tag<Byte> TestByte = new Tag<Byte>("TestByte", Byte.class);
-		Tag<Short> TestShort = new Tag<Short>("TestShort", Short.class);
-		Tag<Integer> TestInteger = new Tag<Integer>("TestInteger", Integer.class);
-		Tag<Long> TestLong = new Tag<Long>("TestLong", Long.class);
-		Tag<Float> TestFloat = new Tag<Float>("TestFloat", Float.class);
-		Tag<Double> TestDouble = new Tag<Double>("TestDouble", Double.class);
-		Tag<Boolean> TestBoolean = new Tag<Boolean>("TestBoolean", Boolean.class);
-		Tag<Character> TestCharacter = new Tag<Character>("TestCharacter", Character.class);
-		
-		//Test casting from String
-		System.out.println(TestEnum.cast("T1").name());
-		
-		System.out.println(TestByte.cast("1").toString());
-		System.out.println(TestShort.cast("2").toString());
-		System.out.println(TestInteger.cast("3").toString());
-		System.out.println(TestLong.cast("4").toString());
-		System.out.println(TestFloat.cast("1.1").toString());
-		System.out.println(TestDouble.cast("2.2").toString());
-		System.out.println(TestCharacter.cast("X").toString());
-		
-		System.out.println(TestBoolean.cast("true").toString());
-		System.out.println(TestBoolean.cast("Y").toString());
-		System.out.println(TestBoolean.cast("y").toString());
-		System.out.println(TestBoolean.cast("True").toString());
-		
-		System.out.println(TestInteger.cast(1).toString());
-		System.out.println(TestDouble.cast(0.0).toString());
-		System.out.println(TestBoolean.cast(true).toString());
-		
+
+		final Tag<TestEnum> TestEnum = new Tag<TestEnum>("TestEag",
+				TestEnum.class);
+
+		final Tag<Byte> TestByte = new Tag<Byte>("TestByte", Byte.class);
+		final Tag<Short> TestShort = new Tag<Short>("TestShort", Short.class);
+		final Tag<Integer> TestInteger = new Tag<Integer>("TestInteger",
+				Integer.class);
+		final Tag<Long> TestLong = new Tag<Long>("TestLong", Long.class);
+		final Tag<Float> TestFloat = new Tag<Float>("TestFloat", Float.class);
+		final Tag<Double> TestDouble = new Tag<Double>("TestDouble",
+				Double.class);
+		final Tag<Boolean> TestBoolean = new Tag<Boolean>("TestBoolean",
+				Boolean.class);
+		final Tag<Character> TestCharacter = new Tag<Character>(
+				"TestCharacter", Character.class);
+
+		// Test casting from String
+		log.info(TestEnum.cast("T1").name());
+
+		log.info(TestByte.cast("1").toString());
+		log.info(TestShort.cast("2").toString());
+		log.info(TestInteger.cast("3").toString());
+		log.info(TestLong.cast("4").toString());
+		log.info(TestFloat.cast("1.1").toString());
+		log.info(TestDouble.cast("2.2").toString());
+		log.info(TestCharacter.cast("X").toString());
+
+		log.info(TestBoolean.cast("true").toString());
+		log.info(TestBoolean.cast("Y").toString());
+		log.info(TestBoolean.cast("y").toString());
+		log.info(TestBoolean.cast("True").toString());
+
+		log.info(TestInteger.cast(1).toString());
+		log.info(TestDouble.cast(0.0).toString());
+		log.info(TestBoolean.cast(true).toString());
+
 	}
-	
+
 }
