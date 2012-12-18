@@ -30,12 +30,12 @@ public abstract class MissivePool<M extends Missive> {
 	private AtomicBoolean[] usePool; // Make simple wrapper class
 	private final AtomicInteger counter = new AtomicInteger(0);
 
-	public MissivePool() {
+	public MissivePool() throws MissiveException {
 		size = DEFAULT_SIZE;
 		build();
 	}
 
-	public MissivePool(final int size) {
+	public MissivePool(final int size) throws MissiveException {
 		this.size = size;
 		build();
 	}
@@ -43,33 +43,35 @@ public abstract class MissivePool<M extends Missive> {
 	@SuppressWarnings("unchecked")
 	private void build() throws MissiveException {
 
-		final ParameterizedType type = (ParameterizedType) getClass()
-				.getGenericSuperclass();
-
-		final Type[] typeArgs = type.getActualTypeArguments();
-
-		final Class<M> clazz = (Class<M>) typeArgs[0];
+		Class<M> clazz = null;
 
 		try {
 
+			final ParameterizedType type = (ParameterizedType) getClass()
+					.getGenericSuperclass();
+
+			final Type[] typeArgs = type.getActualTypeArguments();
+
+			clazz = (Class<M>) typeArgs[0];
+
 			clazz.newInstance();
+
+			pool = (M[]) Array.newInstance(clazz, size);
+			usePool = new AtomicBoolean[size];
+
+			for (int i = 0; i < size; i++) {
+				final M m = clazz.cast(Missive.make(clazz));
+				pool[i] = m;
+				usePool[i] = pool[i].inUse;
+			}
 
 		} catch (final Throwable e) {
 
 			final String message = //
-			"Failed to instantiate " + clazz.getName();
+			"Failed to build : " + clazz;
 			log.error(message, e);
 			throw new MissiveException(message, e);
 
-		}
-
-		pool = (M[]) Array.newInstance(clazz, size);
-		usePool = new AtomicBoolean[size];
-
-		for (int i = 0; i < size; i++) {
-			final M m = clazz.cast(Missive.make(clazz));
-			pool[i] = m;
-			usePool[i] = pool[i].inUse;
 		}
 
 	}
