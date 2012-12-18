@@ -23,10 +23,10 @@ public class HashMissive extends HashSafeTagMap implements Missive {
 		super(tags);
 	}
 
+	/** FIXME */
 	@Override
 	public <M extends Missive> boolean isCastableTo(final M m) {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("TODO");
 	}
 
 	@Override
