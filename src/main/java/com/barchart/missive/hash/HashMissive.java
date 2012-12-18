@@ -8,34 +8,36 @@
 package com.barchart.missive.hash;
 
 import com.barchart.missive.core.Missive;
+import com.barchart.missive.core.MissiveException;
 import com.barchart.missive.core.Tag;
 
 /**
  * A Java Collections hash map backed implementation.
  * 
  * @author Gavin M Litchfield
- *
+ * 
  */
 public class HashMissive extends HashSafeTagMap implements Missive {
 
-	public HashMissive(Tag<?>[] tags) {
+	public HashMissive(final Tag<?>[] tags) {
 		super(tags);
 	}
-	
+
 	@Override
-	public <M extends Missive> boolean isCastableTo(M m) {
+	public <M extends Missive> boolean isCastableTo(final M m) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public <M extends Missive> M castAsSubclass(final M m) {
-		
-		for(final Tag tag : m.getTags()) {
+	public <M extends Missive> M castAsSubclass(final M m)
+			throws MissiveException {
+
+		for (final Tag tag : m.getTags()) {
 			m.set(tag, get(tag));
 		}
-		
+
 		return m;
 	}
 

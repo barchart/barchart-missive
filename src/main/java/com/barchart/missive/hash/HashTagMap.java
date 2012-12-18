@@ -15,18 +15,17 @@ import com.barchart.missive.core.TagMap;
  * A Java Collections hash map backed implementation.
  * 
  * @author Gavin M Litchfield
- *
+ * 
  */
 public class HashTagMap extends HashSafeTagMap implements TagMap {
 
-	public HashTagMap(Tag<?>[] tags) {
+	public HashTagMap(final Tag<?>[] tags) {
 		super(tags);
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public
-	void putRaw(final Tag tag, final Object value) {
+	public void putRaw(final Tag tag, final Object value) {
 		map.put(tag, tag.cast(value));
 	}
 
@@ -41,10 +40,10 @@ public class HashTagMap extends HashSafeTagMap implements TagMap {
 		return map.remove(tag);
 	}
 
+	/** FIXME */
 	@Override
-	public boolean isSupersetOf(SafeTagMap map) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isSupersetOf(final SafeTagMap map) {
+		throw new UnsupportedOperationException("TODO");
 	}
 
 }
