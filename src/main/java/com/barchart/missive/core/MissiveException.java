@@ -10,7 +10,7 @@ package com.barchart.missive.core;
 /**
  * 
  * @author Gavin M Litchfield
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class MissiveException extends RuntimeException {
@@ -18,9 +18,13 @@ public class MissiveException extends RuntimeException {
 	public MissiveException(final String reason) {
 		super(reason);
 	}
-	
+
 	public MissiveException(final Throwable e) {
 		super(e);
 	}
-	
+
+	public MissiveException(final String message, final Throwable cause) {
+		super(message, cause);
+	}
+
 }

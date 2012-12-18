@@ -123,13 +123,12 @@ public class Tag<V> {
 				}
 			}
 
-		} catch (final Exception e) {
+		} catch (final Throwable e) {
 
-			// TODO Remove sysout and stacktrace
-			log.info("Failed to cast object in tag " + name + " "
-					+ o.toString());
-			e.printStackTrace();
-			throw new MissiveException("Failed to cast object in tag " + name);
+			final String message = //
+			"Failed to cast object in tag " + name + " " + o;
+			log.error(message, e);
+			throw new MissiveException(message, e);
 
 		}
 	}

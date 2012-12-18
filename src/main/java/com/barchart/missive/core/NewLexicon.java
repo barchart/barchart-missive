@@ -22,7 +22,7 @@ public class NewLexicon {
 	protected static final Map<String, Tag<?>> toTags = new HashMap<String, Tag<?>>();
 	protected static final Map<Tag<?>, String> fromTags = new HashMap<Tag<?>, String>();
 
-	public static void build() {
+	public static void build() throws MissiveException {
 
 		try {
 
@@ -41,13 +41,12 @@ public class NewLexicon {
 				}
 			}
 
-		} catch (final ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (final IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (final IllegalAccessException e) {
-			e.printStackTrace();
+		} catch (final Throwable e) {
+			final String message = "build failed";
+			log.error(message, e);
+			throw new MissiveException(message, e);
 		}
+
 	}
 
 	public static Tag<?> getTag(final String name) {

@@ -13,63 +13,76 @@ import java.lang.reflect.Type;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.barchart.missive.core.MissiveException;
+
 public abstract class MissivePool<M extends Missive> {
+
+	protected static final Logger log = LoggerFactory
+			.getLogger(MissivePool.class);
 
 	private static final int DEFAULT_SIZE = 50;
 	private final int size;
-	
+
 	private M[] pool;
 	private AtomicBoolean[] usePool; // Make simple wrapper class
 	private final AtomicInteger counter = new AtomicInteger(0);
-	
+
 	public MissivePool() {
 		size = DEFAULT_SIZE;
 		build();
 	}
-	
+
 	public MissivePool(final int size) {
 		this.size = size;
 		build();
 	}
 
 	@SuppressWarnings("unchecked")
-	private void build() {
-		
+	private void build() throws MissiveException {
+
 		final ParameterizedType type = (ParameterizedType) getClass()
 				.getGenericSuperclass();
+
 		final Type[] typeArgs = type.getActualTypeArguments();
-		
-		final Class<M> misClass = (Class<M>) typeArgs[0];
-		
+
+		final Class<M> clazz = (Class<M>) typeArgs[0];
+
 		try {
-			misClass.newInstance();
-		} catch (InstantiationException ie) {
-			ie.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Failed to instantiate " + misClass.getName());
+
+			clazz.newInstance();
+
+		} catch (final Throwable e) {
+
+			final String message = //
+			"Failed to instantiate " + clazz.getName();
+			log.error(message, e);
+			throw new MissiveException(message, e);
+
 		}
-		
-		pool = (M[])Array.newInstance(misClass, size);
+
+		pool = (M[]) Array.newInstance(clazz, size);
 		usePool = new AtomicBoolean[size];
-		
-		for(int i = 0; i < size; i++) {
-			final M m = misClass.cast(Missive.make(misClass));
-			pool[i] = (M) m;
-			usePool[i] = pool[i].inUse; 
+
+		for (int i = 0; i < size; i++) {
+			final M m = clazz.cast(Missive.make(clazz));
+			pool[i] = m;
+			usePool[i] = pool[i].inUse;
 		}
-		
+
 	}
-	
+
 	public M next() {
-		
-		if(counter.get() == size) {
+
+		if (counter.get() == size) {
 			counter.set(0);
 		}
-		
+
 		// Check if in use
-		
+
 		return pool[counter.getAndIncrement()];
 	}
-	
+
 }
