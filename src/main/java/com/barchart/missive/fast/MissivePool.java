@@ -76,6 +76,7 @@ public abstract class MissivePool<M extends Missive> {
 
 	}
 
+	/** FIXME concurrency */
 	public M next() {
 
 		if (counter.get() == size) {
