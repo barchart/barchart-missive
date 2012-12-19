@@ -49,7 +49,7 @@ public abstract class Missive {
 	 */
 	protected Missive(final Tag<?>[] tags) {
 
-		visTags = tags; // Make copy?
+		visTags = tags.clone();
 
 		for (final Tag<?> tag : tags) {
 			if (maxTagCode < tag.index()) {
@@ -151,7 +151,7 @@ public abstract class Missive {
 	}
 
 	public Tag<?>[] getVisibleTags() {
-		return visTags; // Make Copy
+		return visTags.clone();
 	}
 
 	public int size() {
