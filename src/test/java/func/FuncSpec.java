@@ -9,9 +9,9 @@ package func;
 
 import com.barchart.missive.core.Tag;
 
-public class FuncSpec {
+public interface FuncSpec {
 
-	public static final Tag<String> ParentProp = Tag.create("ParentProperty", String.class);
-	public static final Tag<String> ChildProp = Tag.create("ChildProperty", String.class);
-	
+	Tag<String> ParentProp = Tag.create("ParentProperty", String.class);
+	Tag<String> ChildProp = Tag.create("ChildProperty", String.class);
+
 }
