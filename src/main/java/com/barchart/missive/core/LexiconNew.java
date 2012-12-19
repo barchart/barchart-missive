@@ -14,12 +14,12 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class NewLexicon {
+public class LexiconNew {
 
 	protected static final Logger log = LoggerFactory
-			.getLogger(NewLexicon.class);
+			.getLogger(LexiconNew.class);
 
-	protected static final Map<String, Tag<?>> toTags = new HashMap<String, Tag<?>>();
+	protected static final Map<String, Tag<?>> intoTags = new HashMap<String, Tag<?>>();
 	protected static final Map<Tag<?>, String> fromTags = new HashMap<Tag<?>, String>();
 
 	public static void build() throws MissiveException {
@@ -36,7 +36,7 @@ public class NewLexicon {
 				if (field.get(null).getClass() == Tag.class) {
 
 					final Tag<?> tag = (Tag<?>) field.get(null);
-					toTags.put(tag.getName(), tag);
+					intoTags.put(tag.getName(), tag);
 					fromTags.put(tag, tag.getName());
 				}
 			}
@@ -50,11 +50,11 @@ public class NewLexicon {
 	}
 
 	public static Tag<?> getTag(final String name) {
-		return toTags.get(name);
+		return intoTags.get(name);
 	}
 
 	public static boolean hasTag(final Tag<?> tag) {
-		return toTags.containsValue(tag);
+		return intoTags.containsValue(tag);
 	}
 
 	public static String getName(final Tag<?> tag) {

@@ -31,14 +31,15 @@ public class HashMissive extends HashSafeTagMap implements Missive {
 
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public <M extends Missive> M castAsSubclass(final M m)
+	public <M extends Missive> M castAsSubclass(final M missive)
 			throws MissiveException {
 
-		for (final Tag tag : m.getTags()) {
-			m.set(tag, get(tag));
+		for (final Tag tag : missive.tags()) {
+			missive.set(tag, get(tag));
 		}
 
-		return m;
+		return missive;
+
 	}
 
 }

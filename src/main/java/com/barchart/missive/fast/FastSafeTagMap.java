@@ -13,15 +13,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.barchart.missive.core.MissiveException;
-import com.barchart.missive.core.SafeTagMap;
 import com.barchart.missive.core.Tag;
+import com.barchart.missive.core.TagMapSafe;
 
 /**
  * 
  * @author Gavin M Litchfield
  * 
  */
-public class FastSafeTagMap implements SafeTagMap {
+public class FastSafeTagMap implements TagMapSafe {
 
 	protected static final Logger log = LoggerFactory
 			.getLogger(FastSafeTagMap.class);
@@ -38,8 +38,7 @@ public class FastSafeTagMap implements SafeTagMap {
 	protected volatile int size = 0;
 
 	protected FastSafeTagMap() {
-		tags = new Tag<?>[DEFAULT_SIZE];
-		values = new Object[DEFAULT_SIZE];
+		this(DEFAULT_SIZE);
 	}
 
 	public FastSafeTagMap(final int initialSize) {
@@ -54,11 +53,11 @@ public class FastSafeTagMap implements SafeTagMap {
 
 		values = new Object[tagz.length];
 
-		int counter = 0;
+		int index = 0;
 		for (final Tag<?> tag : tagz) {
 			tagsByIndex[tag.index()] = tag;
-			indexLookup[tag.index()] = counter;
-			counter++;
+			indexLookup[tag.index()] = index;
+			index++;
 		}
 
 	}
@@ -72,7 +71,7 @@ public class FastSafeTagMap implements SafeTagMap {
 	@Override
 	public <V> void set(final Tag<V> tag, final V value)
 			throws MissiveException {
-		if (containsTag(tag)) {
+		if (contains(tag)) {
 			values[indexLookup[tag.index()]] = value;
 		} else {
 			final String message = "Tag not in map : " + tag.getName();
@@ -82,12 +81,12 @@ public class FastSafeTagMap implements SafeTagMap {
 	}
 
 	@Override
-	public boolean containsTag(final Tag<?> tag) {
+	public boolean contains(final Tag<?> tag) {
 		return tagsByIndex[tag.index()] != null;
 	}
 
 	@Override
-	public Tag<?>[] getTags() {
+	public Tag<?>[] tags() {
 		final Tag<?>[] copy = new Tag<?>[tags.length];
 		System.arraycopy(tags, 0, copy, 0, tags.length);
 		return copy;

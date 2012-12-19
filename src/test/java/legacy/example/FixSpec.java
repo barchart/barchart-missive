@@ -7,10 +7,10 @@
  */
 package legacy.example;
 
-import com.barchart.missive.core.NewLexicon;
+import com.barchart.missive.core.LexiconNew;
 import com.barchart.missive.core.Tag;
 
-public class FixSpec extends NewLexicon {
+public class FixSpec extends LexiconNew {
 
 	/* Header Tags */
 	public static final Tag<Integer> MsgSeqNum = new Tag<Integer>("MsgSeqNum", Integer.class);

@@ -8,22 +8,22 @@
 package com.barchart.missive.fast;
 
 import com.barchart.missive.core.MissiveException;
-import com.barchart.missive.core.SafeTagMap;
+import com.barchart.missive.core.TagMapSafe;
 import com.barchart.missive.core.Tag;
-import com.barchart.missive.core.TagMap;
+import com.barchart.missive.core.TagMapUnsafe;
 
 /**
  * 
  * @author Gavin M Litchfield
  * 
  */
-public class FastTagMap extends FastSafeTagMap implements TagMap {
+public class FastUnsafeTagMap extends FastSafeTagMap implements TagMapUnsafe {
 
-	protected FastTagMap() {
+	protected FastUnsafeTagMap() {
 
 	}
 
-	public FastTagMap(final Tag<?>[] tagz) {
+	public FastUnsafeTagMap(final Tag<?>[] tagz) {
 		super(tagz);
 	}
 
@@ -37,7 +37,7 @@ public class FastTagMap extends FastSafeTagMap implements TagMap {
 	@Override
 	public <V> void put(final Tag<V> newTag, final V newValue) {
 
-		if (containsTag(newTag)) {
+		if (contains(newTag)) {
 			set(newTag, newValue);
 		} else {
 
@@ -64,7 +64,7 @@ public class FastTagMap extends FastSafeTagMap implements TagMap {
 	@SuppressWarnings({ "rawtypes" })
 	public Object remove(final Tag oldTag) {
 
-		if (!containsTag(oldTag)) {
+		if (!contains(oldTag)) {
 			return null;
 		}
 
@@ -88,8 +88,8 @@ public class FastTagMap extends FastSafeTagMap implements TagMap {
 	}
 
 	@Override
-	public boolean isSupersetOf(final SafeTagMap map) {
-		for (final Tag<?> thatTag : map.getTags()) {
+	public boolean isSupersetOf(final TagMapSafe map) {
+		for (final Tag<?> thatTag : map.tags()) {
 			boolean tagCheck = false;
 			for (final Tag<?> thisTag : tags) {
 				if (thatTag == thisTag) {

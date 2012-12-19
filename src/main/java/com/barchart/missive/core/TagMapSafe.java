@@ -8,12 +8,12 @@
 package com.barchart.missive.core;
 
 /**
- * mutable
+ * mutable, type safe
  * 
  * @author Gavin M Litchfield
  * 
  */
-public interface SafeTagMap extends DefTagMap {
+public interface TagMapSafe extends TagMap {
 
 	public <V> void set(Tag<V> tag, V value) throws MissiveException;
 

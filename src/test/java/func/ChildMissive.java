@@ -8,12 +8,12 @@
 package func;
 
 import com.barchart.missive.core.Tag;
-import com.barchart.missive.fast.MissivePool;
+import com.barchart.missive.fast.FastMissivePool;
 
 public class ChildMissive extends ParentMissive {
 	
-	public static final MissivePool<ChildMissive> tpool =
-			new MissivePool<ChildMissive>(100){};
+	public static final FastMissivePool<ChildMissive> tpool =
+			new FastMissivePool<ChildMissive>(100){};
 	
 	public static ChildMissive next() {
 		return tpool.next();

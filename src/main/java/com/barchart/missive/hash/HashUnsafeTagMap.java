@@ -7,9 +7,9 @@
  */
 package com.barchart.missive.hash;
 
-import com.barchart.missive.core.SafeTagMap;
+import com.barchart.missive.core.TagMapSafe;
 import com.barchart.missive.core.Tag;
-import com.barchart.missive.core.TagMap;
+import com.barchart.missive.core.TagMapUnsafe;
 
 /**
  * A Java Collections hash map backed implementation.
@@ -17,9 +17,9 @@ import com.barchart.missive.core.TagMap;
  * @author Gavin M Litchfield
  * 
  */
-public class HashTagMap extends HashSafeTagMap implements TagMap {
+public class HashUnsafeTagMap extends HashSafeTagMap implements TagMapUnsafe {
 
-	public HashTagMap(final Tag<?>[] tags) {
+	public HashUnsafeTagMap(final Tag<?>[] tags) {
 		super(tags);
 	}
 
@@ -42,7 +42,7 @@ public class HashTagMap extends HashSafeTagMap implements TagMap {
 
 	/** FIXME */
 	@Override
-	public boolean isSupersetOf(final SafeTagMap map) {
+	public boolean isSupersetOf(final TagMapSafe map) {
 		throw new UnsupportedOperationException("TODO");
 	}
 

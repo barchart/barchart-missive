@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.barchart.missive.core.MissiveException;
-import com.barchart.missive.core.SafeTagMap;
+import com.barchart.missive.core.TagMapSafe;
 import com.barchart.missive.core.Tag;
 
 /**
@@ -21,7 +21,7 @@ import com.barchart.missive.core.Tag;
  * @author Gavin M Litchfield
  * 
  */
-public class HashSafeTagMap implements SafeTagMap {
+public class HashSafeTagMap implements TagMapSafe {
 
 	protected final Map<Tag<?>, Object> map = new HashMap<Tag<?>, Object>();
 
@@ -49,12 +49,12 @@ public class HashSafeTagMap implements SafeTagMap {
 	}
 
 	@Override
-	public boolean containsTag(final Tag<?> tag) {
+	public boolean contains(final Tag<?> tag) {
 		return map.containsKey(tag);
 	}
 
 	@Override
-	public Tag<?>[] getTags() {
+	public Tag<?>[] tags() {
 		return map.keySet().toArray(new Tag<?>[0]);
 	}
 

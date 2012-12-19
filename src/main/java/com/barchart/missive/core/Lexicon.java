@@ -19,17 +19,17 @@ public class Lexicon {
 
 	protected static final Logger log = LoggerFactory.getLogger(Lexicon.class);
 
-	private final Map<String, Tag<?>> toTags = new HashMap<String, Tag<?>>();
+	private final Map<String, Tag<?>> intoTags = new HashMap<String, Tag<?>>();
 	private final Map<Tag<?>, String> fromTags = new HashMap<Tag<?>, String>();
 
 	public Lexicon(final Map<String, Tag<?>> tags) throws MissiveException {
 
 		for (final Entry<String, Tag<?>> e : tags.entrySet()) {
-			toTags.put(e.getKey(), e.getValue());
+			intoTags.put(e.getKey(), e.getValue());
 			fromTags.put(e.getValue(), e.getKey());
 		}
 
-		if (toTags.size() != fromTags.size()) {
+		if (intoTags.size() != fromTags.size()) {
 			final String messasge = "Tags map not 1 to 1";
 			log.error("{}", messasge);
 			throw new MissiveException(messasge);
@@ -38,11 +38,11 @@ public class Lexicon {
 	}
 
 	public Tag<?> getTag(final String name) {
-		return toTags.get(name);
+		return intoTags.get(name);
 	}
 
 	public boolean hasTag(final Tag<?> tag) {
-		return toTags.containsValue(tag);
+		return intoTags.containsValue(tag);
 	}
 
 	public String getName(final Tag<?> tag) {

@@ -23,26 +23,26 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.barchart.missive.TestSpec.TestEnum;
-import com.barchart.missive.core.SafeTagMap;
+import com.barchart.missive.core.TagMapSafe;
 
 public class TestFastSafeTagMap {
 	
 	@Test
 	public void test() {
 		
-		final SafeTagMap map = new FastSafeTagMap(TAGS);
+		final TagMapSafe map = new FastSafeTagMap(TAGS);
 		
 		/* Check contains */
-		assertTrue(map.containsTag(ENUM));
-		assertTrue(map.containsTag(BYTE));
-		assertTrue(map.containsTag(SHORT));
-		assertTrue(map.containsTag(INTEGER));
-		assertTrue(map.containsTag(LONG));
-		assertTrue(map.containsTag(FLOAT));
-		assertTrue(map.containsTag(DOUBLE));
-		assertTrue(map.containsTag(BOOLEAN1));
-		assertTrue(map.containsTag(CHARACTER));
-		assertTrue(map.containsTag(STRING));
+		assertTrue(map.contains(ENUM));
+		assertTrue(map.contains(BYTE));
+		assertTrue(map.contains(SHORT));
+		assertTrue(map.contains(INTEGER));
+		assertTrue(map.contains(LONG));
+		assertTrue(map.contains(FLOAT));
+		assertTrue(map.contains(DOUBLE));
+		assertTrue(map.contains(BOOLEAN1));
+		assertTrue(map.contains(CHARACTER));
+		assertTrue(map.contains(STRING));
 		
 		/* Check size */
 		assertTrue(map.size() == 10);

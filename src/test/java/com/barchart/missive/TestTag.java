@@ -7,9 +7,13 @@
  */
 package com.barchart.missive;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.barchart.missive.core.MissiveException;
 import com.barchart.missive.core.Tag;
 
 /**
@@ -65,5 +69,31 @@ public class TestTag {
 		log.info(TestBoolean.cast(true).toString());
 
 	}
+
+	@Test(expected = MissiveException.class)
+	public void testConstructInvalid() {
+
+		final Tag<?> tag = new Tag("hello");
+
+		fail("invalid usage");
+
+	}
+
+	public void testConstructProper() {
+
+		final Tag<?> tag = new Tag("hello") {
+		};
+
+		assertTrue("class match", tag.getClazz() == getClass());
+
+	}
+
+	public static final Tag<String> STRING = new Tag<String>() {
+
+		{
+			log.info("init");
+		}
+
+	};
 
 }

@@ -18,10 +18,10 @@ import org.slf4j.LoggerFactory;
 
 import com.barchart.missive.core.MissiveException;
 
-public abstract class MissivePool<M extends Missive> {
+public abstract class FastMissivePool<M extends FastMissive> {
 
 	protected static final Logger log = LoggerFactory
-			.getLogger(MissivePool.class);
+			.getLogger(FastMissivePool.class);
 
 	private static final int DEFAULT_SIZE = 50;
 	private final int size;
@@ -30,12 +30,12 @@ public abstract class MissivePool<M extends Missive> {
 	private AtomicBoolean[] usePool; // Make simple wrapper class
 	private final AtomicInteger counter = new AtomicInteger(0);
 
-	public MissivePool() throws MissiveException {
+	public FastMissivePool() throws MissiveException {
 		size = DEFAULT_SIZE;
 		build();
 	}
 
-	public MissivePool(final int size) throws MissiveException {
+	public FastMissivePool(final int size) throws MissiveException {
 		this.size = size;
 		build();
 	}
@@ -60,7 +60,7 @@ public abstract class MissivePool<M extends Missive> {
 			usePool = new AtomicBoolean[size];
 
 			for (int i = 0; i < size; i++) {
-				final M m = clazz.cast(Missive.make(clazz));
+				final M m = clazz.cast(FastMissive.create(clazz));
 				pool[i] = m;
 				usePool[i] = pool[i].inUse;
 			}

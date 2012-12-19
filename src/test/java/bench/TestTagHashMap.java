@@ -15,8 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.barchart.missive.core.Tag;
-import com.barchart.missive.core.TagMap;
-import com.barchart.missive.fast.FastTagMap;
+import com.barchart.missive.core.TagMapUnsafe;
+import com.barchart.missive.fast.FastUnsafeTagMap;
 
 public class TestTagHashMap {
 
@@ -40,7 +40,7 @@ public class TestTagHashMap {
 			tags[i] = Tag.create(String.valueOf(i), String.class);
 		}
 
-		final TagMap testMap = new FastTagMap(tags);
+		final TagMapUnsafe testMap = new FastUnsafeTagMap(tags);
 
 		for (final Tag tag : tags) {
 			testMap.set(tag, "Test" + tag.getName());

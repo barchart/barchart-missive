@@ -15,6 +15,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.barchart.missive.util.ClassUtil;
+
 /**
  * 
  * @author Gavin M Litchfield
@@ -25,9 +27,12 @@ import org.slf4j.LoggerFactory;
  */
 public class Tag<V> {
 
-	protected static final Logger log = LoggerFactory.getLogger(Tag.class);
+	private static AtomicInteger counter = new AtomicInteger(0);
+
+	public static final Logger log = LoggerFactory.getLogger(Tag.class);
 
 	private static final Set<Class<?>> primitives = new HashSet<Class<?>>();
+
 	static {
 		primitives.add(Byte.class);
 		primitives.add(Short.class);
@@ -39,59 +44,168 @@ public class Tag<V> {
 		primitives.add(Character.class);
 	}
 
-	private static AtomicInteger counter = new AtomicInteger(0);
-
-	private final String name;
-	private final Class<V> clazz;
-
-	private final int index;
-
-	private final String className;
-	private final int hashCode;
-
-	private final boolean isPrim;
-	private final boolean isComplex;
-	private final boolean isEnum;
-
-	public Tag(final String name, final Class<V> clazz) {
-		this.name = name;
-		this.clazz = clazz;
-
-		index = counter.getAndIncrement();
-
-		className = this.getClass().getName();
-		hashCode = className.hashCode();
-
-		isPrim = primitives.contains(clazz);
-		isEnum = clazz.isEnum();
-
-		if (clazz.isArray()) {
-			isComplex = true;
-		} else if (clazz.isAssignableFrom(Collection.class)) {
-			isComplex = true;
-		} else {
-			isComplex = false;
-		}
+	public static <V> Tag<V> create(final Class<V> clazz) {
+		return new Tag<V>(clazz);
 	}
 
 	public static <V> Tag<V> create(final String name, final Class<V> clazz) {
 		return new Tag<V>(name, clazz);
 	}
 
-	public final String getName() {
-		return name;
+	protected static boolean isEnum(final Class<?> clazz) {
+		return clazz.isEnum();
 	}
 
-	public Class<V> getClazz() {
-		return clazz;
+	protected static boolean isList(final Class<?> clazz) {
+		if (clazz.isArray()) {
+			return true;
+		} else if (clazz.isAssignableFrom(Collection.class)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
-	public final boolean isPrimitive() {
-		return isPrim;
+	protected static boolean isPrim(final Class<?> clazz) {
+		return primitives.contains(clazz);
 	}
 
-	public final boolean isComplex() {
-		return isComplex;
+	public static int maxIndex() {
+		return counter.get();
+	}
+
+	protected static int nameHash(final Class<?> clazz) {
+		return clazz.getName().hashCode();
+	}
+
+	protected static int nextIndex() {
+		return counter.getAndIncrement();
+	}
+
+	private static Object parsePrimitiveFromString(final Class<?> clazz,
+			final String value) {
+
+		if (clazz == Byte.class) {
+
+			return Byte.parseByte(value);
+
+		} else if (clazz == Short.class) {
+
+			return Short.parseShort(value);
+
+		} else if (clazz == Integer.class) {
+
+			return Integer.parseInt(value);
+
+		} else if (clazz == Long.class) {
+
+			return Long.parseLong(value);
+
+		} else if (clazz == Float.class) {
+
+			return Float.parseFloat(value);
+
+		} else if (clazz == Double.class) {
+
+			return Double.parseDouble(value);
+
+		} else if (clazz == Boolean.class) {
+
+			/** note : null for false */
+
+			if ("true".equalsIgnoreCase(value)) {
+				return true;
+			}
+			if ("y".equalsIgnoreCase(value)) {
+				return true;
+			}
+			if ("yes".equalsIgnoreCase(value)) {
+				return true;
+			}
+			return false;
+
+		} else if (clazz == Character.class) {
+
+			return new Character(value.charAt(0));
+
+		} else {
+
+			throw new MissiveException("parse failure " + clazz);
+
+		}
+
+	}
+
+	private final Class<V> clazz;
+
+	private final int hashCode = nameHash(getClass());
+
+	private final int index = nextIndex();
+
+	private final boolean isEnum;
+
+	private final boolean isList;
+
+	private final boolean isPrim;
+
+	private final String name;
+
+	/** advanced constructor */
+	@SuppressWarnings("unchecked")
+	public Tag() throws MissiveException {
+		try {
+
+			this.name = defaultTagName();
+			this.clazz = (Class<V>) ClassUtil.genericParam(getClass());
+
+			isPrim = isPrim(clazz);
+			isEnum = isEnum(clazz);
+			isList = isList(clazz);
+
+		} catch (final Throwable e) {
+			log.error("construct failure", e);
+			throw new MissiveException(e);
+		}
+	}
+
+	public Tag(final Class<V> clazz) {
+
+		this.name = defaultTagName();
+		this.clazz = clazz;
+
+		isPrim = isPrim(clazz);
+		isEnum = isEnum(clazz);
+		isList = isList(clazz);
+
+	}
+
+	/** advanced constructor */
+	@SuppressWarnings("unchecked")
+	public Tag(final String name) throws MissiveException {
+		try {
+
+			this.name = name;
+			this.clazz = (Class<V>) ClassUtil.genericParam(getClass());
+
+			isPrim = isPrim(clazz);
+			isEnum = isEnum(clazz);
+			isList = isList(clazz);
+
+		} catch (final Throwable e) {
+			log.error("construct failure", e);
+			throw new MissiveException(e);
+		}
+	}
+
+	public Tag(final String name, final Class<V> clazz) {
+
+		this.name = name;
+		this.clazz = clazz;
+
+		isPrim = isPrim(clazz);
+		isEnum = isEnum(clazz);
+		isList = isList(clazz);
+
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -133,16 +247,15 @@ public class Tag<V> {
 		}
 	}
 
-	public int index() {
-		return index;
+	protected String defaultTagName() {
+		return "TAG=" + index();
 	}
 
-	public static int maxIndex() {
-		return counter.get();
+	public Class<V> getClazz() {
+		return clazz;
 	}
 
-	@Override
-	public String toString() {
+	public final String getName() {
 		return name;
 	}
 
@@ -151,32 +264,25 @@ public class Tag<V> {
 		return hashCode;
 	}
 
-	private static Object parsePrimitiveFromString(final Class<?> clazz,
-			final String value) {
+	public int index() {
+		return index;
+	}
 
-		if (clazz == Byte.class) {
-			return Byte.parseByte(value);
-		} else if (clazz == Short.class) {
-			return Short.parseShort(value);
-		} else if (clazz == Integer.class) {
-			return Integer.parseInt(value);
-		} else if (clazz == Long.class) {
-			return Long.parseLong(value);
-		} else if (clazz == Float.class) {
-			return Float.parseFloat(value);
-		} else if (clazz == Double.class) {
-			return Double.parseDouble(value);
-		} else if (clazz == Boolean.class) {
-			return new Boolean(value.equalsIgnoreCase("true")
-					|| value.equalsIgnoreCase("Y"));
-			// May want to enforce string length = 1
-		} else if (clazz == Character.class) {
-			return new Character(value.charAt(0));
-		} else {
-			throw new MissiveException("Attempted to parse bad class type "
-					+ clazz.getCanonicalName());
-		}
+	public final boolean isEnum() {
+		return isEnum;
+	}
 
+	public final boolean isList() {
+		return isList;
+	}
+
+	public final boolean isPrimitive() {
+		return isPrim;
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 
 }

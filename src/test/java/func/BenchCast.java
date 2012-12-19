@@ -10,9 +10,9 @@ package func;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TestCast {
+public class BenchCast {
 
-	protected static final Logger log = LoggerFactory.getLogger(Test.class);
+	protected static final Logger log = LoggerFactory.getLogger(BenchNext.class);
 
 	public static void main(final String[] args) {
 

@@ -9,7 +9,7 @@ package com.barchart.missive.lexicon;
 
 import com.barchart.missive.core.Tag;
 
-public class TestTestNewLexicon extends TestNewLexicon {
+public class TestTestNewLexicon extends TestLexiconNew {
 
 	public static final Tag<String> AccountName = new Tag<String>(
 			"AccountName", String.class);
@@ -32,7 +32,7 @@ public class TestTestNewLexicon extends TestNewLexicon {
 
 	public static void main(final String[] args) {
 
-		log.info("{}", TestTestNewLexicon.hasTag(TestNewLexicon.TestByte));
+		log.info("{}", TestTestNewLexicon.hasTag(TestLexiconNew.TestByte));
 
 	}
 

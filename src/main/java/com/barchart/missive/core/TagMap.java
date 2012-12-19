@@ -7,22 +7,20 @@
  */
 package com.barchart.missive.core;
 
-
 /**
+ * immutable
  * 
  * @author Gavin M Litchfield
- *
+ * 
  */
-public interface TagMap extends SafeTagMap {
-	
-	@SuppressWarnings("rawtypes")
-	public void putRaw(Tag tag, Object value);
-	
-	public <V> void put(Tag<V> tag, V v);
-	
-	@SuppressWarnings("rawtypes")
-	public Object remove(Tag tag);
-	
-	public boolean isSupersetOf(SafeTagMap map);
-	
+public interface TagMap {
+
+	public <V> V get(Tag<V> tag) throws MissiveException;
+
+	public boolean contains(Tag<?> tag);
+
+	public Tag<?>[] tags();
+
+	public int size();
+
 }

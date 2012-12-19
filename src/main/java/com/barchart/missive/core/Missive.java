@@ -17,9 +17,9 @@ package com.barchart.missive.core;
  * @author Gavin M Litchfield
  * 
  */
-public interface Missive extends SafeTagMap {
+public interface Missive extends TagMapSafe {
 
-	public <M extends Missive> boolean isCastableTo(M m);
+	public <M extends Missive> boolean isCastableTo(M missive);
 
 	/**
 	 * If M is a subclass of the current missive, and the missive has the
@@ -27,9 +27,11 @@ public interface Missive extends SafeTagMap {
 	 * appropriate value fields visible. Otherwise a MissiveException will be
 	 * thrown.
 	 * 
-	 * @param m
+	 * @param missive
+	 * 
 	 * @return
 	 */
-	public <M extends Missive> M castAsSubclass(M m) throws MissiveException;
+	public <M extends Missive> M castAsSubclass(M missive)
+			throws MissiveException;
 
 }

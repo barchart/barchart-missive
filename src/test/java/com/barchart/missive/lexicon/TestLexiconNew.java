@@ -7,10 +7,10 @@
  */
 package com.barchart.missive.lexicon;
 
-import com.barchart.missive.core.NewLexicon;
+import com.barchart.missive.core.LexiconNew;
 import com.barchart.missive.core.Tag;
 
-public class TestNewLexicon extends NewLexicon {
+public class TestLexiconNew extends LexiconNew {
 
 	public static final Tag<Byte> TestByte = new Tag<Byte>("TestByte", Byte.class);
 	public static final Tag<Short> TestShort = new Tag<Short>("TestShort", Short.class);

@@ -25,26 +25,26 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.barchart.missive.TestSpec.TestEnum;
-import com.barchart.missive.core.TagMap;
+import com.barchart.missive.core.TagMapUnsafe;
 
-public class TestFastTagMap {
+public class TestFastUnsafeTagMap {
 	
 	@Test
 	public void test() {
 		
-		final TagMap map = new FastTagMap(TAGS);
+		final TagMapUnsafe map = new FastUnsafeTagMap(TAGS);
 		
 		/* Check contains */
-		assertTrue(map.containsTag(ENUM));
-		assertTrue(map.containsTag(BYTE));
-		assertTrue(map.containsTag(SHORT));
-		assertTrue(map.containsTag(INTEGER));
-		assertTrue(map.containsTag(LONG));
-		assertTrue(map.containsTag(FLOAT));
-		assertTrue(map.containsTag(DOUBLE));
-		assertTrue(map.containsTag(BOOLEAN1));
-		assertTrue(map.containsTag(CHARACTER));
-		assertTrue(map.containsTag(STRING));
+		assertTrue(map.contains(ENUM));
+		assertTrue(map.contains(BYTE));
+		assertTrue(map.contains(SHORT));
+		assertTrue(map.contains(INTEGER));
+		assertTrue(map.contains(LONG));
+		assertTrue(map.contains(FLOAT));
+		assertTrue(map.contains(DOUBLE));
+		assertTrue(map.contains(BOOLEAN1));
+		assertTrue(map.contains(CHARACTER));
+		assertTrue(map.contains(STRING));
 		
 		/* Check set and get */
 		map.set(ENUM, TestEnum.T1);
@@ -79,21 +79,21 @@ public class TestFastTagMap {
 		
 		/* Test put */
 		map.put(BOOLEAN2, true);
-		assertTrue(map.containsTag(BOOLEAN2));
+		assertTrue(map.contains(BOOLEAN2));
 		assertTrue(map.get(BOOLEAN2) == true);
 		assertTrue(map.size() == TAGS.length + 1);
 		
 		/* Test put raw */
 		map.putRaw(BOOLEAN3, "true");
-		assertTrue(map.containsTag(BOOLEAN3));
+		assertTrue(map.contains(BOOLEAN3));
 		assertTrue(map.get(BOOLEAN3) == true);
 		assertTrue(map.size() == TAGS.length + 2);
 		
 		/* Test remove */
 		map.remove(BOOLEAN2);
 		map.remove(BOOLEAN3);
-		assertTrue(!map.containsTag(BOOLEAN2));
-		assertTrue(!map.containsTag(BOOLEAN3));
+		assertTrue(!map.contains(BOOLEAN2));
+		assertTrue(!map.contains(BOOLEAN3));
 		assertTrue(map.size() == TAGS.length);
 		
 		/* Recheck previously set values */
