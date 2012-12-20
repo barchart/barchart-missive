@@ -7,8 +7,8 @@
  */
 package com.barchart.missive.hash;
 
-import com.barchart.missive.core.TagMapSafe;
 import com.barchart.missive.core.Tag;
+import com.barchart.missive.core.TagMapSafe;
 import com.barchart.missive.core.TagMapUnsafe;
 
 /**
@@ -19,7 +19,7 @@ import com.barchart.missive.core.TagMapUnsafe;
  */
 public class HashUnsafeTagMap extends HashSafeTagMap implements TagMapUnsafe {
 
-	public HashUnsafeTagMap(final Tag<?>[] tags) {
+	public HashUnsafeTagMap(final Tag<?>... tags) {
 		super(tags);
 	}
 

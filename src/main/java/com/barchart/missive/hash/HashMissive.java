@@ -19,7 +19,7 @@ import com.barchart.missive.core.Tag;
  */
 public class HashMissive extends HashSafeTagMap implements Missive {
 
-	public HashMissive(final Tag<?>[] tags) {
+	public HashMissive(final Tag<?>... tags) {
 		super(tags);
 	}
 

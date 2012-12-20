@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.barchart.missive.core.MissiveException;
-import com.barchart.missive.core.TagMapSafe;
 import com.barchart.missive.core.Tag;
+import com.barchart.missive.core.TagMapSafe;
 
 /**
  * A Java Collections hash map backed implementation.
@@ -25,7 +25,7 @@ public class HashSafeTagMap implements TagMapSafe {
 
 	protected final Map<Tag<?>, Object> map = new HashMap<Tag<?>, Object>();
 
-	public HashSafeTagMap(final Tag<?>[] tags) {
+	public HashSafeTagMap(final Tag<?>... tags) {
 		for (final Tag<?> tag : tags) {
 			map.put(tag, null);
 		}

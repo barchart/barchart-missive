@@ -5,7 +5,7 @@
  *
  * http://www.opensource.org/licenses/bsd-license.php
  */
-package com.barchart.missive.old;
+package com.barchart.missive.lexicon;
 
 import static org.junit.Assert.assertTrue;
 

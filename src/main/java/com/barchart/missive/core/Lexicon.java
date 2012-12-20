@@ -53,6 +53,7 @@ public class Lexicon {
 			throws Exception {
 
 		final Map<String, Tag<?>> tags = new HashMap<String, Tag<?>>();
+
 		final Field[] fieldArray = clazz.getDeclaredFields();
 
 		for (final Field field : fieldArray) {

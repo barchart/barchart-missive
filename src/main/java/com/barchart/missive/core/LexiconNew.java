@@ -28,10 +28,12 @@ public class LexiconNew {
 
 			final StackTraceElement[] trace = new RuntimeException()
 					.getStackTrace();
+
 			final Class<?> clazz = Class.forName(trace[trace.length - 1]
 					.getClassName());
 
 			final Field[] fields = clazz.getFields();
+
 			for (final Field field : fields) {
 				if (field.get(null).getClass() == Tag.class) {
 

@@ -8,8 +8,8 @@
 package com.barchart.missive.fast;
 
 import com.barchart.missive.core.MissiveException;
-import com.barchart.missive.core.TagMapSafe;
 import com.barchart.missive.core.Tag;
+import com.barchart.missive.core.TagMapSafe;
 import com.barchart.missive.core.TagMapUnsafe;
 
 /**
@@ -23,7 +23,7 @@ public class FastUnsafeTagMap extends FastSafeTagMap implements TagMapUnsafe {
 
 	}
 
-	public FastUnsafeTagMap(final Tag<?>[] tagz) {
+	public FastUnsafeTagMap(final Tag<?>... tagz) {
 		super(tagz);
 	}
 
@@ -89,16 +89,21 @@ public class FastUnsafeTagMap extends FastSafeTagMap implements TagMapUnsafe {
 
 	@Override
 	public boolean isSupersetOf(final TagMapSafe map) {
+
 		for (final Tag<?> thatTag : map.tags()) {
+
 			boolean tagCheck = false;
+
 			for (final Tag<?> thisTag : tags) {
 				if (thatTag == thisTag) {
 					tagCheck = true;
 				}
 			}
+
 			if (!tagCheck) {
 				return false;
 			}
+
 		}
 
 		return true;

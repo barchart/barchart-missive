@@ -46,7 +46,7 @@ public class FastSafeTagMap implements TagMapSafe {
 		values = new Object[initialSize];
 	}
 
-	public FastSafeTagMap(final Tag<?>[] tagz) {
+	public FastSafeTagMap(final Tag<?>... tagz) {
 
 		tags = tagz;
 		size = tagz.length;
@@ -87,9 +87,7 @@ public class FastSafeTagMap implements TagMapSafe {
 
 	@Override
 	public Tag<?>[] tags() {
-		final Tag<?>[] copy = new Tag<?>[tags.length];
-		System.arraycopy(tags, 0, copy, 0, tags.length);
-		return copy;
+		return tags.clone();
 	}
 
 	@Override
