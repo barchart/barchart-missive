@@ -7,8 +7,8 @@
  */
 package com.barchart.missive.lexicon;
 
-import com.barchart.missive.core.LexiconNew;
 import com.barchart.missive.core.Tag;
+import com.barchart.missive.extra.LexiconNew;
 
 public class TestLexiconNew extends LexiconNew {
 

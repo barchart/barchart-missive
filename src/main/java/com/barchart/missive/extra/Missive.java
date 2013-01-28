@@ -5,7 +5,10 @@
  *
  * http://www.opensource.org/licenses/bsd-license.php
  */
-package com.barchart.missive.core;
+package com.barchart.missive.extra;
+
+import com.barchart.missive.core.MissiveException;
+import com.barchart.missive.core.TagMapSafe;
 
 /**
  * The Missive interface extends to a tag map the notion of a specific type. A

@@ -16,10 +16,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.barchart.missive.core.Missive;
 import com.barchart.missive.core.MissiveException;
 import com.barchart.missive.core.Tag;
 import com.barchart.missive.core.TagMapUnsafe;
+import com.barchart.missive.extra.Missive;
 import com.barchart.missive.util.ClassUtil;
 
 /**

@@ -10,7 +10,7 @@ package com.barchart.missive;
 import com.barchart.missive.core.Tag;
 
 public interface TestSpec {
-
+	
 	enum TestEnum {
 		T1, T2
 	};
@@ -36,4 +36,15 @@ public interface TestSpec {
 	Tag<?>[] TAGSEXT = new Tag<?>[] { ENUM, BYTE, SHORT, INTEGER, LONG, FLOAT,
 			DOUBLE, BOOLEAN1, CHARACTER, STRING, EXTEND };
 
+	public static TestEnum ENUM_V = TestEnum.T1;
+	public static Byte BYTE_V = (byte)0;
+	public static Short SHORT_V = (short)1;
+	public static Integer INTEGER_V = (int)2;
+	public static Long LONG_V = (long)3;
+	public static Float FLOAT_V = (float)0.1;
+	public static Double DOUBLE_V = (double)0.2;
+	public static Boolean BOOLEAN1_V = true;
+	public static Character CHARACTER_V = 'x';
+	public static String STRING_V = "test";
+	
 }

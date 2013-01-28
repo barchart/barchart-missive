@@ -5,7 +5,7 @@
  *
  * http://www.opensource.org/licenses/bsd-license.php
  */
-package com.barchart.missive.core;
+package com.barchart.missive.extra;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -13,6 +13,9 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.barchart.missive.core.MissiveException;
+import com.barchart.missive.core.Tag;
 
 public class LexiconNew {
 
@@ -36,7 +39,6 @@ public class LexiconNew {
 
 			for (final Field field : fields) {
 				if (field.get(null).getClass() == Tag.class) {
-
 					final Tag<?> tag = (Tag<?>) field.get(null);
 					intoTags.put(tag.getName(), tag);
 					fromTags.put(tag, tag.getName());

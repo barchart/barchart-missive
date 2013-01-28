@@ -7,8 +7,8 @@
  */
 package legacy.example;
 
-import com.barchart.missive.core.LexiconNew;
 import com.barchart.missive.core.Tag;
+import com.barchart.missive.extra.LexiconNew;
 
 public class FixSpec extends LexiconNew {
 

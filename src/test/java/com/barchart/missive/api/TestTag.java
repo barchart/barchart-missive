@@ -5,7 +5,7 @@
  *
  * http://www.opensource.org/licenses/bsd-license.php
  */
-package com.barchart.missive;
+package com.barchart.missive.api;
 
 import static org.junit.Assert.*;
 
@@ -65,6 +65,7 @@ public class TestTag {
 		log.info(TestBoolean.cast("True").toString());
 
 		log.info(TestInteger.cast(1).toString());
+		log.info(TestFloat.cast(0.0f).toString());
 		log.info(TestDouble.cast(0.0).toString());
 		log.info(TestBoolean.cast(true).toString());
 
