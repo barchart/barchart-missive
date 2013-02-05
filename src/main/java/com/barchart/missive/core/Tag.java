@@ -103,7 +103,7 @@ public class Tag<V> {
 	protected static boolean isList(final Class<?> clazz) {
 		if (clazz.isArray()) {
 			return true;
-		} else if (clazz.isAssignableFrom(Collection.class)) {
+		} else if (Collection.class.isAssignableFrom(clazz)) {
 			return true;
 		} else {
 			return false;

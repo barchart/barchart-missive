@@ -5,16 +5,15 @@
  *
  * http://www.opensource.org/licenses/bsd-license.php
  */
-package com.barchart.missive.api;
+package com.barchart.missive.core;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
 
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.barchart.missive.core.MissiveException;
-import com.barchart.missive.core.Tag;
 
 /**
  * 
@@ -103,6 +102,18 @@ public class TestTag {
 		assertEquals("names match", STRING_FIELD.name(), "STRING_FIELD");
 
 		assertEquals("names match", DOUBLE_FIELD.name(), "DOUBLE_FIELD");
+
+	}
+
+	@Test
+	public void testIs() {
+
+		assertTrue(Tag.isEnum(TestEnum.class));
+
+		assertTrue(Tag.isList(byte[].class));
+		assertTrue(Tag.isList(ArrayList.class));
+
+		assertTrue(Tag.isPrim(Integer.class));
 
 	}
 
