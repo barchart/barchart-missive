@@ -25,8 +25,6 @@ import com.barchart.missive.util.ClassUtil;
  *            The class type of the value this tag represents.
  * 
  */
-// XXX
-// YYY
 public class Tag<V> {
 
 	private static AtomicInteger counter = new AtomicInteger(0);
