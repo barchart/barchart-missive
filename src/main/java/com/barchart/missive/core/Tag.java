@@ -26,6 +26,7 @@ import com.barchart.missive.util.ClassUtil;
  * 
  */
 // XXX
+// YYY
 public class Tag<V> {
 
 	private static AtomicInteger counter = new AtomicInteger(0);
