@@ -44,10 +44,42 @@ public class Tag<V> {
 		primitives.add(Character.class);
 	}
 
+	/**
+	 * Collect all tags from provided type.
+	 * 
+	 * @throws MissiveException
+	 */
+	public static Tag<?>[] collectAll(final Class<?> clazz)
+			throws MissiveException {
+		try {
+			return ClassUtil.constantFieldsAll(clazz, Tag.class).toArray(
+					new Tag[0]);
+		} catch (final Exception e) {
+			throw new MissiveException(e);
+		}
+	}
+
+	/**
+	 * Collect top level tags from provided type.
+	 * 
+	 * @throws MissiveException
+	 */
+	public static Tag<?>[] collectTop(final Class<?> clazz)
+			throws MissiveException {
+		try {
+			return ClassUtil.constantFieldsTop(clazz, Tag.class).toArray(
+					new Tag[0]);
+		} catch (final Exception e) {
+			throw new MissiveException(e);
+		}
+	}
+
+	/** Create tag for given type with default name. */
 	public static <V> Tag<V> create(final Class<V> clazz) {
 		return new Tag<V>(clazz);
 	}
 
+	/** Create tag for given name and type. */
 	public static <V> Tag<V> create(final String name, final Class<V> clazz) {
 		return new Tag<V>(name, clazz);
 	}

@@ -17,8 +17,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/** Reflection Utilities. */
 public class ClassUtil {
 
+	/** Provide access to stack trace. */
 	public static class ClassTrace extends SecurityManager {
 
 		public Class<?> getClassAt(final int index) {
@@ -53,8 +55,6 @@ public class ClassUtil {
 
 		final Class<?> parent = trace.getClassAt(place);
 
-		log.info("###  parent : {}", parent);
-
 		final Field[] fieldArray = parent.getDeclaredFields();
 
 		for (final Field field : fieldArray) {
@@ -64,8 +64,6 @@ public class ClassUtil {
 			}
 
 			final Object filedValue = field.get(null);
-
-			log.info("### field : {}  / {}", field, filedValue);
 
 			if (filedValue == instance) {
 				return field.getName();
@@ -77,6 +75,7 @@ public class ClassUtil {
 
 	}
 
+	/** Extract generic parameter. */
 	public static Class<?> genericParam(final Class<?> clazz) throws Exception {
 
 		final Type type = clazz.getGenericSuperclass();
@@ -93,6 +92,7 @@ public class ClassUtil {
 
 	}
 
+	/** Check for public static final field. */
 	public static boolean isConstant(final Field field) {
 		return true && //
 				Modifier.isPublic(field.getModifiers()) && //
@@ -102,7 +102,16 @@ public class ClassUtil {
 
 	}
 
-	public static <T> List<T> constantFields( //
+	/** Find all container constants. */
+	public static <T> List<T> constantFieldsAll( //
+			final Class<?> containerType, //
+			final Class<T> elementType //
+	) throws Exception {
+		throw new UnsupportedOperationException("TODO");
+	}
+
+	/** Find top level container constants. */
+	public static <T> List<T> constantFieldsTop( //
 			final Class<?> containerType, //
 			final Class<T> elementType //
 	) throws Exception {

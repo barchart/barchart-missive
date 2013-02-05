@@ -94,7 +94,7 @@ public abstract class FastMissive implements Missive {
 		try {
 
 			final List tags = //
-			ClassUtil.constantFields(container, Tag.class);
+			ClassUtil.constantFieldsTop(container, Tag.class);
 
 			log.debug("tags = {}", tags);
 
