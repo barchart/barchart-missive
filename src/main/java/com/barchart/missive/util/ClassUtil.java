@@ -48,37 +48,21 @@ public class ClassUtil {
 
 	private static Logger log = LoggerFactory.getLogger(ClassUtil.class);
 
-	public static String genericName(final Object instance, final int place)
-			throws Exception {
+	/** Find construction location. */
+	public static Class<?> instanceSpot(final int place) throws Exception {
 
 		final ClassTrace trace = new ClassTrace();
 
-		final Class<?> parent = trace.getClassAt(place);
+		final Class<?> spot = trace.getClassAt(place);
 
-		final Field[] fieldArray = parent.getDeclaredFields();
-
-		for (final Field field : fieldArray) {
-
-			if (!isConstant(field)) {
-				continue;
-			}
-
-			final Object filedValue = field.get(null);
-
-			if (filedValue == instance) {
-				return field.getName();
-			}
-
-		}
-
-		return "invalid name";
+		return spot;
 
 	}
 
 	/** Extract generic parameter. */
-	public static Class<?> genericParam(final Class<?> clazz) throws Exception {
+	public static Class<?> genericParam(final Class<?> klaz) throws Exception {
 
-		final Type type = clazz.getGenericSuperclass();
+		final Type type = klaz.getGenericSuperclass();
 
 		if (!(type instanceof ParameterizedType)) {
 			throw new IllegalArgumentException("invalid use of generic params");
@@ -138,6 +122,32 @@ public class ClassUtil {
 		}
 
 		return fieldList;
+
+	}
+
+	/** Find top level container constant field name. */
+	public static String constantFieldName( //
+			final Class<?> containerType, //
+			final Object fieldInstance //
+	) throws Exception {
+
+		final Field[] fieldArray = containerType.getDeclaredFields();
+
+		for (final Field field : fieldArray) {
+
+			if (!isConstant(field)) {
+				continue;
+			}
+
+			final Object entryInstance = field.get(null);
+
+			if (entryInstance == fieldInstance) {
+				return field.getName();
+			}
+
+		}
+
+		throw new IllegalStateException("field not found in container ");
 
 	}
 

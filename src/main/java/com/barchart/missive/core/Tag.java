@@ -31,7 +31,12 @@ public class Tag<V> {
 
 	public static final Logger log = LoggerFactory.getLogger(Tag.class);
 
+	/** FIXME use thread-safe immutable set */
 	private static final Set<Class<?>> primitives = new HashSet<Class<?>>();
+
+	private final static int IS_ENUM = 0x1;
+	private final static int IS_LIST = 0x2;
+	private final static int IS_PRIM = 0x4;
 
 	static {
 		primitives.add(Byte.class);
@@ -74,12 +79,19 @@ public class Tag<V> {
 		}
 	}
 
-	/** Create tag for given type with default name. */
-	public static <V> Tag<V> create(final Class<V> clazz) {
+	/**
+	 * Create tag for given type using constant field name as tag name.
+	 * 
+	 * @throws MissiveException
+	 */
+	public static <V> Tag<V> create(final Class<V> clazz)
+			throws MissiveException {
 		return new Tag<V>(clazz);
 	}
 
-	/** Create tag for given name and type. */
+	/**
+	 * Create tag for given name and type.
+	 */
 	public static <V> Tag<V> create(final String name, final Class<V> clazz) {
 		return new Tag<V>(name, clazz);
 	}
@@ -100,6 +112,20 @@ public class Tag<V> {
 
 	protected static boolean isPrim(final Class<?> clazz) {
 		return primitives.contains(clazz);
+	}
+
+	protected static int mask(final Class<?> clazz) {
+		int mask = 0;
+		if (isEnum(clazz)) {
+			mask |= IS_ENUM;
+		}
+		if (isList(clazz)) {
+			mask |= IS_LIST;
+		}
+		if (isPrim(clazz)) {
+			mask |= IS_PRIM;
+		}
+		return mask;
 	}
 
 	public static int maxIndex() {
@@ -168,31 +194,34 @@ public class Tag<V> {
 
 	}
 
-	private final Class<V> clazz;
+	private final Class<V> type;
 
 	private final int hashCode = nameHash(getClass());
 
 	private final int index = nextIndex();
 
-	private final boolean isEnum;
+	private final int mask;
 
-	private final boolean isList;
+	private volatile String name;
 
-	private final boolean isPrim;
+	private final Class<?> spot;
 
-	private final String name;
-
-	/** advanced constructor */
+	/**
+	 * Constructor expecting baked-in generic parameter.
+	 * <p>
+	 * Will use constant field name as tag name.
+	 * 
+	 * @throws MissiveException
+	 */
 	@SuppressWarnings("unchecked")
 	public Tag() throws MissiveException {
 		try {
 
-			this.name = defaultTagName();
-			this.clazz = (Class<V>) ClassUtil.genericParam(getClass());
+			this.name = null; // will lazy init
+			this.spot = ClassUtil.instanceSpot(5);
+			this.type = (Class<V>) ClassUtil.genericParam(getClass());
 
-			isPrim = isPrim(clazz);
-			isEnum = isEnum(clazz);
-			isList = isList(clazz);
+			mask = mask(type);
 
 		} catch (final Throwable e) {
 			log.error("construct failure", e);
@@ -200,28 +229,40 @@ public class Tag<V> {
 		}
 	}
 
-	public Tag(final Class<V> clazz) {
+	/**
+	 * Constructor will use constant field name as tag name.
+	 * 
+	 * @throws MissiveException
+	 */
+	private Tag(final Class<V> type) throws MissiveException {
+		try {
 
-		this.name = defaultTagName();
-		this.clazz = clazz;
+			this.name = null; // will lazy init
+			this.spot = ClassUtil.instanceSpot(5);
+			this.type = type;
 
-		isPrim = isPrim(clazz);
-		isEnum = isEnum(clazz);
-		isList = isList(clazz);
+			mask = mask(type);
 
+		} catch (final Throwable e) {
+			log.error("construct failure", e);
+			throw new MissiveException(e);
+		}
 	}
 
-	/** advanced constructor */
+	/**
+	 * Constructor expecting baked-in generic parameter.
+	 * 
+	 * @throws MissiveException
+	 */
 	@SuppressWarnings("unchecked")
 	public Tag(final String name) throws MissiveException {
 		try {
 
 			this.name = name;
-			this.clazz = (Class<V>) ClassUtil.genericParam(getClass());
+			this.spot = null; // will not use
+			this.type = (Class<V>) ClassUtil.genericParam(getClass());
 
-			isPrim = isPrim(clazz);
-			isEnum = isEnum(clazz);
-			isList = isList(clazz);
+			mask = mask(type);
 
 		} catch (final Throwable e) {
 			log.error("construct failure", e);
@@ -229,14 +270,13 @@ public class Tag<V> {
 		}
 	}
 
-	public Tag(final String name, final Class<V> clazz) {
+	public Tag(final String name, final Class<V> type) {
 
 		this.name = name;
-		this.clazz = clazz;
+		this.spot = null; // will not use
+		this.type = type;
 
-		isPrim = isPrim(clazz);
-		isEnum = isEnum(clazz);
-		isList = isList(clazz);
+		mask = mask(type);
 
 	}
 
@@ -245,34 +285,34 @@ public class Tag<V> {
 		try {
 
 			/* If the class is enum and object is string, attempt a valueOf */
-			if (isEnum && o instanceof String) {
+			if (isEnum() && o instanceof String) {
 
-				final Class<? extends Enum> crazz = (Class<? extends Enum>) clazz;
-				return (V) Enum.valueOf(crazz, (String) o);
+				final Class<? extends Enum> klaz = (Class<? extends Enum>) type;
+				return (V) Enum.valueOf(klaz, (String) o);
 
 				/* If class is primitive and object is string, attempt to parse */
-			} else if (isPrim && o instanceof String) {
+			} else if (isPrim() && o instanceof String) {
 
-				return (V) parsePrimitiveFromString(clazz, (String) o);
+				return (V) parsePrimitiveFromString(type, (String) o);
 
 			} else {
 
 				try {
 					/* Attempt a normal cast */
-					return clazz.cast(o);
+					return type.cast(o);
 				} catch (final ClassCastException e) {
 					/*
 					 * Last ditch, attempt to find constructor which accepts
 					 * object o
 					 */
-					return clazz.getConstructor(o.getClass()).newInstance(o);
+					return type.getConstructor(o.getClass()).newInstance(o);
 				}
 			}
 
 		} catch (final Throwable e) {
 
 			final String message = //
-			"Failed to cast object in tag " + name + " " + o;
+			"Failed to cast object in tag " + name() + " " + o;
 			log.error(message, e);
 			throw new MissiveException(message, e);
 
@@ -283,11 +323,25 @@ public class Tag<V> {
 		return "TAG=" + index();
 	}
 
-	public Class<V> getClazz() {
-		return clazz;
+	/** Tag value type. */
+	public Class<V> type() {
+		return type;
 	}
 
-	public final String getName() {
+	/** Tag name. */
+	public final String name() {
+		/** lazy init */
+		String name = this.name;
+		if (name == null) {
+			synchronized (this) {
+				try {
+					name = ClassUtil.constantFieldName(spot, this);
+				} catch (final Throwable e) {
+					name = defaultTagName();
+				}
+				this.name = name;
+			}
+		}
 		return name;
 	}
 
@@ -296,25 +350,26 @@ public class Tag<V> {
 		return hashCode;
 	}
 
+	/** Tag instantiation index. */
 	public int index() {
 		return index;
 	}
 
 	public final boolean isEnum() {
-		return isEnum;
+		return (mask & IS_ENUM) != 0;
 	}
 
 	public final boolean isList() {
-		return isList;
+		return (mask & IS_LIST) != 0;
 	}
 
-	public final boolean isPrimitive() {
-		return isPrim;
+	public final boolean isPrim() {
+		return (mask & IS_PRIM) != 0;
 	}
 
 	@Override
 	public String toString() {
-		return name;
+		return name();
 	}
 
 }

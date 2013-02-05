@@ -23,10 +23,17 @@ import com.barchart.missive.core.Tag;
  */
 public class TestTag {
 
-	protected static final Logger log = LoggerFactory.getLogger(TestTag.class);
+	private static final Logger log = LoggerFactory.getLogger(TestTag.class);
 
 	private enum TestEnum {
 		T1, T2
+	}
+
+	/** verify auto name */
+	public static final Tag<Double> DOUBLE_FIELD = Tag.create(Double.class);
+
+	/** verify auto name */
+	public static final Tag<String> STRING_FIELD = new Tag<String>() {
 	};
 
 	// TODO Make into unit test
@@ -80,21 +87,23 @@ public class TestTag {
 
 	}
 
+	@Test
 	public void testConstructProper() {
 
-		final Tag<?> tag = new Tag("hello") {
+		final Tag<String> tag = new Tag<String>("hello") {
 		};
 
-		assertTrue("class match", tag.getClazz() == getClass());
+		assertTrue("class match", tag.type() == String.class);
 
 	}
 
-	public static final Tag<String> STRING = new Tag<String>() {
+	@Test
+	public void testLazyName() {
 
-		{
-			log.info("init");
-		}
+		assertEquals("names match", STRING_FIELD.name(), "STRING_FIELD");
 
-	};
+		assertEquals("names match", DOUBLE_FIELD.name(), "DOUBLE_FIELD");
+
+	}
 
 }

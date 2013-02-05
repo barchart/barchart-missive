@@ -40,8 +40,8 @@ public class LexiconNew {
 			for (final Field field : fields) {
 				if (field.get(null).getClass() == Tag.class) {
 					final Tag<?> tag = (Tag<?>) field.get(null);
-					intoTags.put(tag.getName(), tag);
-					fromTags.put(tag, tag.getName());
+					intoTags.put(tag.name(), tag);
+					fromTags.put(tag, tag.name());
 				}
 			}
 

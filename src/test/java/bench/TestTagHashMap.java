@@ -43,7 +43,7 @@ public class TestTagHashMap {
 		final TagMapUnsafe testMap = new FastUnsafeTagMap(tags);
 
 		for (final Tag tag : tags) {
-			testMap.set(tag, "Test" + tag.getName());
+			testMap.set(tag, "Test" + tag.name());
 		}
 
 		/* Warm up */
@@ -61,7 +61,7 @@ public class TestTagHashMap {
 		/* Build java hashmap version */
 		final Map<Tag<?>, Object> testJavaMap = new HashMap<Tag<?>, Object>();
 		for (final Tag tag : tags) {
-			testJavaMap.put(tag, tag.getName());
+			testJavaMap.put(tag, tag.name());
 		}
 
 		/* Warm up */

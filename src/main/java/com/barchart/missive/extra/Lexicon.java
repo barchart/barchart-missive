@@ -62,7 +62,7 @@ public class Lexicon {
 		for (final Field field : fieldArray) {
 			if (field.getType() == Tag.class) {
 				final Tag<?> tag = (Tag<?>) field.get(null);
-				tags.put(tag.getName(), tag);
+				tags.put(tag.name(), tag);
 			}
 		}
 

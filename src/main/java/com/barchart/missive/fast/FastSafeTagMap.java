@@ -74,7 +74,7 @@ public class FastSafeTagMap implements TagMapSafe {
 		if (contains(tag)) {
 			values[indexLookup[tag.index()]] = value;
 		} else {
-			final String message = "Tag not in map : " + tag.getName();
+			final String message = "Tag not in map : " + tag.name();
 			log.error("{}", message);
 			throw new MissiveException(message);
 		}
