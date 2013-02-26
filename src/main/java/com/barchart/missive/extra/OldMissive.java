@@ -20,9 +20,9 @@ import com.barchart.missive.core.TagMapSafe;
  * @author Gavin M Litchfield
  * 
  */
-public interface Missive extends TagMapSafe {
+public interface OldMissive extends TagMapSafe {
 
-	public <M extends Missive> boolean isCastableTo(M missive);
+	public <M extends OldMissive> boolean isCastableTo(M missive);
 
 	/**
 	 * If M is a subclass of the current missive, and the missive has the
@@ -34,7 +34,7 @@ public interface Missive extends TagMapSafe {
 	 * 
 	 * @return
 	 */
-	public <M extends Missive> M castAsSubclass(M missive)
+	public <M extends OldMissive> M castAsSubclass(M missive)
 			throws MissiveException;
 
 }

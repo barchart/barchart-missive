@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import com.barchart.missive.core.MissiveException;
 import com.barchart.missive.core.Tag;
 import com.barchart.missive.core.TagMapUnsafe;
-import com.barchart.missive.extra.Missive;
+import com.barchart.missive.extra.OldMissive;
 import com.barchart.missive.util.ClassUtil;
 
 /**
@@ -27,7 +27,7 @@ import com.barchart.missive.util.ClassUtil;
  * @author Gavin M Litchfield
  * 
  */
-public abstract class FastMissive implements Missive {
+public abstract class FastMissive implements OldMissive {
 
 	protected static final Logger log = LoggerFactory
 			.getLogger(FastMissive.class);
@@ -200,14 +200,14 @@ public abstract class FastMissive implements Missive {
 	}
 
 	@Override
-	public <M extends Missive> boolean isCastableTo(final M missive) {
+	public <M extends OldMissive> boolean isCastableTo(final M missive) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	/** FIXME */
 	@Override
-	public <M extends Missive> M castAsSubclass(final M missive)
+	public <M extends OldMissive> M castAsSubclass(final M missive)
 			throws MissiveException {
 
 		// check if good to cast

@@ -59,5 +59,25 @@ public class HashTagMap implements TagMap {
 	public int size() {
 		return map.size();
 	}
+	
+	//TODO Handle arrays and nesting
+	@Override
+	public String toString() {
+		
+		final StringBuilder sb = new StringBuilder();
+		
+		for(final Entry<Tag, Object> e : map.entrySet()) {
+			sb.append("\n").append(e.getKey().name()).append(":");
+			if(e.getValue() == null) {
+				sb.append("null");
+			} else {
+				sb.append(e.getValue().toString());
+			}
+		}
+		
+		
+		return sb.toString();
+			
+	}
 
 }
