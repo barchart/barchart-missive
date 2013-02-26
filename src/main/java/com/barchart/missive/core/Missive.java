@@ -24,8 +24,8 @@ public abstract class Missive implements TagMap {
 	private final static ConcurrentMap<Class<? extends Missive>, Integer> classMap = 
 			new ConcurrentHashMap<Class<? extends Missive>, Integer>();
 	
-	protected volatile int classCode;
-	protected volatile Object[] values;
+	private volatile int classCode;
+	private volatile Object[] values;
 	
 	public static <V extends Missive> V build(final Class<V> clazz) {
 		
@@ -127,6 +127,13 @@ public abstract class Missive implements TagMap {
 			indexRegistry[i][oldSize] = -1;
 		}
 		
+	}
+	
+	/*
+	 * Pass through method for MissiveSafe
+	 */
+	<V> void set(Tag<V> tag, V value) throws MissiveException {
+		values[indexRegistry[classCode][tag.index()]] = value;
 	}
 	
 	/* Begin public methods */
