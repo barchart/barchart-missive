@@ -137,6 +137,7 @@ public class Tag<V> {
 	}
 
 	protected static int nextIndex() {
+		Missive.incrementIndexRegistry();
 		return counter.getAndIncrement();
 	}
 

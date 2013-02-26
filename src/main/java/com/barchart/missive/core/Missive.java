@@ -23,7 +23,11 @@ public abstract class Missive implements TagMap {
 	protected final Object[] values;
 	
 	@SuppressWarnings("unchecked")
-	protected Missive(final Tag<?>[] tags) {
+	protected Missive(Tag<?>[] tags) {
+		
+		if(tags == null) {
+			tags = new Tag<?>[0];
+		}
 		
 		/* Get current class object */
 		final Class<?>[] trace = new ClassUtil.ClassTrace().getClassContext();
@@ -95,6 +99,19 @@ public abstract class Missive implements TagMap {
 		
 		classCode = classMap.get(current);
 		values = new Object[tagRegistry[classCode].length];
+	}
+	
+	static synchronized void incrementIndexRegistry() {
+		
+		final int oldSize = indexRegistry[0].length;
+		
+		for(int i = 0; i < indexRegistry.length; i++) {
+			final int[] newIndexes = new int[oldSize + 1];
+			System.arraycopy(indexRegistry[i], 0, newIndexes, 0, oldSize);
+			indexRegistry[i] = newIndexes;
+			indexRegistry[i][oldSize] = -1;
+		}
+		
 	}
 	
 	@SuppressWarnings("unchecked")
