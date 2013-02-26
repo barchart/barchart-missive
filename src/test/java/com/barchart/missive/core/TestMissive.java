@@ -20,6 +20,7 @@ public class TestMissive {
 		static {
 			install(SMALL);
 		}
+		
 	}
 	
 	public static class SmallBreakfastSafe extends MissiveSafe {
