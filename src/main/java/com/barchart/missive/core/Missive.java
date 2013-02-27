@@ -15,6 +15,11 @@ import com.barchart.missive.util.ClassUtil;
  */
 public abstract class Missive implements TagMap {
 
+	/**
+	 * Index value for empty array entry.
+	 */
+	private static final int EMPTY_ENTRY = -1;
+
 	private static final AtomicInteger classCount = new AtomicInteger(0);
 
 	/** ClassCode, TagCode */
@@ -102,7 +107,7 @@ public abstract class Missive implements TagMap {
 		/** Build new index array and update index registry */
 		final int[] newIndexes = new int[Tag.maxIndex()];
 		for (int i = 0; i < Tag.maxIndex(); i++) {
-			newIndexes[i] = -1;
+			newIndexes[i] = EMPTY_ENTRY;
 		}
 		counter = 0;
 		for (final Tag<?> t : tagSet) {
@@ -129,7 +134,7 @@ public abstract class Missive implements TagMap {
 			final int[] newIndexes = new int[oldSize + 1];
 			System.arraycopy(indexRegistry[i], 0, newIndexes, 0, oldSize);
 			indexRegistry[i] = newIndexes;
-			indexRegistry[i][oldSize] = -1;
+			indexRegistry[i][oldSize] = EMPTY_ENTRY;
 		}
 
 	}
@@ -142,7 +147,7 @@ public abstract class Missive implements TagMap {
 		values[indexRegistry[classCode][tag.index()]] = value;
 	}
 
-	/** Begin public methods */
+	/* Begin public methods */
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -152,7 +157,7 @@ public abstract class Missive implements TagMap {
 
 	@Override
 	public boolean contains(final Tag<?> tag) {
-		return indexRegistry[classCode][tag.index()] != -1;
+		return indexRegistry[classCode][tag.index()] != EMPTY_ENTRY;
 	}
 
 	@Override
