@@ -36,6 +36,10 @@ public abstract class Missive implements TagMap {
 			throw new MissiveException(e1);
 		} 
 		
+		if(!classMap.containsKey(clazz)) {
+			throw new MissiveException(clazz.getName() + " was never installed");
+		}
+		
 		final int clazzCode = classMap.get(clazz);
 		
 		v.classCode = clazzCode;
