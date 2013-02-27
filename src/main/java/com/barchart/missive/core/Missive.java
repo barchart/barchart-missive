@@ -15,9 +15,14 @@ import com.barchart.missive.util.ClassUtil;
  */
 public abstract class Missive implements TagMap {
 
+	/**
+	 * Index value for empty array entry.
+	 */
+	private static final int EMPTY_ENTRY = -1;
+
 	private static final AtomicInteger classCount = new AtomicInteger(0);
 
-	/* ClassCode, TagCode */
+	/** ClassCode, TagCode */
 	protected static volatile int[][] indexRegistry = new int[0][];
 	protected static volatile Tag<?>[][] tagRegistry = new Tag<?>[0][];
 
@@ -28,23 +33,24 @@ public abstract class Missive implements TagMap {
 
 	public static <V extends Missive> V build(final Class<V> clazz) {
 
-		V v = null;
+		V missive = null;
 		try {
-			v = clazz.newInstance();
+			missive = clazz.newInstance();
 		} catch (final Exception e1) {
 			throw new MissiveException(e1);
 		}
 
 		if (!classMap.containsKey(clazz)) {
-			throw new MissiveException(clazz.getName() + " was never installed");
+			throw new MissiveException(clazz.getName()
+					+ " was never installed.");
 		}
 
 		final int clazzCode = classMap.get(clazz);
 
-		v.classCode = clazzCode;
-		v.values = new Object[tagRegistry[clazzCode].length];
+		missive.classCode = clazzCode;
+		missive.values = new Object[tagRegistry[clazzCode].length];
 
-		return v;
+		return missive;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -54,12 +60,12 @@ public abstract class Missive implements TagMap {
 			tags = new Tag<?>[0];
 		}
 
-		/* Get current class object */
+		/** Get current class object */
 		final Class<?>[] trace = new ClassUtil.ClassTrace().getClassContext();
 		final Class<? extends Missive> current = (Class<? extends Missive>) trace[2];
 		Class<?> superClazz = current.getSuperclass();
 
-		/* Build set of tags of all superclasses */
+		/** Build set of tags of all superclasses */
 		final Set<Tag<?>> tagSet = new HashSet<Tag<?>>();
 
 		for (final Tag<?> t : tags) {
@@ -85,7 +91,7 @@ public abstract class Missive implements TagMap {
 
 		}
 
-		/* Build new tag array and update tag registry */
+		/** Build new tag array and update tag registry */
 		final Tag<?>[] newTags = new Tag<?>[tagSet.size()];
 		int counter = 0;
 		for (final Tag<?> t : tagSet) {
@@ -98,10 +104,10 @@ public abstract class Missive implements TagMap {
 		newTagRegistry[classCount.get()] = newTags;
 		tagRegistry = newTagRegistry;
 
-		/* Build new index array and update index registry */
+		/** Build new index array and update index registry */
 		final int[] newIndexes = new int[Tag.maxIndex()];
 		for (int i = 0; i < Tag.maxIndex(); i++) {
-			newIndexes[i] = -1;
+			newIndexes[i] = EMPTY_ENTRY;
 		}
 		counter = 0;
 		for (final Tag<?> t : tagSet) {
@@ -115,7 +121,7 @@ public abstract class Missive implements TagMap {
 		newIndexRegistry[classCount.get()] = newIndexes;
 		indexRegistry = newIndexRegistry;
 
-		/* Assign new class code and update counter */
+		/** Assign new class code and update counter */
 		classMap.put(current, classCount.getAndIncrement());
 
 	}
@@ -128,7 +134,7 @@ public abstract class Missive implements TagMap {
 			final int[] newIndexes = new int[oldSize + 1];
 			System.arraycopy(indexRegistry[i], 0, newIndexes, 0, oldSize);
 			indexRegistry[i] = newIndexes;
-			indexRegistry[i][oldSize] = -1;
+			indexRegistry[i][oldSize] = EMPTY_ENTRY;
 		}
 
 	}
@@ -151,7 +157,7 @@ public abstract class Missive implements TagMap {
 
 	@Override
 	public boolean contains(final Tag<?> tag) {
-		return indexRegistry[classCode][tag.index()] != -1;
+		return indexRegistry[classCode][tag.index()] != EMPTY_ENTRY;
 	}
 
 	@Override
