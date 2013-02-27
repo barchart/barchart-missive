@@ -19,14 +19,14 @@
 
 	<groupId>com.barchart.missive</groupId>
 	<artifactId>barchart-missive</artifactId>
-	<version>1.2.0</version>
+	<version>1.2.1-SNAPSHOT</version>
 	<packaging>bundle</packaging>
 
 	<scm>
 		<url>https://github.com/barchart/barchart-missive</url>
 		<connection>scm:git:git://github.com/barchart/barchart-missive.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/barchart/barchart-missive.git</developerConnection>
-		<tag>barchart-missive-1.2.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<dependencies>
