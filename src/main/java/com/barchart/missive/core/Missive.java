@@ -1,6 +1,9 @@
 package com.barchart.missive.core;
 
+import java.lang.reflect.Constructor;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -35,7 +38,9 @@ public abstract class Missive implements TagMap {
 
 		V missive = null;
 		try {
-			missive = clazz.newInstance();
+			final Constructor<V> c = clazz.getDeclaredConstructor();
+			c.setAccessible(true);
+			missive = c.newInstance();
 		} catch (final Exception e1) {
 			throw new MissiveException(e1);
 		}
@@ -53,6 +58,36 @@ public abstract class Missive implements TagMap {
 		return missive;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static <V extends Missive> V build(final Class<V> clazz, 
+			final Map<Tag, Object> map) {
+		
+		V v = build(clazz);
+		
+		for(Entry<Tag, Object> e : map.entrySet()) {
+			if(v.contains(e.getKey())) {
+				v.set(e.getKey(), e.getKey().cast(e.getValue()));
+			}
+		}
+		
+		return v;
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static <V extends Missive> V build(final Class<V> clazz, final TagMap map) {
+		
+		V v = build(clazz);
+		
+		for(Tag t : map.tags()) {
+			if(v.contains(t)) {
+				v.set(t, map.get(t));
+			}
+		}
+		
+		return v;
+		
+	}
+	
 	@SuppressWarnings("unchecked")
 	protected static void install(Tag<?>[] tags) {
 

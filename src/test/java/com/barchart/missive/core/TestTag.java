@@ -15,6 +15,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.barchart.missive.core.MissiveException;
+import com.barchart.missive.core.Tag;
+
 /**
  * 
  * @author Gavin M Litchfield

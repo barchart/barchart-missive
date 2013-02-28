@@ -1,8 +1,12 @@
-package com.barchart.missive.core;
+package com.barchart.missive.core2;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+
+import com.barchart.missive.core.Missive;
+import com.barchart.missive.core.MissiveSafe;
+import com.barchart.missive.core.Tag;
 
 public class TestMissive {
 
@@ -15,7 +19,7 @@ public class TestMissive {
 	public static final Tag<?>[] NORMAL = new Tag<?>[]{HASHBROWNS};
 	public static final Tag<?>[] SUPER = new Tag<?>[]{HAM};
 	
-	public static class SmallBreakfast extends Missive {
+	static class SmallBreakfast extends Missive {
 		
 		static {
 			install(SMALL);
@@ -23,7 +27,7 @@ public class TestMissive {
 		
 	}
 	
-	public static class SmallBreakfastSafe extends MissiveSafe {
+	static class SmallBreakfastSafe extends MissiveSafe {
 		
 		static {
 			install(SMALL);
@@ -65,6 +69,8 @@ public class TestMissive {
 	
 	@Test
 	public void testMissive() {
+		
+		TestProtected testProtected = Missive.build(TestProtected.class);
 		
 		SmallBreakfast smallBfast = Missive.build(SmallBreakfast.class);
 		SmallBreakfastSafe smallSafe = Missive.build(SmallBreakfastSafe.class);
