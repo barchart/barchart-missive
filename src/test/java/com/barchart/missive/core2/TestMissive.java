@@ -70,6 +70,7 @@ public class TestMissive {
 	@Test
 	public void testMissive() {
 		
+		/* Ensures we can get an instance of a non-public constructor or class */
 		TestProtected testProtected = Missive.build(TestProtected.class);
 		
 		SmallBreakfast smallBfast = Missive.build(SmallBreakfast.class);
@@ -114,6 +115,13 @@ public class TestMissive {
 		
 		assertTrue(smallSafe.get(BACON).equals("bacon"));
 		assertTrue(smallSafe.get(EGGS).equals("eggs"));
+		
+	}
+	
+	@Test
+	public void testEquals() {
+		
+		
 		
 	}
 	

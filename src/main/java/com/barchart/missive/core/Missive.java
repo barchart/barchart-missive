@@ -1,6 +1,7 @@
 package com.barchart.missive.core;
 
 import java.lang.reflect.Constructor;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -203,6 +204,85 @@ public abstract class Missive implements TagMap {
 	@Override
 	public int size() {
 		return tagRegistry[classCode].length;
+	}
+	
+	/*
+	 * TODO Review Missive equality 
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public boolean equals(final Object o) {
+		
+		if(o == null) {
+			return false;
+		}
+		
+		if(this == o) {
+			return true;
+		}
+		
+		if(!(o instanceof Missive)) {
+			return false;
+		}
+		
+		final Missive m = (Missive)o;
+		
+		if(size() != m.size()) {
+			return false;
+		}
+		
+		for(Tag t : tags()) {
+			
+			if(!m.contains(t)) {
+				return false;
+			}
+			
+			if(m.get(t) == null) {
+				if(get(t) != null) {
+					return false;
+				}
+			}
+			
+			if(get(t) == null) {
+				return false;
+			}
+			
+			if(t.isList()) {
+				if(!compareCollections((Collection<Object>)get(t), 
+						(Collection<Object>)m.get(t))) {
+					return false;
+				}
+			}
+			
+			if(!get(t).equals(m.get(t))) {
+				return false;
+			}
+			
+		}
+		
+		return true;
+	}
+	
+	private static boolean compareCollections(final Collection<Object> thisC, 
+			final Collection<Object> thatC) {
+		
+		if(thisC == null || thatC == null) {
+			return false;
+		}
+		
+		if(thisC.size() != thatC.size()) {
+			return false;
+		}
+		
+		for(final Object o : thisC) {
+			
+			if(!thatC.contains(o)) {
+				return false;
+			}
+			
+		}
+		
+		return true;
 	}
 
 }
