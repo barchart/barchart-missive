@@ -10,12 +10,22 @@ public class LongType implements ValueType<Long> {
 	public static final NullLong NULL_LONG = new NullLong();
 
 	@Override
-	public Long get(byte[] bytes, int index) {
+	public Long getValue(byte[] bytes, int index) {
 		return ByteBuffer.wrap(bytes).getLong(index);
+	}
+	
+	@Override
+	public Long getValue(byte[] bytes) {
+		return ByteBuffer.wrap(bytes).getLong(0);
 	}
 
 	@Override
-	public byte[] put(byte[] bytes, int index, Long value) {
+	public byte[] getBytes(Long value) {
+		return ByteBuffer.allocate(0).putLong(value).array();
+	}
+
+	@Override
+	public byte[] putValue(Long value, byte[] bytes, int index) {
 		return ByteBuffer.wrap(bytes).putLong(index, value).array();
 	}
 
@@ -33,5 +43,7 @@ public class LongType implements ValueType<Long> {
 	public NullValue<Long> getNull() {
 		return NULL_LONG;
 	}
+
+	
 
 }

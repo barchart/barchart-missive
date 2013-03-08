@@ -8,6 +8,7 @@ public class MissiveType<T extends ValueMissive> implements ValueType<T> {
 	final Class<T> clazz;
 	final int size;
 	
+	@SuppressWarnings("unused")
 	public MissiveType(final Class<T> type) {
 		//TODO figure out how to get rid of this
 		T builder = ValueMissive.build(type);
@@ -16,21 +17,29 @@ public class MissiveType<T extends ValueMissive> implements ValueType<T> {
 	}
 	
 	@Override
-	public T get(byte[] bytes, int index) {
+	public T getValue(final byte[] bytes, final int index) {
 		return ValueMissive.build(clazz, bytes, index);
 	}
 
 	@Override
-	public byte[] put(byte[] bytes, int index, T value) {
-		
+	public T getValue(final byte[] bytes) {
+		return ValueMissive.build(clazz, bytes, 0);
+	}
+
+	@Override
+	public byte[] getBytes(final T value) {
+		return value.bytes;
+	}
+	
+	@Override
+	public byte[] putValue(final T value,final byte[] bytes,final int index) {
 		System.arraycopy(value.bytes, 0, bytes, index, value.bytes.length);
-		
 		return bytes;
 	}
 
 	@Override
 	public boolean isNull(byte[] bytes, int index) {
-		return get(bytes, index) == NULL_MISSIVE;
+		return getValue(bytes, index) == NULL_MISSIVE;
 	}
 
 	@Override

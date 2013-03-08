@@ -10,12 +10,22 @@ public class IntegerType implements ValueType<Integer> {
 	public static final NullInteger NULL_INTEGER = new NullInteger();
 	
 	@Override
-	public Integer get(final byte[] bytes, final int index) {
+	public Integer getValue(final byte[] bytes, final int index) {
 		return ByteBuffer.wrap(bytes).getInt(index);
+	}
+	
+	@Override
+	public Integer getValue(byte[] bytes) {
+		return ByteBuffer.wrap(bytes).getInt(0);
 	}
 
 	@Override
-	public byte[] put(final byte[] bytes, final int index, final Integer t) {
+	public byte[] getBytes(final Integer value) {
+		return ByteBuffer.allocate(4).putInt(value).array();
+	}
+
+	@Override
+	public byte[] putValue(final Integer t, final byte[] bytes, final int index) {
 		return ByteBuffer.wrap(bytes).putInt(index, t).array();
 	}
 
@@ -33,5 +43,7 @@ public class IntegerType implements ValueType<Integer> {
 	public NullValue<Integer> getNull() {
 		return NULL_INTEGER;
 	}
+
+	
 	
 }

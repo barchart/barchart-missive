@@ -33,8 +33,6 @@ public abstract class ValueMissive {
 	
 	/* ***** ***** Begin public static methods ***** ***** */
 	
-	// clone, cast...
-	
 	/**
 	 * 
 	 * @param clazz
@@ -90,62 +88,66 @@ public abstract class ValueMissive {
 			tags = new ValueTag<?>[0];
 		}
 
-		/** Get current class object */
+		/* Get current class object */
 		final Class<?>[] trace = new ClassUtil.ClassTrace().getClassContext();
 		final Class<? extends ValueMissive> current = 
 				(Class<? extends ValueMissive>) trace[2];
 		Class<?> superClazz = current.getSuperclass();
 
-		/** Build set of tags of all superclasses */
+		/* Build set of new tags not members of superclass */
 		final Set<ValueTag<?>> tagSet = new HashSet<ValueTag<?>>();
 
 		for (final ValueTag<?> t : tags) {
 			tagSet.add(t);
 		}
 
-		while (ValueMissive.class.isAssignableFrom(superClazz)
+		ValueTag<?>[] newTagArray = null;
+		if(ValueMissive.class.isAssignableFrom(superClazz)
 				&& !superClazz.equals(ValueMissive.class)) {
-
-			ValueTag<?>[] classTags = new ValueTag<?>[0];
+			
+			/* Retrieve tag array of superclass */
+			ValueTag<?>[] superclassTags = new ValueTag<?>[0];
 			try {
-				classTags = tagRegistry[classMap.get(superClazz)];
+				superclassTags = tagRegistry[classMap.get(superClazz)];
 			} catch (final Exception e) {
 				throw new MissiveException(e);
 			}
-
-			for (final ValueTag<?> t : classTags) {
-				tagSet.add(t);
+			
+			/* Remove all tags in superclass from subclass's tag set */
+			for (final ValueTag<?> t : superclassTags) {
+				if(tagSet.contains(t)) {
+					tagSet.remove(t);
+				}
 			}
-
-			superClazz = superClazz.getSuperclass();
-
+			
+			/* Copy superclass tags into subclass then add on new tags */
+			newTagArray = new ValueTag<?>[superclassTags.length + tagSet.size()];
+			System.arraycopy(superclassTags, 0, newTagArray, 0, superclassTags.length);
+			System.arraycopy(tagSet.toArray(new ValueTag<?>[0]), 0, 
+					newTagArray, superclassTags.length + 1, tagSet.size());
+			
+		} else {
+			newTagArray = tagSet.toArray(new ValueTag<?>[0]);
 		}
 
-		/** Build new tag array and update tag registry */
-		final ValueTag<?>[] newTags = new ValueTag<?>[tagSet.size()];
-		int counter = 0;
-		for (final ValueTag<?> t : tagSet) {
-			newTags[counter] = t;
-			counter++;
-		}
-
+		/* Update tag registry */
 		final ValueTag<?>[][] newTagRegistry = new ValueTag<?>[classCount.get() + 1][];
 		System.arraycopy(tagRegistry, 0, newTagRegistry, 0, classCount.get());
-		newTagRegistry[classCount.get()] = newTags;
+		newTagRegistry[classCount.get()] = newTagArray;
 		tagRegistry = newTagRegistry;
 
-		/** Build new index array and update index registry */
+		/* Build new index array and update index registry */
 		final int[] newIndexes = new int[ValueTag.maxIndex()];
 		for (int i = 0; i < ValueTag.maxIndex(); i++) {
 			newIndexes[i] = EMPTY_ENTRY;
 		}
-		counter = 0;
+		int counter = 0;
 		for (final ValueTag<?> t : tagSet) {
 			newIndexes[t.index()] = counter;
 			counter += t.type().size();
 		}
 		
-		/** Build new buffer size array and update buffer size registry */
+		/* Build new buffer size array and update buffer size registry */
 		final int[] newBufferSizeRegistry = new int[classCount.get() + 1];
 		System.arraycopy(byteSizeRegistry, 0, newBufferSizeRegistry, 0, classCount.get());
 		int size = 0;
@@ -161,7 +163,7 @@ public abstract class ValueMissive {
 		newIndexRegistry[classCount.get()] = newIndexes;
 		indexRegistry = newIndexRegistry;
 
-		/** Assign new class code and update counter */
+		/* Assign new class code and update counter */
 		classMap.put(current, classCount.getAndIncrement());
 
 	}
@@ -198,7 +200,7 @@ public abstract class ValueMissive {
 	 * @throws MissiveException
 	 */
 	public <V, T extends ValueType<V>> V get(final ValueTag<T> tag) throws MissiveException {
-		return tag.type().get(bytes, indexRegistry[classCode][tag.index()]);
+		return tag.type().getValue(bytes, indexRegistry[classCode][tag.index()]);
 	}
 	
 	/**
@@ -209,7 +211,7 @@ public abstract class ValueMissive {
 	 */
 	public<V, T extends ValueType<V>> void set(final ValueTag<T> tag, final V value)
 			throws MissiveException {
-		tag.type().put(bytes, indexRegistry[classCode][tag.index()], value);
+		tag.type().putValue(value, bytes, indexRegistry[classCode][tag.index()]);
 	}
 
 	/**
@@ -235,6 +237,34 @@ public abstract class ValueMissive {
 	 */
 	public int size() {
 		return tagRegistry[classCode].length;
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param subClazz
+	 * @return
+	 */
+	public <V extends ValueMissive> V cast(final Class<V> subClazz) {
+		
+		if(!subClazz.isAssignableFrom(getClass())) {
+			throw new MissiveException(subClazz.getName() + " is not a subclass of " + 
+						getClass().getName());
+		}
+		
+		/* If the current byte array is shorter than the subclass', pad */
+		if(bytes.length < byteSizeRegistry[classMap.get(subClazz)]) {
+			
+			byte[] subBytes = new byte[byteSizeRegistry[classMap.get(subClazz)]];
+			System.arraycopy(bytes, 0, subBytes, 0, bytes.length);
+			return build(subClazz, subBytes, 0);
+			
+		} else {
+		
+			/* Otherwise, pass current byte array to new subClass */
+			return build(subClazz, bytes, 0);
+			
+		}
 	}
 	
 	@Override

@@ -109,11 +109,18 @@ public class ValueTag<T extends ValueType<?>> {
 		return typeClass;
 	}
 	
+	/**
+	 * Returns the ValueType this tag identifies.
+	 * 
+	 * @return
+	 */
 	public T type() {
 		return type;
 	}
 	
-	/** Tag name. */
+	/** 
+	 * Tag name. 
+	 */
 	public final String name() {
 		/** lazy init */
 		String name = this.name;

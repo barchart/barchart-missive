@@ -9,12 +9,12 @@ public class NullInteger extends IntegerType implements NullValue<Integer> {
 	}
 	
 	@Override
-	public Integer get(final byte[] bytes, final int index) {
+	public Integer getValue(final byte[] bytes, final int index) {
 		return 0;
 	}
 	
 	@Override
-	public byte[] put(final byte[] bytes, final int index, final Integer t) {
+	public byte[] putValue(final Integer t, final byte[] bytes, final int index) {
 		// TODO What makes sense here?
 		return bytes;
 	}
