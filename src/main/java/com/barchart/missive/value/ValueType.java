@@ -1,13 +1,15 @@
 package com.barchart.missive.value;
 
-import java.nio.ByteBuffer;
-
-public interface ValueType<T extends ValueType<T>> {
+public interface ValueType<T> {
 	
-	T get(ByteBuffer bytes, int index);
+	T get(byte[] bytes, int index);
 	
-	T put(ByteBuffer bytes, int index, T t);
+	byte[] put(byte[] bytes, int index, T value);
 	
-	boolean isNull(ByteBuffer bytes, int index);
+	boolean isNull(byte[] bytes, int index);
+	
+	int size();
+	
+	NullValue<T> getNull();
 
 }

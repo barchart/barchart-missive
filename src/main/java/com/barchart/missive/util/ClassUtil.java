@@ -75,6 +75,12 @@ public class ClassUtil {
 		return (Class<?>) typeArgs[0];
 
 	}
+	
+//	public static Class<?> genericParamOther(final Class<?> klaz) throws Exception {
+//		
+//		//klaz.
+//		
+//	}
 
 	/** Check for public static final field. */
 	public static boolean isConstant(final Field field) {

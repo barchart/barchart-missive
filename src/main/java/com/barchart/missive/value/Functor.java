@@ -1,7 +1,6 @@
 package com.barchart.missive.value;
 
-@SuppressWarnings("rawtypes")
-public interface Functor<P extends ValueTag, R> {
+public interface Functor<P extends ValueMissive, R extends ValueMissive> {
 	
 	R run(P p);
 
