@@ -1,7 +1,7 @@
 package com.barchart.missive.value;
 
-public interface Task<X extends ValueMissive, Y extends ValueMissive> {
+public interface Task<P extends ValueMissive> {
 
-	Void run(X x, Y y);
+	void run(P p);
 	
 }

@@ -73,7 +73,6 @@ public class ValueTag<T extends ValueType<?>> {
 		return counter.getAndIncrement();
 	}
 	
-	private final Class<T> typeClass;
 	private final T type; 
 
 	private final int hashCode = nameHash(getClass());
@@ -84,13 +83,11 @@ public class ValueTag<T extends ValueType<?>> {
 	
 	private final Class<?> spot;
 
-	@SuppressWarnings("unchecked")
 	private ValueTag(final String name, final T type) throws MissiveException {
 		
 		try {
 			
 			this.name = name;
-			this.typeClass = (Class<T>) type.getClass();
 			this.spot = ClassUtil.instanceSpot(5);
 			this.type = type;
 			
@@ -104,11 +101,6 @@ public class ValueTag<T extends ValueType<?>> {
 		return "TAG=" + index;
 	}
 	
-	/** Tag value type. */
-	public Class<T> typeClass() {
-		return typeClass;
-	}
-	
 	/**
 	 * Returns the ValueType this tag identifies.
 	 * 
@@ -118,9 +110,7 @@ public class ValueTag<T extends ValueType<?>> {
 		return type;
 	}
 	
-	/** 
-	 * Tag name. 
-	 */
+	/** Tag name. */
 	public final String name() {
 		/** lazy init */
 		String name = this.name;
@@ -136,7 +126,7 @@ public class ValueTag<T extends ValueType<?>> {
 		}
 		return name;
 	}
-
+	
 	/** Tag instantiation index. */
 	public int index() {
 		return index;

@@ -44,6 +44,19 @@ public class LongType implements ValueType<Long> {
 		return NULL_LONG;
 	}
 
+	static class NullLong extends LongType implements NullValue<Long> {
+		
+		@Override
+		public Long getValue(final byte[] bytes, final int index) {
+			return 0l;
+		}
+		
+		@Override
+		public boolean isNull(byte[] bytes, int index) {
+			return true;
+		}
+		
+	}
 	
 
 }

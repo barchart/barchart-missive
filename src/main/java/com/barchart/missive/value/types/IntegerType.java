@@ -44,6 +44,24 @@ public class IntegerType implements ValueType<Integer> {
 		return NULL_INTEGER;
 	}
 
-	
+	static class NullInteger extends IntegerType implements NullValue<Integer> {
+		
+		@Override
+		public Integer getValue(final byte[] bytes, final int index) {
+			return 0;
+		}
+		
+		@Override
+		public byte[] putValue(final Integer t, final byte[] bytes, final int index) {
+			// TODO What makes sense here?
+			return bytes;
+		}
+		
+		@Override
+		public boolean isNull(final byte[] bytes, final int index) {
+			return true;
+		}
+		
+	}
 	
 }

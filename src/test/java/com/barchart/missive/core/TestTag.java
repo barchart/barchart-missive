@@ -95,7 +95,7 @@ public class TestTag {
 		final Tag<String> tag = new Tag<String>("hello") {
 		};
 
-		assertTrue("class match", tag.type() == String.class);
+		assertTrue("class match", tag.classType() == String.class);
 
 	}
 

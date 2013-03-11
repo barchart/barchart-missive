@@ -325,7 +325,7 @@ public class Tag<V> {
 	}
 
 	/** Tag value type. */
-	public Class<V> type() {
+	public Class<V> classType() {
 		return type;
 	}
 

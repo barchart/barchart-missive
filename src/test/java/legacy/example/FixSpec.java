@@ -8,9 +8,8 @@
 package legacy.example;
 
 import com.barchart.missive.core.Tag;
-import com.barchart.missive.extra.LexiconNew;
 
-public class FixSpec extends LexiconNew {
+public class FixSpec  {
 
 	/* Header Tags */
 	public static final Tag<Integer> MsgSeqNum = new Tag<Integer>("MsgSeqNum", Integer.class);
@@ -42,7 +41,7 @@ public class FixSpec extends LexiconNew {
 	public static final Tag<OrderType> OrdType = new Tag<OrderType>("OrderType", OrderType.class);
 	
 	static {
-		build();
+		
 	}
 	
 }
