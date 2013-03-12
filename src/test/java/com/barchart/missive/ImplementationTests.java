@@ -33,15 +33,11 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.barchart.missive.TestSpec.TestEnum;
-import com.barchart.missive.core.Tag;
+import com.barchart.missive.api.Tag;
 import com.barchart.missive.core.TagMap;
 import com.barchart.missive.core.TagMapSafe;
 
 public final class ImplementationTests {
-	
-	private ImplementationTests() {
-		
-	}
 	
 	@SuppressWarnings("rawtypes")
 	@Test

@@ -6,37 +6,38 @@ import java.lang.management.MemoryUsage;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.barchart.missive.api.Tag;
 import com.barchart.missive.core.Missive;
 import com.barchart.missive.core.MissiveSafe;
-import com.barchart.missive.core.Tag;
+import com.barchart.missive.core.TagFactory;
 import com.barchart.missive.core2.MissiveMemoryTest.TestMissive;
 
 public class MissiveMemoryTest2 {
 	
 	public static final int TEST_SIZE = 1 * 1000 * 1000;
 
-	public static final Tag<Long> TAG1 = Tag.create(Long.class);
-	public static final Tag<Long> TAG2 = Tag.create(Long.class);
-	public static final Tag<Long> TAG3 = Tag.create(Long.class);
-	public static final Tag<Long> TAG4 = Tag.create(Long.class);
-	public static final Tag<Long> TAG5 = Tag.create(Long.class);
-	public static final Tag<Long> TAG6 = Tag.create(Long.class);
-	public static final Tag<Long> TAG7 = Tag.create(Long.class);
-	public static final Tag<Long> TAG8 = Tag.create(Long.class);
-	public static final Tag<Long> TAG9 = Tag.create(Long.class);
-	public static final Tag<Long> TAG10 = Tag.create(Long.class);
-	public static final Tag<Long> TAG11 = Tag.create(Long.class);
-	public static final Tag<Long> TAG12 = Tag.create(Long.class);
-	public static final Tag<Long> TAG13 = Tag.create(Long.class);
-	public static final Tag<Long> TAG14 = Tag.create(Long.class);
-	public static final Tag<Long> TAG15 = Tag.create(Long.class);
-	public static final Tag<Long> TAG16 = Tag.create(Long.class);
-	public static final Tag<Long> TAG17 = Tag.create(Long.class);
-	public static final Tag<Long> TAG18 = Tag.create(Long.class);
-	public static final Tag<Long> TAG19 = Tag.create(Long.class);
-	public static final Tag<Long> TAG20 = Tag.create(Long.class);
+	public static final Tag<Long> TAG1 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG2 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG3 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG4 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG5 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG6 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG7 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG8 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG9 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG10 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG11 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG12 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG13 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG14 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG15 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG16 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG17 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG18 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG19 = TagFactory.create(Long.class);
+	public static final Tag<Long> TAG20 = TagFactory.create(Long.class);
 
-	public static final Tag<?>[] TAGS = Tag.collectTop(MissiveMemoryTest.class);
+	public static final Tag<?>[] TAGS = TagFactory.collectTop(MissiveMemoryTest.class);
 
 	public static class TestMissive extends MissiveSafe {
 

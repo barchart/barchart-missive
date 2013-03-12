@@ -9,8 +9,8 @@ package com.barchart.missive.hash;
 
 import java.util.Map;
 
+import com.barchart.missive.api.Tag;
 import com.barchart.missive.core.MissiveException;
-import com.barchart.missive.core.Tag;
 import com.barchart.missive.core.TagMapSafe;
 
 public class HashTagMapSafe extends HashTagMap implements TagMapSafe {

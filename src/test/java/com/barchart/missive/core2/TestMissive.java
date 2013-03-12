@@ -4,16 +4,17 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.barchart.missive.api.Tag;
 import com.barchart.missive.core.Missive;
 import com.barchart.missive.core.MissiveSafe;
-import com.barchart.missive.core.Tag;
+import com.barchart.missive.core.TagFactory;
 
 public class TestMissive {
 
-	public static final Tag<String> BACON = Tag.create(String.class);
-	public static final Tag<String> HAM = Tag.create(String.class);
-	public static final Tag<String> EGGS = Tag.create(String.class);
-	public static final Tag<String> HASHBROWNS = Tag.create(String.class);
+	public static final Tag<String> BACON = TagFactory.create(String.class);
+	public static final Tag<String> HAM = TagFactory.create(String.class);
+	public static final Tag<String> EGGS = TagFactory.create(String.class);
+	public static final Tag<String> HASHBROWNS = TagFactory.create(String.class);
 	
 	public static final Tag<?>[] SMALL = new Tag<?>[]{BACON, EGGS};
 	public static final Tag<?>[] NORMAL = new Tag<?>[]{HASHBROWNS};

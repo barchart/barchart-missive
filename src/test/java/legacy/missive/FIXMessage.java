@@ -10,7 +10,7 @@ package legacy.missive;
 import static legacy.example.FixSpec.*;
 import legacy.OldMissive;
 
-import com.barchart.missive.core.Tag;
+import com.barchart.missive.api.Tag;
 
 public class FIXMessage extends OldMissive {
 	

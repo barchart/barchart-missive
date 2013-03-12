@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.barchart.missive.api.Tag;
 import com.barchart.missive.core.MissiveException;
-import com.barchart.missive.core.Tag;
 
 /**
  * 

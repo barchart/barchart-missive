@@ -28,7 +28,6 @@ public class TestMissiveType {
 		
 		System.out.println(intMiss == intMiss2);
 		
-		
 	}
 
 }

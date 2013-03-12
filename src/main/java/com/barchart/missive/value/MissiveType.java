@@ -2,6 +2,12 @@ package com.barchart.missive.value;
 
 import com.barchart.missive.core.MissiveException;
 
+/**
+ * 
+ * @author Gavin M Litchfield
+ *
+ * @param <T>
+ */
 public class MissiveType<T extends ValueMissive> implements ValueType<T> {
 
 	public static final NullMissive NULL_MISSIVE = ValueMissive.build(NullMissive.class);

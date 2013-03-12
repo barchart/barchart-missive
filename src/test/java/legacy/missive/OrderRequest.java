@@ -9,7 +9,7 @@ package legacy.missive;
 
 import static legacy.example.FixSpec.*;
 
-import com.barchart.missive.core.Tag;
+import com.barchart.missive.api.Tag;
 
 public class OrderRequest extends FIXMessage {
 

@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.barchart.missive.api.Tag;
 import com.barchart.missive.core.MissiveException;
-import com.barchart.missive.core.Tag;
 import com.barchart.missive.core.TagMap;
 
 public class HashTagMap implements TagMap {

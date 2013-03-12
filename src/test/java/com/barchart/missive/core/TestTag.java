@@ -15,8 +15,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.barchart.missive.api.Tag;
 import com.barchart.missive.core.MissiveException;
-import com.barchart.missive.core.Tag;
 
 /**
  * 
@@ -32,29 +32,28 @@ public class TestTag {
 	}
 
 	/** verify auto name */
-	public static final Tag<Double> DOUBLE_FIELD = Tag.create(Double.class);
+	public static final Tag<Double> DOUBLE_FIELD = TagFactory.create(Double.class);
 
 	/** verify auto name */
-	public static final Tag<String> STRING_FIELD = new Tag<String>() {
-	};
+	public static final Tag<String> STRING_FIELD = TagFactory.create(String.class);
 
 	// TODO Make into unit test
 	public static void main(final String[] args) {
 
-		final Tag<TestEnum> TestEnum = new Tag<TestEnum>("TestEag",
+		final Tag<TestEnum> TestEnum = TagFactory.create("TestEag",
 				TestEnum.class);
 
-		final Tag<Byte> TestByte = new Tag<Byte>("TestByte", Byte.class);
-		final Tag<Short> TestShort = new Tag<Short>("TestShort", Short.class);
-		final Tag<Integer> TestInteger = new Tag<Integer>("TestInteger",
+		final Tag<Byte> TestByte = TagFactory.create("TestByte", Byte.class);
+		final Tag<Short> TestShort = TagFactory.create("TestShort", Short.class);
+		final Tag<Integer> TestInteger = TagFactory.create("TestInteger",
 				Integer.class);
-		final Tag<Long> TestLong = new Tag<Long>("TestLong", Long.class);
-		final Tag<Float> TestFloat = new Tag<Float>("TestFloat", Float.class);
-		final Tag<Double> TestDouble = new Tag<Double>("TestDouble",
+		final Tag<Long> TestLong = TagFactory.create("TestLong", Long.class);
+		final Tag<Float> TestFloat = TagFactory.create("TestFloat", Float.class);
+		final Tag<Double> TestDouble = TagFactory.create("TestDouble",
 				Double.class);
-		final Tag<Boolean> TestBoolean = new Tag<Boolean>("TestBoolean",
+		final Tag<Boolean> TestBoolean = TagFactory.create("TestBoolean",
 				Boolean.class);
-		final Tag<Character> TestCharacter = new Tag<Character>(
+		final Tag<Character> TestCharacter = TagFactory.create(
 				"TestCharacter", Character.class);
 
 		// Test casting from String
@@ -80,43 +79,24 @@ public class TestTag {
 
 	}
 
-	@Test(expected = MissiveException.class)
-	public void testConstructInvalid() {
-
-		final Tag<?> tag = new Tag("hello");
-
-		fail("invalid usage");
-
-	}
-
 	@Test
 	public void testConstructProper() {
 
-		final Tag<String> tag = new Tag<String>("hello") {
-		};
+		final Tag<String> tag =TagFactory.create("hello", String.class); 
 
 		assertTrue("class match", tag.classType() == String.class);
 
 	}
 
 	@Test
-	public void testLazyName() {
-
-		assertEquals("names match", STRING_FIELD.name(), "STRING_FIELD");
-
-		assertEquals("names match", DOUBLE_FIELD.name(), "DOUBLE_FIELD");
-
-	}
-
-	@Test
 	public void testIs() {
 
-		assertTrue(Tag.isEnum(TestEnum.class));
+		assertTrue(TagFactory.isEnum(TestEnum.class));
 
-		assertTrue(Tag.isList(byte[].class));
-		assertTrue(Tag.isList(ArrayList.class));
+		assertTrue(TagFactory.isList(byte[].class));
+		assertTrue(TagFactory.isList(ArrayList.class));
 
-		assertTrue(Tag.isPrim(Integer.class));
+		assertTrue(TagFactory.isPrim(Integer.class));
 
 	}
 

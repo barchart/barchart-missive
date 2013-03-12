@@ -35,7 +35,7 @@ import org.junit.Test;
 
 import com.barchart.missive.ImplementationTests;
 import com.barchart.missive.TestSpec;
-import com.barchart.missive.core.Tag;
+import com.barchart.missive.api.Tag;
 import com.barchart.missive.core.TagMapSafe;
 
 public class TestHashTagMapSafe {

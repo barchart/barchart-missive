@@ -10,6 +10,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.barchart.missive.core.MissiveException;
 import com.barchart.missive.util.ClassUtil;
 
+/**
+ * 
+ * @author Gavin M Litchfield
+ *
+ */
 public abstract class ValueMissive {
 	
 	/**
@@ -77,9 +82,10 @@ public abstract class ValueMissive {
 		
 		return missive;
 	}
-	
-	/*
+
+	/**
 	 * 
+	 * @param tags
 	 */
 	@SuppressWarnings("unchecked")
 	protected static void install(ValueTag<?>[] tags) {

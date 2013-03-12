@@ -7,6 +7,8 @@
  */
 package com.barchart.missive.core;
 
+import com.barchart.missive.api.Tag;
+
 /**
  * immutable
  * 

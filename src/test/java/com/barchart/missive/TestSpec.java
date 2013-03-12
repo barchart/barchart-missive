@@ -7,7 +7,8 @@
  */
 package com.barchart.missive;
 
-import com.barchart.missive.core.Tag;
+import com.barchart.missive.api.Tag;
+import com.barchart.missive.core.TagFactory;
 
 public interface TestSpec {
 	
@@ -15,20 +16,20 @@ public interface TestSpec {
 		T1, T2
 	};
 
-	Tag<TestEnum> ENUM = Tag.create("ENUM", TestEnum.class);
-	Tag<Byte> BYTE = Tag.create("BYTE", Byte.class);
-	Tag<Short> SHORT = Tag.create("SHORT", Short.class);
-	Tag<Integer> INTEGER = Tag.create("INTEGER", Integer.class);
-	Tag<Long> LONG = Tag.create("LONG", Long.class);
-	Tag<Float> FLOAT = Tag.create("FLOAT", Float.class);
-	Tag<Double> DOUBLE = Tag.create("DOUBLD", Double.class);
-	Tag<Boolean> BOOLEAN1 = Tag.create("BOOLEAN1", Boolean.class);
-	Tag<Boolean> BOOLEAN2 = Tag.create("BOOLEAN2", Boolean.class);
-	Tag<Boolean> BOOLEAN3 = Tag.create("BOOLEAN3", Boolean.class);
-	Tag<Character> CHARACTER = Tag.create("CHARACTER", Character.class);
-	Tag<String> STRING = Tag.create("STRING", String.class);
+	Tag<TestEnum> ENUM = TagFactory.create("ENUM", TestEnum.class);
+	Tag<Byte> BYTE = TagFactory.create("BYTE", Byte.class);
+	Tag<Short> SHORT = TagFactory.create("SHORT", Short.class);
+	Tag<Integer> INTEGER = TagFactory.create("INTEGER", Integer.class);
+	Tag<Long> LONG = TagFactory.create("LONG", Long.class);
+	Tag<Float> FLOAT = TagFactory.create("FLOAT", Float.class);
+	Tag<Double> DOUBLE = TagFactory.create("DOUBLD", Double.class);
+	Tag<Boolean> BOOLEAN1 = TagFactory.create("BOOLEAN1", Boolean.class);
+	Tag<Boolean> BOOLEAN2 = TagFactory.create("BOOLEAN2", Boolean.class);
+	Tag<Boolean> BOOLEAN3 = TagFactory.create("BOOLEAN3", Boolean.class);
+	Tag<Character> CHARACTER = TagFactory.create("CHARACTER", Character.class);
+	Tag<String> STRING = TagFactory.create("STRING", String.class);
 
-	Tag<String> EXTEND = new Tag<String>("EXTEND", String.class);
+	Tag<String> EXTEND = TagFactory.create("EXTEND", String.class);
 
 	Tag<?>[] TAGS = new Tag<?>[] { ENUM, BYTE, SHORT, INTEGER, LONG, FLOAT,
 			DOUBLE, BOOLEAN1, CHARACTER, STRING };

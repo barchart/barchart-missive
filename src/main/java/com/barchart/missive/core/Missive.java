@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.barchart.missive.api.Tag;
 import com.barchart.missive.util.ClassUtil;
 
 /**
@@ -30,7 +31,8 @@ public abstract class Missive implements TagMap {
 	protected static volatile int[][] indexRegistry = new int[0][];
 	protected static volatile Tag<?>[][] tagRegistry = new Tag<?>[0][];
 
-	private final static ConcurrentMap<Class<? extends Missive>, Integer> classMap = new ConcurrentHashMap<Class<? extends Missive>, Integer>();
+	private final static ConcurrentMap<Class<? extends Missive>, Integer> classMap = 
+			new ConcurrentHashMap<Class<? extends Missive>, Integer>();
 
 	private volatile int classCode;
 	private volatile Object[] values;
@@ -86,7 +88,6 @@ public abstract class Missive implements TagMap {
 		}
 		
 		return v;
-		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -141,8 +142,8 @@ public abstract class Missive implements TagMap {
 		tagRegistry = newTagRegistry;
 
 		/** Build new index array and update index registry */
-		final int[] newIndexes = new int[Tag.maxIndex()];
-		for (int i = 0; i < Tag.maxIndex(); i++) {
+		final int[] newIndexes = new int[TagFactory.maxIndex()];
+		for (int i = 0; i < TagFactory.maxIndex(); i++) {
 			newIndexes[i] = EMPTY_ENTRY;
 		}
 		counter = 0;
@@ -164,7 +165,7 @@ public abstract class Missive implements TagMap {
 
 	protected static synchronized void incrementIndexRegistry() {
 
-		final int oldSize = Tag.maxIndex();
+		final int oldSize = TagFactory.maxIndex();
 
 		for (int i = 0; i < indexRegistry.length; i++) {
 			final int[] newIndexes = new int[oldSize + 1];
