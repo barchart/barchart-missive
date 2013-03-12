@@ -1,10 +1,26 @@
 package com.barchart.missive.core;
 
-import static com.barchart.missive.core.TestSpec.*;
-import static org.junit.Assert.*;
+import static com.barchart.missive.core.TestSpec.BOOLEAN1;
+import static com.barchart.missive.core.TestSpec.BOOLEAN1_V;
+import static com.barchart.missive.core.TestSpec.ENUM;
+import static com.barchart.missive.core.TestSpec.ENUM_V;
+import static com.barchart.missive.core.TestSpec.INTEGER;
+import static com.barchart.missive.core.TestSpec.INTEGER_V;
+import static com.barchart.missive.core.TestSpec.LIST;
+import static com.barchart.missive.core.TestSpec.MISSIVE;
+import static com.barchart.missive.core.TestSpec.STRING;
+import static com.barchart.missive.core.TestSpec.STRING_V;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.barchart.missive.api.Tag;
+import com.barchart.missive.core.TestSpec.TestEnum;
 
 public class TestMissive {
 	
@@ -72,5 +88,94 @@ public class TestMissive {
 		assertTrue(missive2.equals(missive1));
 		
 	}
+	
+	@SuppressWarnings("rawtypes")
+	@Test
+	public void testBuild() {
+		
+		final Map<Tag, Object> map = new HashMap<Tag, Object>();
+		
+		map.put(ENUM, ENUM_V);
+		map.put(INTEGER, INTEGER_V);
+		map.put(BOOLEAN1, BOOLEAN1_V);
+		
+		TestSimpleMissive simple = Missive.build(TestSimpleMissive.class, map);
+		
+		assertTrue(simple.get(ENUM) == ENUM_V);
+		assertTrue(simple.get(INTEGER) == INTEGER_V);
+		assertTrue(simple.get(BOOLEAN1) == BOOLEAN1_V);
+		assertTrue(simple.size() == 3);
+		
+		simple = Missive.build(TestSimpleMissive.class, TestCaseMissive.class, map);
+		
+		assertTrue(simple.get(ENUM) == ENUM_V);
+		assertTrue(simple.get(INTEGER) == INTEGER_V);
+		assertTrue(simple.get(BOOLEAN1) == BOOLEAN1_V);
+		assertTrue(simple.size() == 3);
+		
+		simple = Missive.build(TestSimpleMissive.class, simple1);
+		
+		assertTrue(simple.get(ENUM) == ENUM_V);
+		assertTrue(simple.get(INTEGER) == INTEGER_V);
+		assertTrue(simple.get(BOOLEAN1) == BOOLEAN1_V);
+		assertTrue(simple.size() == 3);
+		
+		simple = Missive.build(TestSimpleMissive.class, TestCaseMissive.class, simple1);
+		
+		assertTrue(simple.get(ENUM) == ENUM_V);
+		assertTrue(simple.get(INTEGER) == INTEGER_V);
+		assertTrue(simple.get(BOOLEAN1) == BOOLEAN1_V);
+		assertTrue(simple.size() == 3);
+		
+		simple = Missive.build(TestSimpleMissive.class, TestCaseMissive.class, missive1);
+		
+		assertTrue(simple.get(ENUM) == ENUM_V);
+		assertTrue(simple.get(INTEGER) == INTEGER_V);
+		assertTrue(simple.get(BOOLEAN1) == BOOLEAN1_V);
+		assertTrue(simple.size() == 3);
+		
+		TestCaseMissive subMissive = simple.cast(TestCaseMissive.class);
+		
+		assertTrue(subMissive.get(ENUM) == ENUM_V);
+		assertTrue(subMissive.get(INTEGER) == INTEGER_V);
+		assertTrue(subMissive.get(BOOLEAN1) == BOOLEAN1_V);
+		assertTrue(subMissive.get(STRING).equals(STRING_V));
+		assertTrue(subMissive.get(LIST).equals(list1));
+		assertTrue(subMissive.get(MISSIVE).equals(simple1));
+		
+	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

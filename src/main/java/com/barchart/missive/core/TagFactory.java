@@ -99,19 +99,38 @@ public final class TagFactory {
 	
 	/* ***** ***** Begin non-public static methods ***** ***** */
 
+	/**
+	 * 
+	 * @return
+	 */
 	protected static int nextIndex() {
 		Missive.incrementIndexRegistry();
 		return counter.getAndIncrement();
 	}
 	
+	/**
+	 * 
+	 * @param clazz
+	 * @return
+	 */
 	protected static int nameHash(final Class<?> clazz) {
 		return clazz.getName().hashCode();
 	}
 	
+	/**
+	 * 
+	 * @param clazz
+	 * @return
+	 */
 	protected static boolean isEnum(final Class<?> clazz) {
 		return clazz.isEnum();
 	}
 
+	/**
+	 * 
+	 * @param clazz
+	 * @return
+	 */
 	protected static boolean isList(final Class<?> clazz) {
 		if (clazz.isArray()) {
 			return true;
@@ -122,10 +141,20 @@ public final class TagFactory {
 		}
 	}
 
+	/**
+	 * 
+	 * @param clazz
+	 * @return
+	 */
 	protected static boolean isPrim(final Class<?> clazz) {
 		return primitives.contains(clazz);
 	}
 	
+	/**
+	 * 
+	 * @param clazz
+	 * @return
+	 */
 	protected static int mask(final Class<?> clazz) {
 		int mask = 0;
 		if (isEnum(clazz)) {

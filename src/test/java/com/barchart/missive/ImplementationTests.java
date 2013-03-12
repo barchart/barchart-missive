@@ -34,8 +34,8 @@ import org.junit.Test;
 
 import com.barchart.missive.TestSpec.TestEnum;
 import com.barchart.missive.api.Tag;
-import com.barchart.missive.core.TagMap;
-import com.barchart.missive.core.TagMapSafe;
+import com.barchart.missive.api.TagMap;
+import com.barchart.missive.api.TagMapSafe;
 
 public final class ImplementationTests {
 	

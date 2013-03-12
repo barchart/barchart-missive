@@ -2,7 +2,7 @@ package com.barchart.missive.core;
 
 import com.barchart.missive.api.Tag;
 
-public class TestCaseMissive extends MissiveSafe {
+public class TestCaseMissive extends TestSimpleMissive {
 
 	static {
 		install(new Tag<?>[]{

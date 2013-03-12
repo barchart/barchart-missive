@@ -5,9 +5,9 @@
  *
  * http://www.opensource.org/licenses/bsd-license.php
  */
-package com.barchart.missive.core;
+package com.barchart.missive.api;
 
-import com.barchart.missive.api.Tag;
+import com.barchart.missive.core.MissiveException;
 
 /**
  * mutable, type safe

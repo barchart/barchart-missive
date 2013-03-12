@@ -1,6 +1,7 @@
 package com.barchart.missive.core;
 
 import com.barchart.missive.api.Tag;
+import com.barchart.missive.api.TagMapSafe;
 
 public abstract class MissiveSafe extends Missive implements TagMapSafe {
 
