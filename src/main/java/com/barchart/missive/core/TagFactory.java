@@ -323,6 +323,11 @@ public final class TagFactory {
 				
 			}
 			
+			@Override
+			public String toString() {
+				return name;
+			}
+			
 		};
 		
 	}
