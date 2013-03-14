@@ -2,7 +2,6 @@ package com.barchart.missive.core;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -15,46 +14,46 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.barchart.missive.api.Tag;
 import com.barchart.missive.api.TagMap;
-import com.barchart.missive.util.ClassUtil;
 
 /**
  * 
  * @author Gavin M Litchfield
  * 
  */
-public abstract class Missive implements TagMap {
+public final class ObjectMapFactory {
 
 	/*
 	 * Index value for empty array entry.
 	 */
-	private static final int EMPTY_ENTRY = -1;
+	static final int EMPTY_ENTRY = -1;
 
 	private static final AtomicInteger classCount = new AtomicInteger(0);
 
 	/* ClassCode, TagCode */
 	protected static volatile int[][] indexRegistry = new int[0][];
 	protected static volatile Tag<?>[][] tagRegistry = new Tag<?>[0][];
+	protected static volatile int[] valArraySizes = new int[0];
 
-	private final static ConcurrentMap<Class<? extends Missive>, Integer> classMap = 
-			new ConcurrentHashMap<Class<? extends Missive>, Integer>();
+	private final static ConcurrentMap<Class<? extends ObjectMap>, Integer> classMap = 
+			new ConcurrentHashMap<Class<? extends ObjectMap>, Integer>();
 
-	/* Instance variables */
-	private volatile int classCode;
-	private volatile Object[] values;
-
+	private ObjectMapFactory() {
+		
+	}
+	
 	/**
 	 * Builds a new missive of the specified class with null values. 
 	 * 
 	 * @param clazz
 	 * @return
 	 */
-	public static <V extends Missive> V build(final Class<V> clazz) {
+	public static <V extends ObjectMap> V build(final Class<V> clazz) {
 
-		V missive = null;
+		V map = null;
 		try {
 			final Constructor<V> c = clazz.getDeclaredConstructor();
 			c.setAccessible(true);
-			missive = c.newInstance();
+			map = c.newInstance();
 		} catch (final Exception e1) {
 			throw new MissiveException(e1);
 		}
@@ -66,10 +65,10 @@ public abstract class Missive implements TagMap {
 
 		final int clazzCode = classMap.get(clazz);
 
-		missive.classCode = clazzCode;
-		missive.values = new Object[tagRegistry[clazzCode].length];
+		map.classCode = clazzCode;
+		map.values = new Object[valArraySizes[clazzCode]];
 
-		return missive;
+		return map;
 	}
 
 	/**
@@ -82,18 +81,18 @@ public abstract class Missive implements TagMap {
 	 * @return
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static <V extends Missive> V build(final Class<V> clazz, 
+	public static <V extends ObjectMap> V build(final Class<V> clazz, 
 			final Map<Tag, Object> map) {
 		
-		V missive = build(clazz);
+		V newmap = build(clazz);
 		
 		for(final Entry<Tag, Object> e : map.entrySet()) {
-			if(missive.contains(e.getKey())) {
-				missive.set(e.getKey(), e.getKey().cast(e.getValue()));
+			if(newmap.contains(e.getKey())) {
+				newmap.set(e.getKey(), e.getKey().cast(e.getValue()));
 			}
 		}
 		
-		return missive;
+		return newmap;
 	}
 	
 	/**
@@ -107,15 +106,15 @@ public abstract class Missive implements TagMap {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	public static <V extends Missive, W extends V> V build(final Class<V> base,
+	public static <V extends ObjectMap, W extends V> V build(final Class<V> base,
 			final Class<W> sub,	final Map<Tag, Object> map) {
 		
-		final V missive = build(base);
-		final W subMiss = build(sub, map);
+		final V newMap = build(base);
+		final W subMap = build(sub, map);
 		
-		missive.values = subMiss.values;
+		newMap.values = subMap.values;
 		
-		return missive;
+		return newMap;
 		
 	}
 	
@@ -129,17 +128,17 @@ public abstract class Missive implements TagMap {
 	 * @return
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static <V extends Missive> V build(final Class<V> clazz, final TagMap map) {
+	public static <V extends ObjectMap> V build(final Class<V> clazz, final TagMap map) {
 		
-		V missive = build(clazz);
+		V newMap = build(clazz);
 		
 		for(Tag t : map.tags()) {
-			if(missive.contains(t)) {
-				missive.set(t, map.get(t));
+			if(newMap.contains(t)) {
+				newMap.set(t, map.get(t));
 			}
 		}
 		
-		return missive;
+		return newMap;
 	}
 	
 	/**
@@ -152,16 +151,25 @@ public abstract class Missive implements TagMap {
 	 * @param map
 	 * @return
 	 */
-	public static <V extends Missive, W extends V> V build(final Class<V> base, final Class<W> sub, 
-			final TagMap map) {
+	public static <V extends ObjectMap, W extends V> V build(final Class<V> base, 
+			final Class<W> sub,	final TagMap map) {
 		
-		final V missive = build(base);
-		final W subMiss = build(sub, map);
+		final V newMap = build(base);
+		final W subMap = build(sub, map);
 		
-		missive.values = subMiss.values;
+		newMap.values = subMap.values;
 		
-		return missive;
-
+		return newMap;
+		
+	}
+	
+	public static void install(final Manifest installer) {
+		
+		for(Class<? extends ObjectMap> clazz : installer.orderedClasses()) {
+			
+			install(clazz, installer.get(clazz));
+			
+		}
 		
 	}
 	
@@ -171,18 +179,14 @@ public abstract class Missive implements TagMap {
 	 * 
 	 * @param tags
 	 */
-	@SuppressWarnings("unchecked")
-	protected static void install(Tag<?>[] tags) {
+	public static void install(Class<? extends ObjectMap> current, Tag<?>[] tags) {
 
 		if (tags == null) {
 			tags = new Tag<?>[0];
 		}
 
-		/* Get current class object */
-		final Class<?>[] trace = new ClassUtil.ClassTrace().getClassContext();
-		final Class<? extends Missive> current = (Class<? extends Missive>) trace[2];
 		Class<?> superClazz = current.getSuperclass();
-
+		
 		/* Build set of tags of all super classes */
 		final Set<Tag<?>> tagSet = new HashSet<Tag<?>>();
 
@@ -193,12 +197,11 @@ public abstract class Missive implements TagMap {
 		/* Build list of user declared super classes */
 		Class<?> tempSuperClass = superClazz;
 		List<Class<?>> superClassList = new ArrayList<Class<?>>();
-		while (Missive.class.isAssignableFrom(tempSuperClass)
-				&& !tempSuperClass.equals(Missive.class)
-				&& !tempSuperClass.equals(MissiveSafe.class)) {
+		while (ObjectMap.class.isAssignableFrom(tempSuperClass)
+				&& !tempSuperClass.equals(ObjectMap.class)
+				&& !tempSuperClass.equals(ObjectMapSafe.class)) {
 
 			superClassList.add(tempSuperClass);
-			
 			tempSuperClass = tempSuperClass.getSuperclass();
 
 		}
@@ -257,6 +260,12 @@ public abstract class Missive implements TagMap {
 		newTagRegistry[classCount.get()] = newTagArray;
 		tagRegistry = newTagRegistry;
 
+		/* Add size entry to size array */
+		final int[] newSizes = new int[classCount.get() + 1];
+		System.arraycopy(valArraySizes, 0, newSizes, 0, classCount.get());
+		newSizes[classCount.get()] = newTagArray.length;
+		valArraySizes = newSizes;
+		
 		/* Build new index array and update index registry */
 		final int[] newIndexes = new int[TagFactory.maxIndex()];
 		for (int i = 0; i < TagFactory.maxIndex(); i++) {
@@ -287,7 +296,7 @@ public abstract class Missive implements TagMap {
 
 		/* Assign new class code and update counter */
 		classMap.put(current, classCount.getAndIncrement());
-
+		
 	}
 	
 	/*
@@ -308,9 +317,11 @@ public abstract class Missive implements TagMap {
 		
 		for(final Tag<?> t : tagArray) {
 			if(t.index() > tag.index()) {
-				indexRegistry[classCode][tag.index()]++;
+				indexRegistry[classCode][t.index()]++;
 			}
 		}
+		
+		valArraySizes[classCode]++;
 		
 	}
 
@@ -329,138 +340,6 @@ public abstract class Missive implements TagMap {
 			indexRegistry[i][oldSize] = EMPTY_ENTRY;
 		}
 
-	}
-
-	/**
-	 * Pass through method for MissiveSafe
-	 */
-	protected <V> void set(final Tag<V> tag, final V value)
-			throws MissiveException {
-		values[indexRegistry[classCode][tag.index()]] = value;
-	}
-
-	/* ***** ***** Begin public methods ***** ***** */
-
-	/**
-	 * If a missive is masking the values of a subclass, this
-	 * method returns the subclass with all the values of the 
-	 * calling missive.
-	 * 
-	 * @param newClass
-	 * @return
-	 */
-	public <M extends Missive> M cast(final Class<M> newClass) {
-		
-		if(!this.getClass().isAssignableFrom(newClass)) {
-			throw new MissiveException("Class " + newClass.getName() + 
-					" must be subclass to cast to " + this.getClass().getName());
-		}
-		
-		final M newMissive = build(newClass);
-		newMissive.values = values;
-		
-		return newMissive;
-		
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public <V> V get(final Tag<V> tag) throws MissiveException {
-		return (V) values[indexRegistry[classCode][tag.index()]];
-	}
-
-	@Override
-	public boolean contains(final Tag<?> tag) {
-		return indexRegistry[classCode][tag.index()] != EMPTY_ENTRY;
-	}
-
-	@Override
-	public Tag<?>[] tags() {
-		return tagRegistry[classCode];
-	}
-
-	@Override
-	public int size() {
-		return tagRegistry[classCode].length;
-	}
-	
-	/*
-	 * TODO Review Missive equality 
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
-	public boolean equals(final Object o) {
-		
-		if(o == null) {
-			return false;
-		}
-		
-		if(this == o) {
-			return true;
-		}
-		
-		if(!(o instanceof Missive)) {
-			return false;
-		}
-		
-		final Missive m = (Missive)o;
-		
-		if(size() != m.size()) {
-			return false;
-		}
-		
-		for(Tag t : tags()) {
-			
-			if(!m.contains(t)) {
-				return false;
-			}
-			
-			if(m.get(t) == null) {
-				if(get(t) != null) {
-					return false;
-				}
-			}
-			
-			if(get(t) == null) {
-				return false;
-			}
-			
-			if(t.isList()) {
-				if(!compareCollections((Collection<Object>)get(t), 
-						(Collection<Object>)m.get(t))) {
-					return false;
-				}
-			}
-			
-			if(!get(t).equals(m.get(t))) {
-				return false;
-			}
-			
-		}
-		
-		return true;
-	}
-	
-	private static boolean compareCollections(final Collection<Object> thisC, 
-			final Collection<Object> thatC) {
-		
-		if(thisC == null || thatC == null) {
-			return false;
-		}
-		
-		if(thisC.size() != thatC.size()) {
-			return false;
-		}
-		
-		for(final Object o : thisC) {
-			
-			if(!thatC.contains(o)) {
-				return false;
-			}
-			
-		}
-		
-		return true;
 	}
 
 }

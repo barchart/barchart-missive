@@ -2,10 +2,11 @@ package com.barchart.missive.core;
 
 import com.barchart.missive.api.Tag;
 
-public class TestSimpleMissive extends MissiveSafe {
+public class TestSimpleMissive extends ObjectMapSafe {
 	
 	static {
-		install(new Tag<?>[] {TestSpec.ENUM, TestSpec.INTEGER, TestSpec.BOOLEAN1});
+		ObjectMapFactory.install(TestSimpleMissive.class, 
+				new Tag<?>[] {TestSpec.ENUM, TestSpec.INTEGER, TestSpec.BOOLEAN1});
 	}
 
 }

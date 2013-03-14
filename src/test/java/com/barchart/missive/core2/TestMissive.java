@@ -2,11 +2,14 @@ package com.barchart.missive.core2;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.barchart.missive.api.Tag;
-import com.barchart.missive.core.Missive;
-import com.barchart.missive.core.MissiveSafe;
+import com.barchart.missive.core.Manifest;
+import com.barchart.missive.core.ObjectMap;
+import com.barchart.missive.core.ObjectMapFactory;
+import com.barchart.missive.core.ObjectMapSafe;
 import com.barchart.missive.core.TagFactory;
 
 public class TestMissive {
@@ -20,51 +23,43 @@ public class TestMissive {
 	public static final Tag<?>[] NORMAL = new Tag<?>[]{HASHBROWNS};
 	public static final Tag<?>[] SUPER = new Tag<?>[]{HAM};
 	
-	static class SmallBreakfast extends Missive {
-		
-		static {
-			install(SMALL);
-		}
+	static class SmallBreakfast extends ObjectMap {
 		
 	}
 	
-	static class SmallBreakfastSafe extends MissiveSafe {
-		
-		static {
-			install(SMALL);
-		}
+	static class SmallBreakfastSafe extends ObjectMapSafe {
 		
 	}
 	
 	public static class NormalBreakfast extends SmallBreakfast {
 		
-		static {
-			install(NORMAL);
-		}
-		
 	}
 	
 	public static class NormalBreakfastSafe extends SmallBreakfastSafe {
-		
-		static {
-			install(NORMAL);
-		}
 		
 	}
 	
 	public static class SuperBreakfast extends NormalBreakfast {
 		
-		static {
-			install(SUPER);
-		}
-		
 	}
 	
 	public static class SuperBreakfastSafe extends NormalBreakfastSafe {
 		
-		static {
-			install(SUPER);
-		}
+	}
+	
+	@Before
+	public void before() {
+		
+		final Manifest manifest = new Manifest();
+		manifest.put(TestProtected.class, TestMissive.SMALL);
+		manifest.put(SmallBreakfast.class, SMALL);
+		manifest.put(SmallBreakfastSafe.class, SMALL);
+		manifest.put(NormalBreakfast.class, NORMAL);
+		manifest.put(NormalBreakfastSafe.class, NORMAL);
+		manifest.put(SuperBreakfast.class, SUPER);
+		manifest.put(SuperBreakfastSafe.class, SUPER);
+		
+		ObjectMapFactory.install(manifest);
 		
 	}
 	
@@ -72,14 +67,16 @@ public class TestMissive {
 	public void testMissive() {
 		
 		/* Ensures we can get an instance of a non-public constructor or class */
-		TestProtected testProtected = Missive.build(TestProtected.class);
+		TestProtected testProtected = ObjectMapFactory.build(TestProtected.class);
 		
-		SmallBreakfast smallBfast = Missive.build(SmallBreakfast.class);
-		SmallBreakfastSafe smallSafe = Missive.build(SmallBreakfastSafe.class);
-		NormalBreakfast normBfast = Missive.build(NormalBreakfast.class);
-		NormalBreakfastSafe normSafe = Missive.build(NormalBreakfastSafe.class);
-		SuperBreakfast superBfast = Missive.build(SuperBreakfast.class);
-		SuperBreakfastSafe superSafe = Missive.build(SuperBreakfastSafe.class);
+		SuperBreakfast superBfast = ObjectMapFactory.build(SuperBreakfast.class);
+		SuperBreakfastSafe superSafe = ObjectMapFactory.build(SuperBreakfastSafe.class);
+		
+		NormalBreakfast normBfast = ObjectMapFactory.build(NormalBreakfast.class);
+		NormalBreakfastSafe normSafe = ObjectMapFactory.build(NormalBreakfastSafe.class);
+		
+		SmallBreakfast smallBfast = ObjectMapFactory.build(SmallBreakfast.class);
+		SmallBreakfastSafe smallSafe = ObjectMapFactory.build(SmallBreakfastSafe.class);
 		
 		assertTrue(smallBfast.contains(BACON));
 		assertTrue(smallBfast.contains(EGGS));
@@ -118,13 +115,5 @@ public class TestMissive {
 		assertTrue(smallSafe.get(EGGS).equals("eggs"));
 		
 	}
-	
-	@Test
-	public void testEquals() {
-		
-		
-		
-	}
-	
 	
 }

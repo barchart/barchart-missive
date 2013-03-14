@@ -104,7 +104,7 @@ public final class TagFactory {
 	 * @return
 	 */
 	protected static int nextIndex() {
-		Missive.incrementIndexRegistry();
+		ObjectMapFactory.incrementIndexRegistry();
 		return counter.getAndIncrement();
 	}
 	

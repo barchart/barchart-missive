@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.barchart.missive.api.Tag;
-import com.barchart.missive.core.Missive;
-import com.barchart.missive.core.MissiveSafe;
+import com.barchart.missive.core.ObjectMap;
+import com.barchart.missive.core.ObjectMapFactory;
+import com.barchart.missive.core.ObjectMapSafe;
 import com.barchart.missive.core.TagFactory;
-import com.barchart.missive.core2.MissiveMemoryTest.TestMissive;
 
 public class MissiveMemoryTest2 {
 	
@@ -39,15 +39,15 @@ public class MissiveMemoryTest2 {
 
 	public static final Tag<?>[] TAGS = TagFactory.collectTop(MissiveMemoryTest.class);
 
-	public static class TestMissive extends MissiveSafe {
+	public static class TestMissive extends ObjectMapSafe {
 
 		static {
-			install(TAGS);
+			ObjectMapFactory.install(TestMissive.class, TAGS);
 		}
 
 	}
 	
-	public static final Map<Integer, Missive> map = new HashMap<Integer, Missive>();
+	public static final Map<Integer, ObjectMap> map = new HashMap<Integer, ObjectMap>();
 
 	static final void doGC(final int count) throws Exception {
 		for (int k = 0; k < count; k++) {
@@ -105,9 +105,9 @@ public class MissiveMemoryTest2 {
 
 	}
 	
-	public static Missive makeNewTestMissive() {
+	public static ObjectMap makeNewTestMissive() {
 		
-		MissiveSafe m = Missive.build(TestMissive.class);
+		ObjectMapSafe m = ObjectMapFactory.build(TestMissive.class);
 		
 		for(Tag t : TAGS) {
 			m.set(t, new Long((long) Math.random() * 100));

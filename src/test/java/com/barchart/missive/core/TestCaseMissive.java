@@ -5,7 +5,7 @@ import com.barchart.missive.api.Tag;
 public class TestCaseMissive extends TestSimpleMissive {
 
 	static {
-		install(new Tag<?>[]{
+		ObjectMapFactory.install(TestCaseMissive.class, new Tag<?>[]{
 				TestSpec.ENUM, TestSpec.INTEGER, TestSpec.BOOLEAN1,
 				TestSpec.STRING, TestSpec.LIST, TestSpec.MISSIVE
 		});

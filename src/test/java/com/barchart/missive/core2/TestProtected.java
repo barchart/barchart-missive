@@ -1,11 +1,8 @@
 package com.barchart.missive.core2;
 
-import com.barchart.missive.core.Missive;
+import com.barchart.missive.core.ObjectMap;
+import com.barchart.missive.core.ObjectMapFactory;
 
-class TestProtected extends Missive {
+class TestProtected extends ObjectMap {
 	
-	static {
-		install(TestMissive.SMALL);
-	}
-
 }

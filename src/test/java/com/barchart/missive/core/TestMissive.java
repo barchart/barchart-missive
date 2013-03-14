@@ -24,10 +24,10 @@ import com.barchart.missive.core.TestSpec.TestEnum;
 
 public class TestMissive {
 	
-	public static final TestSimpleMissive simple1 = Missive.build(TestSimpleMissive.class);
-	public static final TestSimpleMissive simple2 = Missive.build(TestSimpleMissive.class);
-	public static final TestCaseMissive missive1 = Missive.build(TestCaseMissive.class);
-	public static final TestCaseMissive missive2 = Missive.build(TestCaseMissive.class);
+	public static final TestSimpleMissive simple1 = ObjectMapFactory.build(TestSimpleMissive.class);
+	public static final TestSimpleMissive simple2 = ObjectMapFactory.build(TestSimpleMissive.class);
+	public static final TestCaseMissive missive1 = ObjectMapFactory.build(TestCaseMissive.class);
+	public static final TestCaseMissive missive2 = ObjectMapFactory.build(TestCaseMissive.class);
 	
 	public static final TestList list1 = new TestList();
 	public static final TestList list2 = new TestList();
@@ -99,35 +99,35 @@ public class TestMissive {
 		map.put(INTEGER, INTEGER_V);
 		map.put(BOOLEAN1, BOOLEAN1_V);
 		
-		TestSimpleMissive simple = Missive.build(TestSimpleMissive.class, map);
+		TestSimpleMissive simple = ObjectMapFactory.build(TestSimpleMissive.class, map);
 		
 		assertTrue(simple.get(ENUM) == ENUM_V);
 		assertTrue(simple.get(INTEGER) == INTEGER_V);
 		assertTrue(simple.get(BOOLEAN1) == BOOLEAN1_V);
 		assertTrue(simple.size() == 3);
 		
-		simple = Missive.build(TestSimpleMissive.class, TestCaseMissive.class, map);
+		simple = ObjectMapFactory.build(TestSimpleMissive.class, TestCaseMissive.class, map);
 		
 		assertTrue(simple.get(ENUM) == ENUM_V);
 		assertTrue(simple.get(INTEGER) == INTEGER_V);
 		assertTrue(simple.get(BOOLEAN1) == BOOLEAN1_V);
 		assertTrue(simple.size() == 3);
 		
-		simple = Missive.build(TestSimpleMissive.class, simple1);
+		simple = ObjectMapFactory.build(TestSimpleMissive.class, simple1);
 		
 		assertTrue(simple.get(ENUM) == ENUM_V);
 		assertTrue(simple.get(INTEGER) == INTEGER_V);
 		assertTrue(simple.get(BOOLEAN1) == BOOLEAN1_V);
 		assertTrue(simple.size() == 3);
 		
-		simple = Missive.build(TestSimpleMissive.class, TestCaseMissive.class, simple1);
+		simple = ObjectMapFactory.build(TestSimpleMissive.class, TestCaseMissive.class, simple1);
 		
 		assertTrue(simple.get(ENUM) == ENUM_V);
 		assertTrue(simple.get(INTEGER) == INTEGER_V);
 		assertTrue(simple.get(BOOLEAN1) == BOOLEAN1_V);
 		assertTrue(simple.size() == 3);
 		
-		simple = Missive.build(TestSimpleMissive.class, TestCaseMissive.class, missive1);
+		simple = ObjectMapFactory.build(TestSimpleMissive.class, TestCaseMissive.class, missive1);
 		
 		assertTrue(simple.get(ENUM) == ENUM_V);
 		assertTrue(simple.get(INTEGER) == INTEGER_V);
