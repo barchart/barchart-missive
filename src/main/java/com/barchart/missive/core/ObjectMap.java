@@ -8,6 +8,11 @@ import com.barchart.missive.api.Castable;
 import com.barchart.missive.api.Tag;
 import com.barchart.missive.api.TagMap;
 
+/**
+ * 
+ * @author Gavin M Litchfield
+ *
+ */
 public abstract class ObjectMap implements TagMap, Castable<ObjectMap> {
 
 	volatile int classCode;

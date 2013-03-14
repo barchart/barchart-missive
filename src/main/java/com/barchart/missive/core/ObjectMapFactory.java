@@ -162,24 +162,20 @@ public final class ObjectMapFactory {
 		return newMap;
 		
 	}
-	
-	public static void install(final Manifest installer) {
+
+	/**
+	 * 
+	 * @param manifest
+	 */
+	public static void install(final Manifest<ObjectMap> manifest) {
 		
-		for(Class<? extends ObjectMap> clazz : installer.orderedClasses()) {
-			
-			install(clazz, installer.get(clazz));
-			
+		for(Class<? extends ObjectMap> clazz : manifest.orderedClasses()) {
+			install(clazz, manifest.get(clazz));
 		}
 		
 	}
 	
-	/**
-	 * This method must be called in a static context from all classes
-	 * extending Missive.  
-	 * 
-	 * @param tags
-	 */
-	public static void install(Class<? extends ObjectMap> current, Tag<?>[] tags) {
+	private static void install(Class<? extends ObjectMap> current, Tag<?>[] tags) {
 
 		if (tags == null) {
 			tags = new Tag<?>[0];

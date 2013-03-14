@@ -50,7 +50,7 @@ public class TestMissive {
 	@Before
 	public void before() {
 		
-		final Manifest manifest = new Manifest();
+		final Manifest<ObjectMap> manifest = new Manifest<ObjectMap>();
 		manifest.put(TestProtected.class, TestMissive.SMALL);
 		manifest.put(SmallBreakfast.class, SMALL);
 		manifest.put(SmallBreakfastSafe.class, SMALL);
@@ -63,6 +63,7 @@ public class TestMissive {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	@Test
 	public void testMissive() {
 		

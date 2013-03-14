@@ -20,20 +20,34 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.barchart.missive.api.Tag;
-import com.barchart.missive.core.TestSpec.TestEnum;
 
 public class TestMissive {
 	
-	public static final TestSimpleMissive simple1 = ObjectMapFactory.build(TestSimpleMissive.class);
-	public static final TestSimpleMissive simple2 = ObjectMapFactory.build(TestSimpleMissive.class);
-	public static final TestCaseMissive missive1 = ObjectMapFactory.build(TestCaseMissive.class);
-	public static final TestCaseMissive missive2 = ObjectMapFactory.build(TestCaseMissive.class);
+	public static TestSimpleMissive simple1;
+	public static TestSimpleMissive simple2;
+	public static TestCaseMissive missive1;
+	public static TestCaseMissive missive2;
 	
 	public static final TestList list1 = new TestList();
 	public static final TestList list2 = new TestList();
 	
 	@Before
 	public void before() {
+		
+		final Manifest<ObjectMap> manifest = new Manifest<ObjectMap>();
+		manifest.put(TestSimpleMissive.class, 
+				new Tag<?>[] {TestSpec.ENUM, TestSpec.INTEGER, TestSpec.BOOLEAN1});
+		manifest.put(TestCaseMissive.class, new Tag<?>[]{
+				TestSpec.ENUM, TestSpec.INTEGER, TestSpec.BOOLEAN1,
+				TestSpec.STRING, TestSpec.LIST, TestSpec.MISSIVE
+		});
+		
+		ObjectMapFactory.install(manifest);
+		
+		simple1 = ObjectMapFactory.build(TestSimpleMissive.class);
+		simple2 = ObjectMapFactory.build(TestSimpleMissive.class);
+		missive1 = ObjectMapFactory.build(TestCaseMissive.class);
+		missive2 = ObjectMapFactory.build(TestCaseMissive.class);
 		
 		list1.add("test1");
 		list1.add("test2");

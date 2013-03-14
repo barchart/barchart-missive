@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.barchart.missive.api.Tag;
+import com.barchart.missive.core.Manifest;
 import com.barchart.missive.core.ObjectMap;
 import com.barchart.missive.core.ObjectMapFactory;
 import com.barchart.missive.core.TagFactory;
@@ -45,10 +46,6 @@ public class MissiveMemoryTest {
 
 	public static class TestMissive extends ObjectMap {
 
-		static {
-			ObjectMapFactory.install(TestMissive.class, TAGS);
-		}
-
 	}
 
 	public static final Map<Integer, ObjectMap> map = new HashMap<Integer, ObjectMap>();
@@ -62,6 +59,10 @@ public class MissiveMemoryTest {
 	}
 
 	public static void main(final String[] args) throws Exception {
+		
+		final Manifest<ObjectMap> manifest = new Manifest<ObjectMap>();
+		manifest.put(TestMissive.class, TAGS);
+		ObjectMapFactory.install(manifest);
 
 		final MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
 
