@@ -169,6 +169,8 @@ public final class ObjectMapFactory {
 	 */
 	public static void install(final Manifest<ObjectMap> manifest) {
 		
+		//block
+		
 		for(Class<? extends ObjectMap> clazz : manifest.orderedClasses()) {
 			install(clazz, manifest.get(clazz));
 		}
