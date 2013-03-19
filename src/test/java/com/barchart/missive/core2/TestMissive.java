@@ -63,12 +63,13 @@ public class TestMissive {
 		
 	}
 	
-	@SuppressWarnings("unused")
 	@Test
 	public void testMissive() {
 		
 		/* Ensures we can get an instance of a non-public constructor or class */
 		TestProtected testProtected = ObjectMapFactory.build(TestProtected.class);
+		
+		assertTrue(testProtected.get(BACON).equals("Bacon"));
 		
 		SuperBreakfast superBfast = ObjectMapFactory.build(SuperBreakfast.class);
 		SuperBreakfastSafe superSafe = ObjectMapFactory.build(SuperBreakfastSafe.class);

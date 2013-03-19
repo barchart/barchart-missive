@@ -68,6 +68,8 @@ public final class ObjectMapFactory {
 		map.classCode = clazzCode;
 		map.values = new Object[valArraySizes[clazzCode]];
 
+		map.init();
+		
 		return map;
 	}
 

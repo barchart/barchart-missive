@@ -1,10 +1,14 @@
 package com.barchart.missive.core;
 
-import static com.barchart.missive.core.ObjectMapFactory.*;
+import static com.barchart.missive.core.ObjectMapFactory.EMPTY_ENTRY;
+import static com.barchart.missive.core.ObjectMapFactory.build;
+import static com.barchart.missive.core.ObjectMapFactory.indexRegistry;
+import static com.barchart.missive.core.ObjectMapFactory.tagRegistry;
 
 import java.util.Collection;
 
 import com.barchart.missive.api.Castable;
+import com.barchart.missive.api.Initializable;
 import com.barchart.missive.api.Tag;
 import com.barchart.missive.api.TagMap;
 
@@ -13,7 +17,7 @@ import com.barchart.missive.api.TagMap;
  * @author Gavin M Litchfield
  *
  */
-public abstract class ObjectMap implements TagMap, Castable<ObjectMap> {
+public abstract class ObjectMap implements TagMap, Castable<ObjectMap>, Initializable {
 
 	volatile int classCode;
 	volatile Object[] values;
@@ -62,6 +66,10 @@ public abstract class ObjectMap implements TagMap, Castable<ObjectMap> {
 		return tagRegistry[classCode].length;
 	}
 	
+	@Override
+	public void init() {
+		//Can be overridden by subclasses
+	}
 	
 	/**
 	 * Pass through method for MissiveSafe
