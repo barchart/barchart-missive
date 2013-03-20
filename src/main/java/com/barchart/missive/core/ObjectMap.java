@@ -22,6 +22,10 @@ public abstract class ObjectMap implements TagMap, Castable<ObjectMap>, Initiali
 	volatile int classCode;
 	volatile Object[] values;
 	
+	protected ObjectMap() {
+		
+	}
+	
 	/**
 	 * If a missive is masking the values of a subclass, this
 	 * method returns the subclass with all the values of the 
