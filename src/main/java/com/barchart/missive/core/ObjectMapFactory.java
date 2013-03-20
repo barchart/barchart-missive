@@ -68,6 +68,7 @@ public final class ObjectMapFactory {
 		map.classCode = clazzCode;
 		map.values = new Object[valArraySizes[clazzCode]];
 
+		/* Initialize map */
 		map.init();
 		
 		return map;
@@ -169,12 +170,12 @@ public final class ObjectMapFactory {
 	 * 
 	 * @param manifest
 	 */
-	public static void install(final Manifest<ObjectMap> manifest) {
-		
-		//block
+	public synchronized static void install(final Manifest<ObjectMap> manifest) {
 		
 		for(Class<? extends ObjectMap> clazz : manifest.orderedClasses()) {
-			install(clazz, manifest.get(clazz));
+			if(!classMap.containsKey(clazz)) {
+				install(clazz, manifest.get(clazz));
+			}
 		}
 		
 	}
