@@ -45,5 +45,10 @@ public interface Tag<V> extends Comparable<Tag<?>>{
 	 * @return true if parameterized type is a Java primitive
 	 */
 	public boolean isPrim();
+	
+	/**
+	 * @return true is the parameterized type is a subclass of TagMap
+	 */
+	public boolean isComplex();
 
 }

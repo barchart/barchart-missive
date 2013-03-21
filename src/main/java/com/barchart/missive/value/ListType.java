@@ -5,6 +5,7 @@ import java.lang.reflect.Array;
 @SuppressWarnings("rawtypes")
 public class ListType<V, T extends ValueType<V>> implements ValueType<V[]> {
 
+	@SuppressWarnings("unused")
 	private final NullList NULL_LIST = new NullList();
 	
 	private final int size;

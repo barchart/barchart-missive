@@ -61,6 +61,7 @@ public class HashTagMap implements TagMap {
 	}
 	
 	//TODO Handle arrays and nesting
+	@SuppressWarnings("rawtypes")
 	@Override
 	public String toString() {
 		

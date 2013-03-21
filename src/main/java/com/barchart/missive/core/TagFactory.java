@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.barchart.missive.api.Tag;
+import com.barchart.missive.api.TagMap;
 import com.barchart.missive.util.ClassUtil;
 
 public final class TagFactory {
@@ -23,6 +24,7 @@ public final class TagFactory {
 	private final static int IS_ENUM = 0x1;
 	private final static int IS_LIST = 0x2;
 	private final static int IS_PRIM = 0x4;
+	private final static int IS_CPLX = 0x8;
 	
 	static {
 		primitives.add(Byte.class);
@@ -155,6 +157,15 @@ public final class TagFactory {
 	 * @param clazz
 	 * @return
 	 */
+	protected static boolean isComplex(final Class<?> clazz) {
+		return TagMap.class.isAssignableFrom(clazz);
+	}
+	
+	/**
+	 * 
+	 * @param clazz
+	 * @return
+	 */
 	protected static int mask(final Class<?> clazz) {
 		int mask = 0;
 		if (isEnum(clazz)) {
@@ -165,6 +176,9 @@ public final class TagFactory {
 		}
 		if (isPrim(clazz)) {
 			mask |= IS_PRIM;
+		}
+		if (isComplex(clazz)) {
+			mask |= IS_CPLX;
 		}
 		return mask;
 	}
@@ -298,6 +312,11 @@ public final class TagFactory {
 				return (mask & IS_PRIM) != 0;
 			}
 
+			@Override
+			public boolean isComplex() {
+				return (mask & IS_CPLX) != 0;
+			}
+			
 			@Override
 			public int compareTo(final Tag<?> tag) {
 				return index - tag.index();
