@@ -21,6 +21,7 @@ public abstract class ObjectMap implements TagMap, Castable<ObjectMap>, Initiali
 
 	volatile int classCode;
 	volatile Object[] values;
+	volatile Class<? extends ObjectMap> childClass;
 	
 	protected ObjectMap() {
 		
@@ -37,9 +38,9 @@ public abstract class ObjectMap implements TagMap, Castable<ObjectMap>, Initiali
 	@Override
 	public <M extends ObjectMap> M cast(final Class<M> newClass) {
 		
-		if(!this.getClass().isAssignableFrom(newClass)) {
+		if(!newClass.isAssignableFrom(childClass)) {
 			throw new MissiveException("Class " + newClass.getName() + 
-					" must be subclass to cast to " + this.getClass().getName());
+					" must be superclass of " + childClass.getName());
 		}
 		
 		final M newMap =  build(newClass);
@@ -160,6 +161,17 @@ public abstract class ObjectMap implements TagMap, Castable<ObjectMap>, Initiali
 		}
 		
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		
+		final StringBuilder sb = new StringBuilder();
+		
+		//TODO
+		
+		return sb.toString();
+		
 	}
 	
 }

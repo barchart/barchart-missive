@@ -67,6 +67,7 @@ public final class ObjectMapFactory {
 
 		map.classCode = clazzCode;
 		map.values = new Object[valArraySizes[clazzCode]];
+		map.childClass = clazz;
 
 		/* Initialize map */
 		map.init();
@@ -230,18 +231,14 @@ public final class ObjectMapFactory {
 			newTagList = new ArrayList<Tag<?>>(tagSet);
 			Collections.sort(newTagList);
 			
-			for(final Tag<?> tag : newTagList) {
-				for(final Class<?> clazz : superClassList) {
-					insertTagsInSuperclass(clazz, tag);
-				}
-			}
+//			for(final Tag<?> tag : newTagList) {
+//				for(final Class<?> clazz : superClassList) {
+//					insertTagsInSuperclass(clazz, tag);
+//				}
+//			}
 			
 			/* 
-			 * Copy superclass tags into subclass then add on new tags.  Note:
-			 * while the index registry is updated to maintain ordering of tag
-			 * indexes, the tag registry for a class is the tag registry of its
-			 * super class concatenated with any new tags because there are no
-			 * order requirements. 
+			 * Copy superclass tags into subclass then add on new tags.  
 			 */
 			newTagArray = new Tag<?>[superclassTags.length + newTagList.size()];
 			System.arraycopy(superclassTags, 0, newTagArray, 0, superclassTags.length);
@@ -305,7 +302,7 @@ public final class ObjectMapFactory {
 	 * its super class, the index registry of all user defined super classes
 	 * must be padded to allow a super class to be cast to a subclass without
 	 * reordering the object array.
-	 */
+	 
 	private static void insertTagsInSuperclass(final Class<?> clazz, final Tag<?> tag) {
 		
 		if(!classMap.containsKey(clazz)) {
@@ -324,7 +321,7 @@ public final class ObjectMapFactory {
 		
 		valArraySizes[classCode]++;
 		
-	}
+	}*/
 
 	/**
 	 * Called from TagFactory upon new tag creation, this method pads 
