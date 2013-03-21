@@ -113,12 +113,11 @@ public final class ObjectMapFactory {
 	public static <V extends ObjectMap, W extends V> V build(final Class<V> base,
 			final Class<W> sub,	final Map<Tag, Object> map) {
 		
-		final V newMap = build(base);
 		final W subMap = build(sub, map);
 		
-		newMap.values = subMap.values;
+		subMap.classCode = classMap.get(base);
 		
-		return newMap;
+		return (V) subMap;
 		
 	}
 	
@@ -158,12 +157,11 @@ public final class ObjectMapFactory {
 	public static <V extends ObjectMap, W extends V> V build(final Class<V> base, 
 			final Class<W> sub,	final TagMap map) {
 		
-		final V newMap = build(base);
 		final W subMap = build(sub, map);
 		
-		newMap.values = subMap.values;
+		subMap.classCode = classMap.get(base);
 		
-		return newMap;
+		return (V) subMap;
 		
 	}
 
