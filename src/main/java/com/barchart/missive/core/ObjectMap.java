@@ -45,6 +45,7 @@ public abstract class ObjectMap implements TagMap, Castable<ObjectMap>, Initiali
 		
 		final M newMap =  build(newClass);
 		newMap.values = values;
+		newMap.childClass = childClass;
 		
 		return newMap;
 		
