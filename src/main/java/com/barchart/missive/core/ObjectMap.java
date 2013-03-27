@@ -1,6 +1,6 @@
 package com.barchart.missive.core;
 
-import static com.barchart.missive.core.ObjectMapFactory.EMPTY_ENTRY;
+import static com.barchart.missive.core.ObjectMapFactory.*;
 import static com.barchart.missive.core.ObjectMapFactory.build;
 import static com.barchart.missive.core.ObjectMapFactory.indexRegistry;
 import static com.barchart.missive.core.ObjectMapFactory.tagRegistry;
@@ -22,6 +22,9 @@ public abstract class ObjectMap implements TagMap, Castable<ObjectMap>, Initiali
 	volatile int classCode;
 	volatile Object[] values;
 	volatile Class<? extends ObjectMap> childClass;
+	
+	volatile int pos;
+	volatile int[] classHierarchy;
 	
 	protected ObjectMap() {
 		
@@ -46,9 +49,71 @@ public abstract class ObjectMap implements TagMap, Castable<ObjectMap>, Initiali
 		final M newMap =  build(newClass);
 		newMap.values = values;
 		newMap.childClass = childClass;
+		newMap.classHierarchy = classHierarchy;
+		newMap.pos = getPos(newClass);
 		
 		return newMap;
 		
+	}
+	
+	private int getPos(final Class<?> clazz) {
+		int clazzCode = classMap.get(clazz);
+		for(int i = 0; i < classHierarchy.length; i++) {
+			if(clazzCode == classHierarchy[i]) {
+				return i;
+			}
+		}
+		throw new RuntimeException("Unable to find class ih hierarchy " + clazz.getName());
+	}
+	
+	@Override
+	public <M extends ObjectMap> M subclass() {
+		
+		if(pos == 0) {
+			return null;
+		}
+		
+		pos--;
+		
+		Class<M> subClass = 
+				(Class<M>) ObjectMapFactory.classes[classHierarchy[pos]];
+		final M newMap = build(subClass);
+		newMap.values = values;
+		newMap.childClass = childClass;
+		newMap.classHierarchy = classHierarchy;
+		newMap.pos = pos;
+		
+		return newMap;
+	}
+
+	@Override
+	public <M extends ObjectMap> M superclass() {
+		
+		if(pos == classHierarchy.length - 1) {
+			return null;
+		}
+		
+		pos++;
+		
+		Class<M> superClass = 
+				(Class<M>) ObjectMapFactory.classes[classHierarchy[pos]];
+		final M newMap = build(superClass);
+		newMap.values = values;
+		newMap.childClass = childClass;
+		newMap.classHierarchy = classHierarchy;
+		newMap.pos = pos;
+		
+		return newMap;
+	}
+	
+	@Override
+	public boolean hasSubclass() {
+		return pos != 0;
+	}
+	
+	@Override
+	public boolean hasSuperclass() {
+		return pos != classHierarchy.length - 1;
 	}
 	
 	@SuppressWarnings("unchecked")

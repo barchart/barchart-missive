@@ -1,5 +1,6 @@
 package com.barchart.missive.core;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,9 +33,13 @@ public final class ObjectMapFactory {
 	/* ClassCode, TagCode */
 	protected static volatile int[][] indexRegistry = new int[0][];
 	protected static volatile Tag<?>[][] tagRegistry = new Tag<?>[0][];
+	
+	/** Ordered from lowest subclass to highest superclass before ObjectMap */
+	protected static volatile int[][] classHierarchy = new int[0][];
 	protected static volatile int[] valArraySizes = new int[0];
-
-	private final static ConcurrentMap<Class<? extends ObjectMap>, Integer> classMap = 
+	protected static volatile Class<? extends ObjectMap>[] classes = new Class[0];
+	
+	final static ConcurrentMap<Class<? extends ObjectMap>, Integer> classMap = 
 			new ConcurrentHashMap<Class<? extends ObjectMap>, Integer>();
 
 	private ObjectMapFactory() {
@@ -51,6 +56,7 @@ public final class ObjectMapFactory {
 
 		V map = null;
 		try {
+			//TODO Make static reference to constructors
 			final Constructor<V> c = clazz.getDeclaredConstructor();
 			c.setAccessible(true);
 			map = c.newInstance();
@@ -68,6 +74,8 @@ public final class ObjectMapFactory {
 		map.classCode = clazzCode;
 		map.values = new Object[valArraySizes[clazzCode]];
 		map.childClass = clazz;
+		map.classHierarchy = classHierarchy[clazzCode];
+		map.pos = 0;
 
 		/* Initialize map */
 		map.init();
@@ -229,12 +237,6 @@ public final class ObjectMapFactory {
 			newTagList = new ArrayList<Tag<?>>(tagSet);
 			Collections.sort(newTagList);
 			
-//			for(final Tag<?> tag : newTagList) {
-//				for(final Class<?> clazz : superClassList) {
-//					insertTagsInSuperclass(clazz, tag);
-//				}
-//			}
-			
 			/* 
 			 * Copy superclass tags into subclass then add on new tags.  
 			 */
@@ -244,17 +246,15 @@ public final class ObjectMapFactory {
 					superclassTags.length, newTagList.size());
 			
 		} else {
-			/* Installed class is a direct subclass of Missive */
+			/* Installed class is a direct subclass of ObjectMap */
 			newTagList = new ArrayList<Tag<?>>(tagSet);
 			Collections.sort(newTagList);
 			newTagArray = newTagList.toArray(new Tag<?>[0]);
 		}
 		
 		/* Build new tag array and update tag registry */
-		final Tag<?>[][] newTagRegistry = new Tag<?>[classCount.get() + 1][];
-		System.arraycopy(tagRegistry, 0, newTagRegistry, 0, classCount.get());
-		newTagRegistry[classCount.get()] = newTagArray;
-		tagRegistry = newTagRegistry;
+		tagRegistry = grow(tagRegistry);
+		tagRegistry[classCount.get()] = newTagArray;
 
 		/* Add size entry to size array */
 		final int[] newSizes = new int[classCount.get() + 1];
@@ -292,35 +292,33 @@ public final class ObjectMapFactory {
 
 		/* Assign new class code and update counter */
 		classMap.put(current, classCount.getAndIncrement());
+		final int curClassCode = classMap.get(current);
 		
+		/* Build class hierarchy */
+		int[] hierarchy = new int[superClassList.size() + 1];
+		hierarchy[0] = curClassCode;
+		counter = 1;
+		for(final Class<?> clazz : superClassList) {
+			hierarchy[counter] = classMap.get(clazz);
+			counter++;
+		}
+		
+		/* Append new hierarchy */
+		classHierarchy = grow(classHierarchy);
+		classHierarchy[curClassCode] = hierarchy;
+		
+		/* Append new class */
+		classes = grow(classes);
+		classes[curClassCode] = current;
 	}
 	
-	/*
-	 * If a newly installed Missive has tags which have lower indexes than
-	 * its super class, the index registry of all user defined super classes
-	 * must be padded to allow a super class to be cast to a subclass without
-	 * reordering the object array.
-	 
-	private static void insertTagsInSuperclass(final Class<?> clazz, final Tag<?> tag) {
-		
-		if(!classMap.containsKey(clazz)) {
-			throw new MissiveException("Class " + clazz.getName() + " not in registry");
-		}
-		
-		final int classCode = classMap.get(clazz);
-		
-		final Tag<?>[] tagArray = tagRegistry[classCode];
-		
-		for(final Tag<?> t : tagArray) {
-			if(t.index() > tag.index()) {
-				indexRegistry[classCode][t.index()]++;
-			}
-		}
-		
-		valArraySizes[classCode]++;
-		
-	}*/
-
+	@SuppressWarnings("unchecked")
+	private static <V> V[] grow(V[] v) {
+		V[] newV = (V[]) Array.newInstance(v.getClass().getComponentType(), v.length + 1);
+		System.arraycopy(v, 0, newV, 0, v.length);
+		return newV;
+	}
+	
 	/**
 	 * Called from TagFactory upon new tag creation, this method pads 
 	 * the index registry for all currently registered missive types.
