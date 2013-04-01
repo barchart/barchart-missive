@@ -9,31 +9,20 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * This class exists because Java cannot do multiple dispatch.
- * 
- * -Dsun.reflect.inflationThreshold = 1
- * 
- * @author Gavin M Litchfield
- *
- */
-public class DispatchService {
+public class StaticDispatchService<C> {
 
-	private static final Logger log = LoggerFactory.getLogger(DispatchService.class);
+	private static final Logger log = LoggerFactory.getLogger(StaticDispatchService.class);
 	
 	public static String DISPATCH = "dispatch";
 	
-	private final Object obj;
 	private final Method[] methods;
 	
-	public DispatchService(final Object obj) {
+	public StaticDispatchService(final Class<C> clazz) {
 		
-		if(obj == null) {
+		if(clazz == null) {
 			throw new IllegalArgumentException("Object cannot be null");
 		}
 		
-		this.obj = obj;
-		final Class<?> clazz = obj.getClass();
 		final Method[] clazzMeths = clazz.getDeclaredMethods();
 		final Map<Integer, Method> map = new HashMap<Integer, Method>();
 		int maxClassCode = 0;
@@ -67,9 +56,10 @@ public class DispatchService {
 		
 	}
 	
-	public void dispatch(final ObjectMap map) {
+	public void dispatch(final C instance, final ObjectMap map) {
+		
 		try {
-			methods[map.classCode].invoke(obj, map);
+			methods[map.classCode].invoke(instance, map);
 		} catch (IllegalArgumentException e) {
 			log.error("IllegalArgumentException in dispatch");
 			throw new MissiveException(e);
@@ -80,6 +70,7 @@ public class DispatchService {
 			log.error("InvocationTargetException in dispatch");
 			throw new MissiveException(e);
 		}
+		
 	}
 	
 }
