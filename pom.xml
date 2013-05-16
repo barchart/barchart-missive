@@ -25,6 +25,7 @@
 
 	<dependencies>
 
+		<!-- Logging. -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -36,10 +37,19 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Values API. -->
 		<dependency>
 			<groupId>com.barchart.util</groupId>
 			<artifactId>barchart-util-values</artifactId>
 			<version>[2,3)</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Protocol buffers. -->
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>[2.5,3)</version>
 			<scope>test</scope>
 		</dependency>
 
