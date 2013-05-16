@@ -8,9 +8,7 @@
 package com.barchart.missive.core;
 
 /**
- * 
  * @author Gavin M Litchfield
- * 
  */
 @SuppressWarnings("serial")
 public class MissiveException extends RuntimeException {

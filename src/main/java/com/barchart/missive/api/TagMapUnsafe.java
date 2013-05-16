@@ -7,24 +7,21 @@
  */
 package com.barchart.missive.api;
 
-
 /**
- * 
  * mutable, not type safe
  * 
  * @author Gavin M Litchfield
- * 
  */
 public interface TagMapUnsafe extends TagMapSafe {
 
 	@SuppressWarnings("rawtypes")
-	public void putRaw(Tag tag, Object value);
+	void putRaw(Tag tag, Object value);
 
-	public <V> void put(Tag<V> tag, V v);
+	<V> void put(Tag<V> tag, V v);
 
 	@SuppressWarnings("rawtypes")
-	public Object remove(Tag tag);
+	Object remove(Tag tag);
 
-	public boolean isSupersetOf(TagMapSafe map);
+	boolean isSupersetOf(TagMapSafe map);
 
 }

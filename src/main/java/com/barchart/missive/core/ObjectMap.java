@@ -1,9 +1,6 @@
 package com.barchart.missive.core;
 
 import static com.barchart.missive.core.ObjectMapFactory.*;
-import static com.barchart.missive.core.ObjectMapFactory.build;
-import static com.barchart.missive.core.ObjectMapFactory.indexRegistry;
-import static com.barchart.missive.core.ObjectMapFactory.tagRegistry;
 
 import java.util.Collection;
 
@@ -13,115 +10,113 @@ import com.barchart.missive.api.Tag;
 import com.barchart.missive.api.TagMap;
 
 /**
- * 
  * @author Gavin M Litchfield
- *
  */
-public abstract class ObjectMap implements TagMap, Castable<ObjectMap>, Initializable {
+public abstract class ObjectMap implements TagMap, Castable<ObjectMap>,
+		Initializable {
 
 	volatile int classCode;
 	volatile Object[] values;
 	volatile Class<? extends ObjectMap> childClass;
-	
+
 	volatile int pos;
 	volatile int[] classHierarchy;
-	
+
 	protected ObjectMap() {
-		
 	}
-	
+
 	/**
-	 * If a missive is masking the values of a subclass, this
-	 * method returns the subclass with all the values of the 
-	 * calling missive.
+	 * If a missive is masking the values of a subclass, this method returns the
+	 * subclass with all the values of the calling missive.
 	 * 
 	 * @param newClass
 	 * @return
 	 */
 	@Override
 	public <M extends ObjectMap> M cast(final Class<M> newClass) {
-		
-		if(!newClass.isAssignableFrom(childClass)) {
-			throw new MissiveException("Class " + newClass.getName() + 
-					" must be superclass of " + childClass.getName());
+
+		if (!newClass.isAssignableFrom(childClass)) {
+			throw new MissiveException("Class " + newClass.getName()
+					+ " must be superclass of " + childClass.getName());
 		}
-		
-		final M newMap =  build(newClass);
+
+		final M newMap = build(newClass);
 		newMap.values = values;
 		newMap.childClass = childClass;
 		newMap.classHierarchy = classHierarchy;
 		newMap.pos = getPos(newClass);
-		
+
 		return newMap;
-		
+
 	}
-	
+
 	private int getPos(final Class<?> clazz) {
-		int clazzCode = classMap.get(clazz);
-		for(int i = 0; i < classHierarchy.length; i++) {
-			if(clazzCode == classHierarchy[i]) {
+		final int clazzCode = classMap.get(clazz);
+		for (int i = 0; i < classHierarchy.length; i++) {
+			if (clazzCode == classHierarchy[i]) {
 				return i;
 			}
 		}
-		throw new RuntimeException("Unable to find class ih hierarchy " + clazz.getName());
+		throw new RuntimeException("Unable to find class ih hierarchy "
+				+ clazz.getName());
 	}
-	
+
 	@Override
 	public <M extends ObjectMap> M subclass() {
-		
-		if(pos == 0) {
+
+		if (pos == 0) {
 			return null;
 		}
-		
+
 		pos--;
-		
-		Class<M> subClass = 
-				(Class<M>) ObjectMapFactory.classes[classHierarchy[pos]];
+
+		@SuppressWarnings("unchecked")
+		final Class<M> subClass = (Class<M>) ObjectMapFactory.classes[classHierarchy[pos]];
 		final M newMap = build(subClass);
 		newMap.values = values;
 		newMap.childClass = childClass;
 		newMap.classHierarchy = classHierarchy;
 		newMap.pos = pos;
-		
+
 		return newMap;
 	}
 
 	@Override
 	public <M extends ObjectMap> M superclass() {
-		
-		if(pos == classHierarchy.length - 1) {
+
+		if (pos == classHierarchy.length - 1) {
 			return null;
 		}
-		
+
 		pos++;
-		
-		Class<M> superClass = 
-				(Class<M>) ObjectMapFactory.classes[classHierarchy[pos]];
+
+		@SuppressWarnings("unchecked")
+		final Class<M> superClass = (Class<M>) ObjectMapFactory.classes[classHierarchy[pos]];
 		final M newMap = build(superClass);
 		newMap.values = values;
 		newMap.childClass = childClass;
 		newMap.classHierarchy = classHierarchy;
 		newMap.pos = pos;
-		
+
 		return newMap;
 	}
-	
+
 	@Override
 	public boolean hasSubclass() {
 		return pos != 0;
 	}
-	
+
 	@Override
 	public boolean hasSuperclass() {
 		return pos != classHierarchy.length - 1;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <V> V get(final Tag<V> tag) throws MissiveException {
 		return (V) values[indexRegistry[classCode][tag.index()]];
 	}
-	
+
 	@Override
 	public boolean contains(final Tag<?> tag) {
 		return indexRegistry[classCode][tag.index()] != EMPTY_ENTRY;
@@ -136,12 +131,12 @@ public abstract class ObjectMap implements TagMap, Castable<ObjectMap>, Initiali
 	public int size() {
 		return tagRegistry[classCode].length;
 	}
-	
+
 	@Override
 	public void init() {
-		//Can be overridden by subclasses
+		// Can be overridden by subclasses
 	}
-	
+
 	/**
 	 * Pass through method for MissiveSafe
 	 */
@@ -149,95 +144,95 @@ public abstract class ObjectMap implements TagMap, Castable<ObjectMap>, Initiali
 			throws MissiveException {
 		values[indexRegistry[classCode][tag.index()]] = value;
 	}
-	
+
 	/*
-	 * TODO Review Missive equality 
+	 * TODO Review Missive equality
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public boolean equals(final Object o) {
-		
-		if(o == null) {
+
+		if (o == null) {
 			return false;
 		}
-		
-		if(this == o) {
+
+		if (this == o) {
 			return true;
 		}
-		
-		if(!(o instanceof TagMap)) {
+
+		if (!(o instanceof TagMap)) {
 			return false;
 		}
-		
-		final TagMap m = (TagMap)o;
-		
-		if(size() != m.size()) {
+
+		final TagMap m = (TagMap) o;
+
+		if (size() != m.size()) {
 			return false;
 		}
-		
-		for(Tag t : tags()) {
-			
-			if(!m.contains(t)) {
+
+		for (final Tag t : tags()) {
+
+			if (!m.contains(t)) {
 				return false;
 			}
-			
-			if(m.get(t) == null) {
-				if(get(t) != null) {
+
+			if (m.get(t) == null) {
+				if (get(t) != null) {
 					return false;
 				}
 			}
-			
-			if(get(t) == null) {
+
+			if (get(t) == null) {
 				return false;
 			}
-			
-			if(t.isList()) {
-				if(!compareCollections((Collection<Object>)get(t), 
-						(Collection<Object>)m.get(t))) {
+
+			if (t.isList()) {
+				if (!compareCollections((Collection<Object>) get(t),
+						(Collection<Object>) m.get(t))) {
 					return false;
 				}
 			}
-			
-			if(!get(t).equals(m.get(t))) {
+
+			if (!get(t).equals(m.get(t))) {
 				return false;
 			}
-			
+
 		}
-		
+
 		return true;
 	}
-	
-	private static boolean compareCollections(final Collection<Object> thisC, 
+
+	private static boolean compareCollections(final Collection<Object> thisC,
 			final Collection<Object> thatC) {
-		
-		if(thisC == null || thatC == null) {
+
+		if (thisC == null || thatC == null) {
 			return false;
 		}
-		
-		if(thisC.size() != thatC.size()) {
+
+		if (thisC.size() != thatC.size()) {
 			return false;
 		}
-		
-		for(final Object o : thisC) {
-			
-			if(!thatC.contains(o)) {
+
+		for (final Object o : thisC) {
+
+			if (!thatC.contains(o)) {
 				return false;
 			}
-			
+
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
-		
+
 		final StringBuilder sb = new StringBuilder();
-		
-		//TODO
-		
+
+		// TODO
+
 		return sb.toString();
-		
+
 	}
-	
+
 }

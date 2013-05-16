@@ -13,10 +13,9 @@ import com.barchart.missive.core.MissiveException;
  * mutable, type safe
  * 
  * @author Gavin M Litchfield
- * 
  */
 public interface TagMapSafe extends TagMap {
 
-	public <V> void set(Tag<V> tag, V value) throws MissiveException;
+	<V> void set(Tag<V> tag, V value) throws MissiveException;
 
 }

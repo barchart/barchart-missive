@@ -16,12 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.barchart.missive.api.Tag;
-import com.barchart.missive.core.MissiveException;
 
 /**
- * 
  * @author Gavin M Litchfield
- * 
  */
 public class TestTag {
 
@@ -32,10 +29,12 @@ public class TestTag {
 	}
 
 	/** verify auto name */
-	public static final Tag<Double> DOUBLE_FIELD = TagFactory.create(Double.class);
+	public static final Tag<Double> DOUBLE_FIELD = TagFactory
+			.create(Double.class);
 
 	/** verify auto name */
-	public static final Tag<String> STRING_FIELD = TagFactory.create(String.class);
+	public static final Tag<String> STRING_FIELD = TagFactory
+			.create(String.class);
 
 	// TODO Make into unit test
 	public static void main(final String[] args) {
@@ -44,17 +43,19 @@ public class TestTag {
 				TestEnum.class);
 
 		final Tag<Byte> TestByte = TagFactory.create("TestByte", Byte.class);
-		final Tag<Short> TestShort = TagFactory.create("TestShort", Short.class);
+		final Tag<Short> TestShort = TagFactory
+				.create("TestShort", Short.class);
 		final Tag<Integer> TestInteger = TagFactory.create("TestInteger",
 				Integer.class);
 		final Tag<Long> TestLong = TagFactory.create("TestLong", Long.class);
-		final Tag<Float> TestFloat = TagFactory.create("TestFloat", Float.class);
+		final Tag<Float> TestFloat = TagFactory
+				.create("TestFloat", Float.class);
 		final Tag<Double> TestDouble = TagFactory.create("TestDouble",
 				Double.class);
 		final Tag<Boolean> TestBoolean = TagFactory.create("TestBoolean",
 				Boolean.class);
-		final Tag<Character> TestCharacter = TagFactory.create(
-				"TestCharacter", Character.class);
+		final Tag<Character> TestCharacter = TagFactory.create("TestCharacter",
+				Character.class);
 
 		// Test casting from String
 		log.info(TestEnum.cast("T1").name());
@@ -82,7 +83,7 @@ public class TestTag {
 	@Test
 	public void testConstructProper() {
 
-		final Tag<String> tag =TagFactory.create("hello", String.class); 
+		final Tag<String> tag = TagFactory.create("hello", String.class);
 
 		assertTrue("class match", tag.classType() == String.class);
 

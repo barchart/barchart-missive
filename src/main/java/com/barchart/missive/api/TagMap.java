@@ -13,16 +13,15 @@ import com.barchart.missive.core.MissiveException;
  * immutable
  * 
  * @author Gavin M Litchfield
- * 
  */
 public interface TagMap {
 
-	public <V> V get(Tag<V> tag) throws MissiveException;
+	<V> V get(Tag<V> tag) throws MissiveException;
 
-	public boolean contains(Tag<?> tag);
+	boolean contains(Tag<?> tag);
 
-	public Tag<?>[] tags();
+	Tag<?>[] tags();
 
-	public int size();
+	int size();
 
 }
