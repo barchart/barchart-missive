@@ -123,12 +123,12 @@ public abstract class ObjectMap implements TagMap, Castable<ObjectMap>,
 	}
 
 	@Override
-	public Tag<?>[] tags() {
+	public Tag<?>[] tagsList() {
 		return tagRegistry[classCode];
 	}
 
 	@Override
-	public int size() {
+	public int tagsSize() {
 		return tagRegistry[classCode].length;
 	}
 
@@ -166,11 +166,11 @@ public abstract class ObjectMap implements TagMap, Castable<ObjectMap>,
 
 		final TagMap m = (TagMap) o;
 
-		if (size() != m.size()) {
+		if (tagsSize() != m.tagsSize()) {
 			return false;
 		}
 
-		for (final Tag t : tags()) {
+		for (final Tag t : tagsList()) {
 
 			if (!m.contains(t)) {
 				return false;

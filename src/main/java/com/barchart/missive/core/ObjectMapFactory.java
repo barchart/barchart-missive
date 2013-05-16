@@ -142,7 +142,7 @@ public final class ObjectMapFactory {
 
 		final V newMap = build(clazz);
 
-		for (final Tag t : map.tags()) {
+		for (final Tag t : map.tagsList()) {
 			if (newMap.contains(t)) {
 				newMap.set(t, map.get(t));
 			}

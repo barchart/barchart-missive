@@ -20,8 +20,8 @@ public interface TagMap {
 
 	boolean contains(Tag<?> tag);
 
-	Tag<?>[] tags();
+	Tag<?>[] tagsList();
 
-	int size();
+	int tagsSize();
 
 }

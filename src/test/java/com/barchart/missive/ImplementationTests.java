@@ -60,7 +60,7 @@ public final class ImplementationTests {
 		assertTrue(map.get(CHARACTER) == CHARACTER_V);
 		assertTrue(map.get(STRING).equals(STRING_V));
 
-		assertTrue(map.size() == TAGS.length);
+		assertTrue(map.tagsSize() == TAGS.length);
 		
 	}
 	

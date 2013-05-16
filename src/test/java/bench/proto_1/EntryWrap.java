@@ -68,13 +68,13 @@ public class EntryWrap implements TagMap {
 	}
 
 	@Override
-	public Tag<?>[] tags() {
+	public Tag<?>[] tagsList() {
 		return EntryTag.ALL;
 	}
 
 	@Override
-	public int size() {
-		return tags().length;
+	public int tagsSize() {
+		return tagsList().length;
 	}
 
 }

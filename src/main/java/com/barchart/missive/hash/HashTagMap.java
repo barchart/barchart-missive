@@ -51,12 +51,12 @@ public class HashTagMap implements TagMap {
 	}
 
 	@Override
-	public Tag<?>[] tags() {
+	public Tag<?>[] tagsList() {
 		return map.keySet().toArray(new Tag<?>[0]);
 	}
 
 	@Override
-	public int size() {
+	public int tagsSize() {
 		return map.size();
 	}
 	
