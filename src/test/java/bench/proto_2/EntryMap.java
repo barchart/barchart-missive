@@ -1,5 +1,7 @@
 package bench.proto_2;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.openfeed.proto.data.MarketEntry;
 import org.openfeed.proto.data.MarketEntry.Action;
 import org.openfeed.proto.data.MarketEntry.Descriptor;
@@ -22,8 +24,23 @@ public class EntryMap implements TagMap {
 	
 	private final MarketEntry entry;
 	
+	// Used by object pool
+	private final AtomicBoolean inUse = new AtomicBoolean(true);
+	
+	public static EntryMap make(final MarketEntry entry) {
+		// ObjectPool
+		return new EntryMap(entry);
+	}
+	
 	public EntryMap(final MarketEntry entry) {
 		this.entry = entry;
+		inUse.set(true);
+	}
+	
+	public MarketEntry getProto() {
+		// Release this instance back to object pool 
+		inUse.set(false);
+		return entry;
 	}
 	
 	@Override
