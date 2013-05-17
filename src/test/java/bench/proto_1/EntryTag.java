@@ -8,6 +8,7 @@
 package bench.proto_1;
 
 import org.openfeed.proto.data.MarketEntry;
+import org.openfeed.proto.data.MarketEntry.*;
 
 import com.barchart.missive.api.Tag;
 import com.barchart.missive.core.TagFactory;
@@ -19,7 +20,18 @@ import com.barchart.util.values.api.SizeValue;
  */
 public interface EntryTag {
 
+	Tag<Action> ACTION = TagFactory.create(Action.class);
+	
+	Tag<Type> TYPE = TagFactory.create(Type.class);
+	
+	Tag<Descriptor> DESCRIPTOR = TagFactory.create(Descriptor.class);
+	
+	
+	Tag<Long> MARKET_ID = TagFactory.create(Long.class);
+	
 	Tag<Long> INDEX = TagFactory.create(Long.class);
+	
+	//Timestamp, trade date
 
 	Tag<PriceValue> PRICE = TagFactory.create(PriceValue.class);
 
