@@ -56,7 +56,7 @@ public class HashTagMap implements TagMap {
 	}
 
 	@Override
-	public int tagsSize() {
+	public int mapSize() {
 		return map.size();
 	}
 	

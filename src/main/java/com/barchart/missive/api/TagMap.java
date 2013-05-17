@@ -22,6 +22,6 @@ public interface TagMap {
 
 	Tag<?>[] tagsList();
 
-	int tagsSize();
+	int mapSize();
 
 }

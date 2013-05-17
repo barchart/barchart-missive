@@ -73,7 +73,7 @@ public class EntryWrap implements TagMap {
 	}
 
 	@Override
-	public int tagsSize() {
+	public int mapSize() {
 		return tagsList().length;
 	}
 

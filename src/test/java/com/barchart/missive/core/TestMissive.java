@@ -118,35 +118,35 @@ public class TestMissive {
 		assertTrue(simple.get(ENUM) == ENUM_V);
 		assertTrue(simple.get(INTEGER) == INTEGER_V);
 		assertTrue(simple.get(BOOLEAN1) == BOOLEAN1_V);
-		assertTrue(simple.tagsSize() == 3);
+		assertTrue(simple.mapSize() == 3);
 		
 		simple = ObjectMapFactory.build(TestSimpleMissive.class, TestCaseMissive.class, map);
 		
 		assertTrue(simple.get(ENUM) == ENUM_V);
 		assertTrue(simple.get(INTEGER) == INTEGER_V);
 		assertTrue(simple.get(BOOLEAN1) == BOOLEAN1_V);
-		assertTrue(simple.tagsSize() == 3);
+		assertTrue(simple.mapSize() == 3);
 		
 		simple = ObjectMapFactory.build(TestSimpleMissive.class, simple1);
 		
 		assertTrue(simple.get(ENUM) == ENUM_V);
 		assertTrue(simple.get(INTEGER) == INTEGER_V);
 		assertTrue(simple.get(BOOLEAN1) == BOOLEAN1_V);
-		assertTrue(simple.tagsSize() == 3);
+		assertTrue(simple.mapSize() == 3);
 		
 		simple = ObjectMapFactory.build(TestSimpleMissive.class, TestCaseMissive.class, simple1);
 		
 		assertTrue(simple.get(ENUM) == ENUM_V);
 		assertTrue(simple.get(INTEGER) == INTEGER_V);
 		assertTrue(simple.get(BOOLEAN1) == BOOLEAN1_V);
-		assertTrue(simple.tagsSize() == 3);
+		assertTrue(simple.mapSize() == 3);
 		
 		simple = ObjectMapFactory.build(TestSimpleMissive.class, TestCaseMissive.class, missive1);
 		
 		assertTrue(simple.get(ENUM) == ENUM_V);
 		assertTrue(simple.get(INTEGER) == INTEGER_V);
 		assertTrue(simple.get(BOOLEAN1) == BOOLEAN1_V);
-		assertTrue(simple.tagsSize() == 3);
+		assertTrue(simple.mapSize() == 3);
 		
 		TestCaseMissive subMissive = simple.cast(TestCaseMissive.class);
 		
