@@ -21,7 +21,7 @@ public class CaliperTest {
 		CaliperMain.main(Tutorial.Benchmark2.class,
 				new String[] { "--print-config" });
 
-		log.info("init");
+		log.info("done");
 
 	}
 
