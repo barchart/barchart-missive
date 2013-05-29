@@ -1,14 +1,11 @@
 package bench.proto_2;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.openfeed.proto.data.MarketEntry;
 import org.openfeed.proto.data.MarketEntry.Action;
-import org.openfeed.proto.data.MarketEntry.Descriptor;
 import org.openfeed.proto.data.MarketEntry.Type;
 
 import com.barchart.missive.api.Tag;
@@ -23,9 +20,6 @@ public class EntryMap implements TagMap {
 	
 	private static final MarketEntry DUMMY = MarketEntry.getDefaultInstance();
 	private static final Object[] NULL = new Object[0];
-	
-	@SuppressWarnings("serial")
-	public static class DescriptorList extends ArrayList<Descriptor> {}
 	
 	public static final Tag<Action> ACTION = TagFactory.create("Action", Action.class);
 	public static final Tag<Type> TYPE = TagFactory.create("Type", Type.class);
@@ -127,7 +121,6 @@ public class EntryMap implements TagMap {
 		} catch (final Exception e) {
 			throw new MissiveException(e);
 		} 
-		//return tag.cast(entry.getField(fields[tag.index()]));
 	}
 
 	@Override
