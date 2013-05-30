@@ -83,21 +83,6 @@ public class BenchInvoke {
 	}
 
 	/**
-	 * Bean which provides reference methods.
-	 */
-	public static class Bean {
-
-		int returnInteger() {
-			return 0;
-		}
-
-		void returnVoid() {
-			//
-		}
-
-	}
-
-	/**
 	 * Static instance used in benchmarks.
 	 */
 	static final Bean BEAN = new Bean();
@@ -135,7 +120,7 @@ public class BenchInvoke {
 				.main(Benchmark1.class,
 						new String[] {
 								"--print-config",
-								"-Cvm.args= -Dsun.reflect.noInflation=true -XX:PermSize=100m -XX:MaxPermSize=100m -Xms1200m -Xmx1200m -XX:NewSize=200m -XX:MaxNewSize=200m -XX:SurvivorRatio=2 -XX:TargetSurvivorRatio=90",
+								"-Cvm.args= -Dsun.reflect.noInflation=false -XX:PermSize=100m -XX:MaxPermSize=100m -Xms1200m -Xmx1200m -XX:NewSize=200m -XX:MaxNewSize=200m -XX:SurvivorRatio=2 -XX:TargetSurvivorRatio=90",
 								"--instrument=micro", "--time-limit=0", });
 
 		log.info("done");
