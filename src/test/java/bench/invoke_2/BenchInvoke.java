@@ -1,4 +1,4 @@
-package bench.invoke_1;
+package bench.invoke_2;
 
 import java.lang.reflect.Method;
 
@@ -29,7 +29,7 @@ public class BenchInvoke {
 			public int timeDirect(final long reps) throws Exception {
 				int k = 0;
 				for (int i = 0; i < reps; i++) {
-					k = BEAN.returnInteger();
+					k ^= BEAN.returnInteger();
 				}
 				return k;
 			}
@@ -44,10 +44,12 @@ public class BenchInvoke {
 
 			@Override
 			public int timeDirect(final long reps) throws Exception {
+				int temp = 0;
 				for (int i = 0; i < reps; i++) {
 					BEAN.returnVoid();
+					temp ^= BEAN.dodad;
 				}
-				return 0;
+				return temp;
 			}
 
 		}, //
@@ -120,7 +122,7 @@ public class BenchInvoke {
 				.main(Benchmark1.class,
 						new String[] {
 								"--print-config",
-								"-Cvm.args= -Dsun.reflect.noInflation=false -XX:PermSize=100m -XX:MaxPermSize=100m -Xms1200m -Xmx1200m -XX:NewSize=200m -XX:MaxNewSize=200m -XX:SurvivorRatio=2 -XX:TargetSurvivorRatio=90",
+								"-Cvm.args= -Dsun.reflect.noInflation=true -XX:PermSize=100m -XX:MaxPermSize=100m -Xms1200m -Xmx1200m -XX:NewSize=200m -XX:MaxNewSize=200m -XX:SurvivorRatio=2 -XX:TargetSurvivorRatio=90",
 								"--instrument=micro", "--time-limit=0", "--verbose"});
 
 		log.info("done");

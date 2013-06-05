@@ -16,8 +16,8 @@ public class TestInfInvoke {
 		int local = 0;
 		
 		while(true) {
-//			meth.invoke(dodad, param);
-//			local ^= dodad.dodad;
+			meth.invoke(dodad, param);
+			local ^= dodad.dodad;
 		}
 		
 	}

@@ -1,6 +1,6 @@
 package bench.invoke_1;
 
-public class Bean {
+class Bean {
 	
 	int returnInteger() {
 		return 0;
